@@ -9,6 +9,7 @@
     <title>Sabadell NEXT - Demo App</title>
     <link rel="stylesheet" href="../src/css/main.css">
     <link rel="stylesheet" href="../src/css/touch_share/touch_share.css">
+    <link rel="stylesheet" href="../src/css/misiones/misiones.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 <!-- ...existing code... -->
 </head>
@@ -182,7 +183,6 @@
                     <div class="lista-historial" id="lista-historial-tarjeta">
                         <!-- Las transacciones se cargarán aquí -->
                     </div>
-                    <button class="boton-volver-historial" id="boton-volver-historial">← Volver a Tarjeta</button>
                 </div>
             </div>
 
@@ -201,9 +201,6 @@
                     <div class="titulo-seccion"><i class="fi fi-rr-users-alt"></i> Comparte los Gastos con Amigos</div>
 
                     <main class="contenido-principal-touch">
-                        <!-- Volver a la app (se manejará con JS) -->
-                        <button class="boton-volver" id="boton-volver-touch" aria-label="Volver a la app">← Volver</button>
-
                         <!-- Configurar gasto -->
                         <section class="seccion configuracion-gasto">
                             <h2 class="titulo-seccion">Configurar Gasto</h2>
@@ -258,8 +255,107 @@
             <!-- Vista: Misiones -->
             <div class="vista-pagina" data-vista="misiones" style="display: none;">
                 <div class="seccion">
-                    <div class="titulo-seccion"><i class="fi fi-rr-gamepad"></i> Todas las Misiones</div>
-                    <p class="texto-info">Vista de misiones completa próximamente...</p>
+                    <div class="titulo-seccion"><i class="fi fi-rr-gamepad"></i> Misiones Épicas</div>
+
+                    <div class="app-container">
+                        <div class="header-misiones">
+                            <div class="logo">
+                                <div class="logo-icon">BS</div>
+                                <div class="logo-text">Sabadell Jóvenes</div>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            <h1 class="page-title">Misiones Épicas</h1>
+                            <p class="page-subtitle">Completa misiones y gana recompensas increíbles</p>
+
+                            <div class="missions-container">
+                                <div class="mission-card">
+                                    <h2 class="mission-title">Primer Ahorro Épico</h2>
+                                    <p class="mission-description">Ahorra €50 este mes y gana recompensas especiales</p>
+                                    <div class="rewards">
+                                        <span class="reward">+€5 bonus</span>
+                                        <span class="reward">Insignia</span>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-text">Progreso: 65%</div>
+                                        <div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div>
+                                    </div>
+                                    <button class="mission-button">Comenzar Misión</button>
+                                </div>
+
+                                <div class="mission-card">
+                                    <h2 class="mission-title">Gamer Legendario</h2>
+                                    <p class="mission-description">Completa 10 horas de estudio este mes</p>
+                                    <div class="rewards">
+                                        <span class="reward">Tarjeta Steam €20</span>
+                                        <span class="reward">Insignia Gamer</span>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-text">Progreso: 40%</div>
+                                        <div class="progress-bar"><div class="progress-fill" style="width: 40%"></div></div>
+                                    </div>
+                                    <button class="mission-button">Comenzar Misión</button>
+                                </div>
+
+                                <div class="mission-card">
+                                    <h2 class="mission-title">Experiencia Musical</h2>
+                                    <p class="mission-description">Ayuda en tareas domésticas 15 días seguidos</p>
+                                    <div class="rewards">
+                                        <span class="reward">Sorteo entradas concierto</span>
+                                        <span class="reward">Playlist exclusiva</span>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-text">Progreso: 20%</div>
+                                        <div class="progress-bar"><div class="progress-fill" style="width: 20%"></div></div>
+                                    </div>
+                                    <button class="mission-button">Comenzar Misión</button>
+                                </div>
+
+                                <div class="mission-card">
+                                    <h2 class="mission-title">Aventura Cinéfila</h2>
+                                    <p class="mission-description">Lee 2 libros este mes</p>
+                                    <div class="rewards">
+                                        <span class="reward">Entrada de cine + palomitas</span>
+                                        <span class="reward">Insignia Lector</span>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-text">Progreso: 50%</div>
+                                        <div class="progress-bar"><div class="progress-fill" style="width: 50%"></div></div>
+                                    </div>
+                                    <button class="mission-button">Comenzar Misión</button>
+                                </div>
+
+                                <div class="mission-card">
+                                    <h2 class="mission-title">Chef en Formación</h2>
+                                    <p class="mission-description">Prepara 5 cenas para la familia</p>
+                                    <div class="rewards">
+                                        <span class="reward">Vale de €30 para restaurante</span>
+                                        <span class="reward">Delantal personalizado</span>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-text">Progreso: 60%</div>
+                                        <div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>
+                                    </div>
+                                    <button class="mission-button">Comenzar Misión</button>
+                                </div>
+
+                                <div class="mission-card">
+                                    <h2 class="mission-title">Deportista Épico</h2>
+                                    <p class="mission-description">Ejercítate 3 veces por semana durante un mes</p>
+                                    <div class="rewards">
+                                        <span class="reward">Ropa deportiva €40</span>
+                                        <span class="reward">Insignia Atleta</span>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-text">Progreso: 75%</div>
+                                        <div class="progress-bar"><div class="progress-fill" style="width: 75%"></div></div>
+                                    </div>
+                                    <button class="mission-button">Comenzar Misión</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -333,6 +429,7 @@
     </div>
 
     <script src="../src/js/touch_share/touch_share.js"></script>
+    <script src="../src/js/misiones/misiones.js"></script>
     <script type="module" src="../src/js/main.js"></script>
 </body>
 </html>
