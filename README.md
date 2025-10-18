@@ -42,3 +42,51 @@ Notificaciones: Centro de alertas y mensajes
 Perfil/Configuración: Datos personales, preferencias, seguridad
 Ayuda/Soporte: FAQ, chat, contacto
 Cerrar sesión
+
+
+---
+
+## Estructura del Proyecto
+
+```
+IBHF25/
+├── src/                    # Código fuente
+│   ├── css/               # Hojas de estilo
+│   │   └── styles.css     # Estilos principales
+│   ├── js/                # JavaScript
+│   │   └── app.js         # Lógica de la aplicación
+│   └── assets/            # Recursos (imágenes, iconos, etc.)
+├── index.html             # Página principal
+├── Dockerfile             # Configuración de contenedor
+├── .gitignore             # Archivos ignorados por Git
+└── README.md              # Documentación
+```
+
+## Despliegue
+
+### Con Docker/Podman:
+
+```bash
+# Construir la imagen
+docker build -t sabadell-next .
+
+# Ejecutar el contenedor
+docker run -d -p 8080:80 --name sabadell-next sabadell-next
+```
+
+### Desarrollo local:
+
+Simplemente abre `index.html` en tu navegador, o usa un servidor local:
+
+```bash
+# Con Python
+python -m http.server 8080
+
+# Con Node.js (npx)
+npx serve
+
+# Con PHP
+php -S localhost:8080
+```
+
+Accede a la aplicación en: `http://localhost:8080`
