@@ -237,11 +237,44 @@
       background: #42d9ff;
       transition: width 0.3s;
     }
+
+    /* Estilos para quiz */
+    .quiz-option {
+      background: white;
+      border: 2px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    .quiz-option:hover {
+      background: #f0f9ff;
+      border-color: #42d9ff;
+      transform: scale(1.02);
+    }
+
+    .quiz-option.correct {
+      background: #d1fae5;
+      border-color: #10b981;
+    }
+
+    .quiz-option.incorrect {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+
+    .quiz-option:disabled {
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
 
   <div class="top-bar">
+    <button id="back-btn" style="background: transparent; border: none; cursor: pointer; font-size: 1.5rem; color: #666;">←</button>
     <span class="energy">⚡ Energía: <span id="energy-count">20</span></span>
     <span class="coins">💰 <span id="coin-count">120</span></span>
   </div>
@@ -290,14 +323,224 @@
   </div>
 
   <div id="demo" class="level-demo">
-    <h2>Simulación de Nivel</h2>
-    <p>Completa el reto para ganar FinCoins 🔥</p>
-    <div class="progress-bar">
-      <div id="progress-fill" class="progress-fill"></div>
+    <div id="quiz-container" style="width: 90%; max-width: 500px;">
+      <h2 id="quiz-title">Pregunta 1 de 3</h2>
+      <p id="quiz-question" style="font-size: 1.1rem; margin: 20px 0;">¿Qué es un presupuesto?</p>
+      <div id="quiz-options" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+        <!-- Opciones se generarán dinámicamente -->
+      </div>
+      <div class="progress-bar">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <div id="quiz-feedback" style="margin-top: 15px; font-weight: bold; display: none;"></div>
     </div>
   </div>
 
   <script>
+    // === DATOS DE NIVELES Y QUIZZES ===
+    const levelsData = {
+      1: {
+        title: 'Conceptos Básicos',
+        questions: [
+          {
+            question: '¿Qué es un presupuesto?',
+            options: ['Un plan para gastar dinero', 'Una tarjeta de crédito', 'Un tipo de moneda', 'Una aplicación bancaria'],
+            correct: 0
+          },
+          {
+            question: '¿Qué significa "ahorrar"?',
+            options: ['Gastar todo el dinero', 'Guardar dinero para el futuro', 'Pedir dinero prestado', 'Invertir en acciones'],
+            correct: 1
+          },
+          {
+            question: '¿Cuál es la diferencia entre ingreso y gasto?',
+            options: ['No hay diferencia', 'Ingreso es lo que ganas, gasto es lo que pagas', 'Son lo mismo', 'Gasto es lo que ganas'],
+            correct: 1
+          }
+        ]
+      },
+      2: {
+        title: 'Gestión de Gastos',
+        questions: [
+          {
+            question: '¿Qué es un gasto fijo?',
+            options: ['Un gasto que cambia cada mes', 'Un gasto que se repite regularmente', 'Un gasto opcional', 'Un gasto de lujo'],
+            correct: 1
+          },
+          {
+            question: '¿Cuál es un ejemplo de gasto variable?',
+            options: ['Alquiler', 'Ocio y entretenimiento', 'Seguro del coche', 'Suscripción mensual'],
+            correct: 1
+          },
+          {
+            question: '¿Por qué es importante categorizar los gastos?',
+            options: ['Para pagar más impuestos', 'Para entender dónde va tu dinero', 'No es importante', 'Solo para empresas'],
+            correct: 1
+          }
+        ]
+      },
+      3: {
+        title: 'Ahorro Inteligente',
+        questions: [
+          {
+            question: '¿Qué porcentaje de tus ingresos deberías intentar ahorrar?',
+            options: ['0%', 'Al menos 10-20%', '100%', '5%'],
+            correct: 1
+          },
+          {
+            question: '¿Qué es un fondo de emergencia?',
+            options: ['Dinero para comprar lujos', 'Dinero guardado para imprevistos', 'Una cuenta bancaria premium', 'Un préstamo especial'],
+            correct: 1
+          },
+          {
+            question: '¿Cuál es una buena práctica de ahorro?',
+            options: ['Ahorrar solo si sobra dinero', 'Ahorrar primero, gastar después', 'Nunca ahorrar', 'Ahorrar solo en diciembre'],
+            correct: 1
+          }
+        ]
+      },
+      4: {
+        title: 'Tarjetas y Pagos',
+        questions: [
+          {
+            question: '¿Qué es una tarjeta de débito?',
+            options: ['Una tarjeta que usa dinero prestado', 'Una tarjeta que usa tu propio dinero', 'Una tarjeta regalo', 'Una tarjeta de fidelización'],
+            correct: 1
+          },
+          {
+            question: '¿Qué diferencia hay entre débito y crédito?',
+            options: ['Ninguna', 'Débito usa tu dinero, crédito es dinero prestado', 'Son lo mismo', 'Crédito es más barato'],
+            correct: 1
+          },
+          {
+            question: '¿Qué es el PIN de una tarjeta?',
+            options: ['El número de la tarjeta', 'Un código secreto de seguridad', 'El nombre del banco', 'La fecha de caducidad'],
+            correct: 1
+          }
+        ]
+      },
+      5: {
+        title: 'Seguridad Financiera',
+        questions: [
+          {
+            question: '¿Deberías compartir tu PIN con amigos?',
+            options: ['Sí, siempre', 'No, nunca', 'Solo con familia', 'Solo por WhatsApp'],
+            correct: 1
+          },
+          {
+            question: '¿Qué es el phishing?',
+            options: ['Un deporte acuático', 'Un fraude para robar datos personales', 'Un tipo de inversión', 'Una aplicación bancaria'],
+            correct: 1
+          },
+          {
+            question: '¿Es seguro guardar contraseñas en el móvil?',
+            options: ['Sí, siempre', 'Solo en aplicaciones seguras con cifrado', 'En notas sin protección', 'En fotos'],
+            correct: 1
+          }
+        ]
+      },
+      6: {
+        title: 'Inversión Básica',
+        questions: [
+          {
+            question: '¿Qué es invertir?',
+            options: ['Guardar dinero en casa', 'Poner dinero en algo que puede crecer', 'Gastar dinero', 'Pedir prestado'],
+            correct: 1
+          },
+          {
+            question: '¿Qué es una acción?',
+            options: ['Un tipo de moneda', 'Una parte de propiedad de una empresa', 'Un préstamo', 'Una tarjeta de crédito'],
+            correct: 1
+          },
+          {
+            question: '¿Las inversiones siempre ganan dinero?',
+            options: ['Sí, siempre', 'No, pueden tener riesgos', 'Solo en verano', 'Depende del banco'],
+            correct: 1
+          }
+        ]
+      },
+      7: {
+        title: 'Préstamos y Créditos',
+        questions: [
+          {
+            question: '¿Qué es un préstamo?',
+            options: ['Dinero que te regalan', 'Dinero que pides prestado y debes devolver', 'Un tipo de ahorro', 'Una inversión'],
+            correct: 1
+          },
+          {
+            question: '¿Qué es el interés de un préstamo?',
+            options: ['El dinero extra que pagas por pedir prestado', 'El dinero que te regalan', 'El dinero que ahorras', 'Una tarjeta'],
+            correct: 0
+          },
+          {
+            question: '¿Es bueno pedir muchos préstamos?',
+            options: ['Sí, cuantos más mejor', 'No, solo lo necesario y que puedas pagar', 'Da igual', 'Solo en enero'],
+            correct: 1
+          }
+        ]
+      },
+      8: {
+        title: 'Planificación Financiera',
+        questions: [
+          {
+            question: '¿Qué es un objetivo financiero?',
+            options: ['Una meta de ahorro o inversión', 'Un tipo de cuenta', 'Una tarjeta especial', 'Un préstamo'],
+            correct: 0
+          },
+          {
+            question: '¿Por qué es importante tener objetivos financieros?',
+            options: ['No es importante', 'Te ayuda a ahorrar con propósito', 'Solo para adultos', 'Para pagar impuestos'],
+            correct: 1
+          },
+          {
+            question: '¿Qué es el horizonte temporal de un objetivo?',
+            options: ['El color del objetivo', 'El tiempo que tardarás en lograrlo', 'El banco donde ahorras', 'El dinero necesario'],
+            correct: 1
+          }
+        ]
+      },
+      9: {
+        title: 'Impuestos y Responsabilidad',
+        questions: [
+          {
+            question: '¿Qué son los impuestos?',
+            options: ['Dinero que pagas al estado', 'Dinero que ahorras', 'Dinero que inviertes', 'Un tipo de tarjeta'],
+            correct: 0
+          },
+          {
+            question: '¿Para qué sirven los impuestos?',
+            options: ['Para nada', 'Para financiar servicios públicos (sanidad, educación, etc.)', 'Para enriquecer a los políticos', 'Para el banco'],
+            correct: 1
+          },
+          {
+            question: '¿A qué edad empiezas a pagar impuestos?',
+            options: ['A los 10 años', 'Cuando empiezas a trabajar y ganar dinero', 'A los 65 años', 'Nunca'],
+            correct: 1
+          }
+        ]
+      },
+      10: {
+        title: 'Economía Global',
+        questions: [
+          {
+            question: '¿Qué es la inflación?',
+            options: ['Cuando los precios bajan', 'Cuando los precios suben con el tiempo', 'Un tipo de moneda', 'Una aplicación'],
+            correct: 1
+          },
+          {
+            question: '¿Qué es el tipo de cambio?',
+            options: ['El precio de una moneda en relación a otra', 'Un tipo de ahorro', 'Una tarjeta', 'Un préstamo'],
+            correct: 0
+          },
+          {
+            question: '¿Por qué es importante entender la economía global?',
+            options: ['No es importante', 'Porque afecta tu poder de compra y decisiones financieras', 'Solo para economistas', 'Para viajar'],
+            correct: 1
+          }
+        ]
+      }
+    };
+
     // DIBUJAR CURVAS SVG ENTRE NODOS
     function drawCurves() {
       const svg = document.getElementById('map-svg');
@@ -407,6 +650,12 @@
       } else {
         alert('No tienes suficiente energía ⚡');
       }
+    });
+
+    // Botón de retorno a la app principal
+    const backBtn = document.getElementById('back-btn');
+    backBtn.addEventListener('click', () => {
+      window.location.href = '../../web/index.html';
     });
   </script>
 </body>
