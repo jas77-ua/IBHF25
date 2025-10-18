@@ -63,7 +63,7 @@ export const initialState = {
             id: 3,
             nombre: "Ahorro Automático",
             cantidad: 10,
-            fecha: "15 Oct, 08:00",
+            fecha: "11 Oct, 08:00",
             tipo: TIPOS_TRANSACCION.POSITIVO
         },
         {

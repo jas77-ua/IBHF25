@@ -127,14 +127,15 @@
 }
 
 .tarjeta-chip {
-    position: absolute;
-    top: var(--espaciado-xl);
-    left: var(--espaciado-xl);
-    width: 50px;
-    height: 40px;
-    background: #c0a062;
+    position: relative;
+    top: 16px;
+    left: 16px;
+    width: 45px;
+    height: 35px;
+    background: linear-gradient(135deg, #c0a062, #d4b475);
     border-radius: 4px;
     box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+    z-index: 1;
 }
 
 /* --- Acciones bajo la tarjeta --- */
