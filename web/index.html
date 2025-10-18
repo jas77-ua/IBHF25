@@ -8,7 +8,9 @@
     <link rel="icon" type="image/x-icon" href="../src/assets/favicon.ico">
     <title>Sabadell NEXT - Demo App</title>
     <link rel="stylesheet" href="../src/css/main.css">
+    <link rel="stylesheet" href="../src/css/touch_share/touch_share.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<!-- ...existing code... -->
 </head>
 <body>
     <div class="pantalla">
@@ -38,6 +40,10 @@
                     <i class="fi fi-rr-bank"></i>
                     <span>Mis Cuentas</span>
                 </a>
+                <a href="#" class="menu-item" data-pagina="transferencias">
+                    <i class="fi fi-rr-arrow-right"></i>
+                    <span>Transferencias</span>
+                </a>
                 <a href="#" class="menu-item" data-pagina="misiones">
                     <i class="fi fi-rr-gamepad"></i>
                     <span>Misiones</span>
@@ -50,7 +56,7 @@
                     <i class="fi fi-rr-chart-histogram"></i>
                     <span>Estadísticas</span>
                 </a>
-                <a href="#" class="menu-item" data-pagina="perfil">
+                <a href="../" class="menu-item" data-pagina="perfil">
                     <i class="fi fi-rr-user"></i>
                     <span>Perfil</span>
                 </a>
@@ -95,13 +101,47 @@
                     </div>
                 </div>
 
-                <!-- Misiones -->
-                <div class="seccion">
-                    <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Activas</div>
-                    <div class="cuadricula-misiones" id="contenedor-misiones">
-                        <!-- Las misiones se cargan con JavaScript -->
+            <!-- Misiones -->
+            <div class="seccion">
+                <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Activas</div>
+                <div class="cuadricula-misiones" id="contenedor-misiones">
+                    <!-- Las misiones se cargan con JavaScript -->
+                </div>
+            </div>
+
+            <!-- Sección Misiones Detalladas (se muestra al hacer click en Misiones) -->
+            <div class="seccion" id="seccion-misiones-detalladas" style="display: none;">
+                <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Bancarias</div>
+                
+                <!-- Filtros de misiones -->
+                <div class="filtros-misiones">
+                    <button class="filtro-btn activo" data-filtro="todas">Todas</button>
+                    <button class="filtro-btn" data-filtro="ahorro">Ahorro</button>
+                    <button class="filtro-btn" data-filtro="educacion">Educación</button>
+                    <button class="filtro-btn" data-filtro="recompensas">Recompensas</button>
+                </div>
+
+                <!-- Contenedor de misiones detalladas -->
+                <div class="misiones-detalladas-container" id="misiones-detalladas-container">
+                    <!-- Las misiones detalladas se cargan dinámicamente -->
+                </div>
+
+                <!-- Estadísticas -->
+                <div class="stats-bar">
+                    <div class="stat">
+                        <span class="stat-number" id="misiones-completadas">0</span>
+                        <span class="stat-label">Completadas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="total-recompensas">€0</span>
+                        <span class="stat-label">Ganadas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="progreso-total">0%</span>
+                        <span class="stat-label">Progreso</span>
                     </div>
                 </div>
+            </div>
 
                 <!-- Transacciones -->
                 <div class="seccion">
@@ -160,6 +200,65 @@
                 </div>
             </div>
 
+            <div class="vista-pagina" data-vista="touch-share" style="display: none;">
+                <div class="seccion">
+                    <div class="titulo-seccion"><i class="fi fi-rr-users-alt"></i> Comparte los Gastos con Amigos</div>
+
+                    <main class="contenido-principal-touch">
+                        <!-- Volver a la app (se manejará con JS) -->
+                        <button class="boton-volver" id="boton-volver-touch" aria-label="Volver a la app">← Volver</button>
+
+                        <!-- Configurar gasto -->
+                        <section class="seccion configuracion-gasto">
+                            <h2 class="titulo-seccion">Configurar Gasto</h2>
+                            <div class="grupo-formulario">
+                                <label for="monto-total" class="etiqueta">Monto Total (€)</label>
+                                <input type="number" id="monto-total" class="campo-entrada" placeholder="Ej: 15" min="0" step="0.01">
+                            </div>
+                            <div class="grupo-formulario">
+                                <label for="numero-personas" class="etiqueta">Número de Personas</label>
+                                <input type="number" id="numero-personas" class="campo-entrada" placeholder="Ej: 3" min="2" max="10">
+                            </div>
+                            <button id="calcular" class="boton-principal">Calcular Reparto</button>
+                        </section>
+
+                        <!-- Resultados -->
+                        <section class="seccion resultados" id="seccion-resultados" style="display: none;">
+                            <h2 class="titulo-seccion">Resultados del Reparto</h2>
+                            <div class="resultado-info">
+                                <p>Total a dividir: <span id="total-mostrar" class="destacado">0€</span></p>
+                                <p>Cada persona debe pagar: <span id="cuota-mostrar" class="destacado">0€</span></p>
+                            </div>
+                            <div class="estado-deuda">
+                                <h3>Estado de Deudas</h3>
+                                <div id="lista-deudas" class="lista-deudas"></div>
+                            </div>
+                        </section>
+
+                        <!-- NFC -->
+                        <section class="seccion nfc">
+                            <h2 class="titulo-seccion">Pago con NFC</h2>
+                            <div class="contenedor-nfc">
+                                <div class="info-nfc">
+                                    <p>Acerca tu dispositivo al de tu amigo para realizar el pago</p>
+                                </div>
+                                <button id="activar-nfc" class="boton-nfc">
+                                    <span class="icono-nfc">📱</span>
+                                    Activar NFC
+                                </button>
+                                <div id="estado-nfc" class="estado-nfc"></div>
+                            </div>
+                        </section>
+
+                        <!-- Historial -->
+                        <section class="seccion historial">
+                            <h2 class="titulo-seccion">Historial de Pagos</h2>
+                            <div id="lista-pagos" class="lista-pagos"></div>
+                        </section>
+                    </main>
+                </div>
+            </div>
+
             <!-- Vista: Misiones -->
             <div class="vista-pagina" data-vista="misiones" style="display: none;">
                 <div class="seccion">
@@ -171,8 +270,107 @@
             <!-- Vista: Estadísticas -->
             <div class="vista-pagina" data-vista="estadisticas" style="display: none;">
                 <div class="seccion">
-                    <div class="titulo-seccion"><i class="fi fi-rr-chart-histogram"></i> Estadísticas</div>
-                    <p class="texto-info">Vista de estadísticas próximamente...</p>
+                    <div class="titulo-seccion"><i class="fi fi-rr-chart-histogram"></i> Estadísticas de Gastos</div>
+                    <div id="contenedor-estadisticas">
+                        <!-- Las estadísticas se cargan con JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista: Transferencias -->
+            <div class="vista-pagina" data-vista="transferencias" style="display: none;">
+                <div class="seccion">
+                    <div class="titulo-seccion"><i class="fi fi-rr-arrow-right"></i> Transferencias y Pagos</div>
+
+                    <!-- Opciones de Transferencia -->
+                    <div class="grid-transferencias">
+                        <!-- Entre mis cuentas -->
+                        <div class="opcion-transferencia" id="transferencia-propia">
+                            <div class="icono-opcion">🔄</div>
+                            <h3 class="titulo-opcion">Entre mis cuentas</h3>
+                            <p class="desc-opcion">Mueve dinero entre tus cuentas al instante</p>
+                        </div>
+
+                        <!-- Bizum -->
+                        <div class="opcion-transferencia" id="bizum">
+                            <div class="icono-opcion">⚡</div>
+                            <h3 class="titulo-opcion">Bizum</h3>
+                            <p class="desc-opcion">Envía dinero con el móvil (límite €50)</p>
+                        </div>
+
+                        <!-- Transferencia Nacional -->
+                        <div class="opcion-transferencia" id="transferencia-nacional">
+                            <div class="icono-opcion">🏦</div>
+                            <h3 class="titulo-opcion">Transferencia Nacional</h3>
+                            <p class="desc-opcion">A otras cuentas en España</p>
+                        </div>
+
+                        <!-- Transferencia Internacional -->
+                        <div class="opcion-transferencia" id="transferencia-internacional">
+                            <div class="icono-opcion">🌍</div>
+                            <h3 class="titulo-opcion">Internacional</h3>
+                            <p class="desc-opcion">Envíos al extranjero</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario de Transferencia (oculto inicialmente) -->
+                <div class="formulario-transferencia" id="formulario-transferencia" style="display: none;">
+                    <div class="header-formulario">
+                        <button class="btn-volver-form" id="btn-volver-form">← Volver</button>
+                        <h2 class="titulo-formulario" id="titulo-formulario">Nueva Transferencia</h2>
+                    </div>
+
+                    <div class="contenido-formulario">
+                        <!-- Cuenta de origen -->
+                        <div class="campo-form">
+                            <label for="cuenta-origen">Desde cuenta</label>
+                            <select id="cuenta-origen" class="select-cuenta">
+                                <option value="">Selecciona una cuenta</option>
+                            </select>
+                        </div>
+
+                        <!-- Campos dinámicos según tipo de transferencia -->
+                        <div id="campos-dinamicos">
+                            <!-- Se cargarán según el tipo -->
+                        </div>
+
+                        <!-- Importe -->
+                        <div class="campo-form">
+                            <label for="importe">Importe (€)</label>
+                            <input type="number" id="importe" class="input-form" placeholder="0.00" min="0" step="0.01">
+                            <div class="info-limite" id="info-limite" style="display: none;"></div>
+                        </div>
+
+                        <!-- Concepto -->
+                        <div class="campo-form">
+                            <label for="concepto">Concepto</label>
+                            <input type="text" id="concepto" class="input-form" placeholder="Describe el motivo del pago">
+                        </div>
+
+                        <!-- Resumen -->
+                        <div class="resumen-transferencia" id="resumen-transferencia" style="display: none;">
+                            <h3>Resumen</h3>
+                            <div class="linea-resumen">
+                                <span>Desde:</span>
+                                <span id="resumen-desde">-</span>
+                            </div>
+                            <div class="linea-resumen">
+                                <span>Hacia:</span>
+                                <span id="resumen-hacia">-</span>
+                            </div>
+                            <div class="linea-resumen destacado">
+                                <span>Importe:</span>
+                                <span id="resumen-importe">€0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="botones-formulario">
+                            <button class="btn-cancelar" id="btn-cancelar-form">Cancelar</button>
+                            <button class="btn-confirmar" id="btn-confirmar-form">Confirmar Transferencia</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -187,9 +385,9 @@
                 <div class="icono-nav"><i class="fi fi-rr-bank"></i></div>
                 <div>Cuentas</div>
             </div>
-            <div class="elemento-nav" data-pagina="misiones">
-                <div class="icono-nav"><i class="fi fi-rr-gamepad"></i></div>
-                <div>Misiones</div>
+            <div class="elemento-nav" data-pagina="transferencias">
+                <div class="icono-nav"><i class="fi fi-rr-arrow-right"></i></div>
+                <div>Transferir</div>
             </div>
             <div class="elemento-nav" data-pagina="estadisticas">
                 <div class="icono-nav"><i class="fi fi-rr-chart-histogram"></i></div>
@@ -233,6 +431,7 @@
         </div>
     </div>
 
+    <script src="../src/js/touch_share/touch_share.js"></script>
     <script type="module" src="../src/js/main.js"></script>
 </body>
 </html>
