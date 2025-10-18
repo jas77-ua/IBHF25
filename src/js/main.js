@@ -7,6 +7,7 @@ import { TransactionService } from './services/transactionService.js';
 import { Balance } from './components/Balance.js';
 import { Missions } from './components/Missions.js';
 import { Transactions } from './components/Transactions.js';
+import { Card } from './components/Card.js';
 
 class App {
     constructor() {
@@ -17,6 +18,7 @@ class App {
         this.balanceComponent = null;
         this.missionsComponent = null;
         this.transactionsComponent = null;
+        this.cardComponent = null;
     }
 
     /**
@@ -27,6 +29,7 @@ class App {
         this.balanceComponent = new Balance(this.appState);
         this.missionsComponent = new Missions(this.appState);
         this.transactionsComponent = new Transactions(this.appState);
+        this.cardComponent = new Card(this.appState);
 
         // Configurar callback de misiones
         this.missionsComponent.setOnMissionClick((misionId) => {
@@ -52,6 +55,7 @@ class App {
         this.balanceComponent.render();
         this.missionsComponent.render();
         this.transactionsComponent.render();
+        this.cardComponent.render();
     }
 
     /**

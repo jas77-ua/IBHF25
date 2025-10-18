@@ -65,6 +65,13 @@ class AppState {
     }
 
     /**
+     * Actualiza el estado de la tarjeta
+     */
+    updateTarjeta(tarjeta) {
+        this.setState({ tarjeta });
+    }
+
+    /**
      * Reinicia el estado a los valores iniciales
      */
     reset() {

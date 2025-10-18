@@ -7,6 +7,12 @@ import { APP_CONFIG, TIPOS_TRANSACCION } from '../config/constants.js';
 export const initialState = {
     saldo: APP_CONFIG.SALDO_INICIAL,
     metaAhorro: APP_CONFIG.META_AHORRO_DEFAULT,
+    
+    tarjeta: {
+        nombre: "Tarjeta de Débito (Visa)",
+        numero: "4532123456784321",
+        bloqueada: false
+    },
 
     misiones: [
         {
