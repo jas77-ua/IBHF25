@@ -8,7 +8,9 @@
     <link rel="icon" type="image/x-icon" href="../src/assets/favicon.ico">
     <title>Sabadell NEXT - Demo App</title>
     <link rel="stylesheet" href="../src/css/main.css">
+    <link rel="stylesheet" href="../src/css/touch_share/touch_share.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<!-- ...existing code... -->
 </head>
 <body>
     <div class="pantalla">
@@ -54,7 +56,7 @@
                     <i class="fi fi-rr-chart-histogram"></i>
                     <span>Estadísticas</span>
                 </a>
-                <a href="#" class="menu-item" data-pagina="perfil">
+                <a href="../" class="menu-item" data-pagina="perfil">
                     <i class="fi fi-rr-user"></i>
                     <span>Perfil</span>
                 </a>
@@ -99,13 +101,47 @@
                     </div>
                 </div>
 
-                <!-- Misiones -->
-                <div class="seccion">
-                    <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Activas</div>
-                    <div class="cuadricula-misiones" id="contenedor-misiones">
-                        <!-- Las misiones se cargan con JavaScript -->
+            <!-- Misiones -->
+            <div class="seccion">
+                <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Activas</div>
+                <div class="cuadricula-misiones" id="contenedor-misiones">
+                    <!-- Las misiones se cargan con JavaScript -->
+                </div>
+            </div>
+
+            <!-- Sección Misiones Detalladas (se muestra al hacer click en Misiones) -->
+            <div class="seccion" id="seccion-misiones-detalladas" style="display: none;">
+                <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Bancarias</div>
+                
+                <!-- Filtros de misiones -->
+                <div class="filtros-misiones">
+                    <button class="filtro-btn activo" data-filtro="todas">Todas</button>
+                    <button class="filtro-btn" data-filtro="ahorro">Ahorro</button>
+                    <button class="filtro-btn" data-filtro="educacion">Educación</button>
+                    <button class="filtro-btn" data-filtro="recompensas">Recompensas</button>
+                </div>
+
+                <!-- Contenedor de misiones detalladas -->
+                <div class="misiones-detalladas-container" id="misiones-detalladas-container">
+                    <!-- Las misiones detalladas se cargan dinámicamente -->
+                </div>
+
+                <!-- Estadísticas -->
+                <div class="stats-bar">
+                    <div class="stat">
+                        <span class="stat-number" id="misiones-completadas">0</span>
+                        <span class="stat-label">Completadas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="total-recompensas">€0</span>
+                        <span class="stat-label">Ganadas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="progreso-total">0%</span>
+                        <span class="stat-label">Progreso</span>
                     </div>
                 </div>
+            </div>
 
                 <!-- Transacciones -->
                 <div class="seccion">
@@ -161,6 +197,65 @@
                     <div id="contenedor-cuentas">
                         <!-- Las cuentas se cargan con JavaScript -->
                     </div>
+                </div>
+            </div>
+
+            <div class="vista-pagina" data-vista="touch-share" style="display: none;">
+                <div class="seccion">
+                    <div class="titulo-seccion"><i class="fi fi-rr-users-alt"></i> Comparte los Gastos con Amigos</div>
+
+                    <main class="contenido-principal-touch">
+                        <!-- Volver a la app (se manejará con JS) -->
+                        <button class="boton-volver" id="boton-volver-touch" aria-label="Volver a la app">← Volver</button>
+
+                        <!-- Configurar gasto -->
+                        <section class="seccion configuracion-gasto">
+                            <h2 class="titulo-seccion">Configurar Gasto</h2>
+                            <div class="grupo-formulario">
+                                <label for="monto-total" class="etiqueta">Monto Total (€)</label>
+                                <input type="number" id="monto-total" class="campo-entrada" placeholder="Ej: 15" min="0" step="0.01">
+                            </div>
+                            <div class="grupo-formulario">
+                                <label for="numero-personas" class="etiqueta">Número de Personas</label>
+                                <input type="number" id="numero-personas" class="campo-entrada" placeholder="Ej: 3" min="2" max="10">
+                            </div>
+                            <button id="calcular" class="boton-principal">Calcular Reparto</button>
+                        </section>
+
+                        <!-- Resultados -->
+                        <section class="seccion resultados" id="seccion-resultados" style="display: none;">
+                            <h2 class="titulo-seccion">Resultados del Reparto</h2>
+                            <div class="resultado-info">
+                                <p>Total a dividir: <span id="total-mostrar" class="destacado">0€</span></p>
+                                <p>Cada persona debe pagar: <span id="cuota-mostrar" class="destacado">0€</span></p>
+                            </div>
+                            <div class="estado-deuda">
+                                <h3>Estado de Deudas</h3>
+                                <div id="lista-deudas" class="lista-deudas"></div>
+                            </div>
+                        </section>
+
+                        <!-- NFC -->
+                        <section class="seccion nfc">
+                            <h2 class="titulo-seccion">Pago con NFC</h2>
+                            <div class="contenedor-nfc">
+                                <div class="info-nfc">
+                                    <p>Acerca tu dispositivo al de tu amigo para realizar el pago</p>
+                                </div>
+                                <button id="activar-nfc" class="boton-nfc">
+                                    <span class="icono-nfc">📱</span>
+                                    Activar NFC
+                                </button>
+                                <div id="estado-nfc" class="estado-nfc"></div>
+                            </div>
+                        </section>
+
+                        <!-- Historial -->
+                        <section class="seccion historial">
+                            <h2 class="titulo-seccion">Historial de Pagos</h2>
+                            <div id="lista-pagos" class="lista-pagos"></div>
+                        </section>
+                    </main>
                 </div>
             </div>
 
@@ -336,6 +431,7 @@
         </div>
     </div>
 
+    <script src="../src/js/touch_share/touch_share.js"></script>
     <script type="module" src="../src/js/main.js"></script>
 </body>
 </html>
