@@ -2,101 +2,95 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sabadell NEXT - Demo App</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Sabadell NEXT</title>
+    <link rel="stylesheet" href="src/css/styles.css">
 </head>
 <body>
-    <div class="contenedor-movil">
-        <!-- MÓVIL VIRTUAL -->
-        <div class="mockup-movil">
-            <div class="pantalla">
-                <!-- Barra de estado -->
-                <div class="barra-estado">
-                    <div class="hora-actual" id="hora-actual">14:30</div>
-                    <div class="iconos-estado">
-                        <span>📶</span>
-                        <span>📡</span>
-                        <span>🔋</span>
-                    </div>
-                </div>
-
-                <!-- Contenido de la App -->
-                <div class="contenido-app">
-                    <!-- Encabezado -->
-                    <div class="encabezado-app">
-                        <div class="info-usuario">
-                            <div>
-                                <div class="texto-bienvenida">¡Hola, Alex! 👋</div>
-                                <div class="cantidad-saldo" id="saldo">€127.80</div>
-                            </div>
-                            <div class="meta-ahorro">
-                                <div class="texto-meta">Meta ahorro</div>
-                                <div class="cantidad-meta">€200</div>
-                            </div>
-                        </div>
-                        <div class="progreso-ahorro">
-                            <div class="texto-progreso">Progreso: <span id="texto-progreso">65%</span></div>
-                            <div class="barra-progreso">
-                                <div class="relleno-progreso" id="relleno-progreso"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Misiones -->
-                    <div class="seccion">
-                        <div class="titulo-seccion">🎯 Misiones Activas</div>
-                        <div class="cuadricula-misiones" id="contenedor-misiones">
-                            <!-- Las misiones se cargan con JavaScript -->
-                        </div>
-                    </div>
-
-                    <!-- Transacciones -->
-                    <div class="seccion">
-                        <div class="titulo-seccion">📊 Últimas Transacciones</div>
-                        <div class="lista-transacciones" id="contenedor-transacciones">
-                            <!-- Las transacciones se cargan con JavaScript -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navegación Inferior -->
-                <div class="navegacion-inferior">
-                    <div class="elemento-nav activo" data-pagina="inicio">
-                        <div class="icono-nav">🏠</div>
-                        <div>Inicio</div>
-                    </div>
-                    <div class="elemento-nav" data-pagina="misiones">
-                        <div class="icono-nav">🎮</div>
-                        <div>Misiones</div>
-                    </div>
-                    <div class="elemento-nav" data-pagina="estadisticas">
-                        <div class="icono-nav">📊</div>
-                        <div>Estadísticas</div>
-                    </div>
-                    <div class="elemento-nav" data-pagina="perfil">
-                        <div class="icono-nav">👤</div>
-                        <div>Perfil</div>
-                    </div>
-                </div>
-
-                <!-- Indicador Home -->
-                <div class="indicador-home"></div>
+    <div class="pantalla">
+        <!-- Barra de estado -->
+        <div class="barra-estado">
+            <div class="hora-actual" id="hora-actual">14:30</div>
+            <div class="iconos-estado">
+                <span>📶</span>
+                <span>📡</span>
+                <span>🔋</span>
             </div>
         </div>
 
-        <!-- CONTROLES EXTERNOS -->
-        <div class="controles-externos">
-            <h3>🚀 Controles de Demo</h3>
-            <div class="botones-control">
-                <button class="boton-control" id="añadir-dinero">➕ Recibir €20</button>
-                <button class="boton-control" id="gastar-dinero">➖ Gastar €15</button>
-                <button class="boton-control" id="completar-mision">✅ Completar Misión</button>
-                <button class="boton-control" id="reiniciar-demo">🔄 Reiniciar Demo</button>
+        <!-- Contenido de la App -->
+        <div class="contenido-app">
+            <!-- Encabezado -->
+            <div class="encabezado-app">
+                <div class="info-usuario">
+                    <div>
+                        <div class="texto-bienvenida">¡Hola, Alex! 👋</div>
+                        <div class="cantidad-saldo" id="saldo">€127.80</div>
+                    </div>
+                    <div class="meta-ahorro">
+                        <div class="texto-meta">Meta ahorro</div>
+                        <div class="cantidad-meta">€200</div>
+                    </div>
+                </div>
+                <div class="progreso-ahorro">
+                    <div class="texto-progreso">Progreso: <span id="texto-progreso">65%</span></div>
+                    <div class="barra-progreso">
+                        <div class="relleno-progreso" id="relleno-progreso"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Misiones -->
+            <div class="seccion">
+                <div class="titulo-seccion">🎯 Misiones Activas</div>
+                <div class="cuadricula-misiones" id="contenedor-misiones">
+                    <!-- Las misiones se cargan con JavaScript -->
+                </div>
+            </div>
+
+            <!-- Transacciones -->
+            <div class="seccion">
+                <div class="titulo-seccion">📊 Últimas Transacciones</div>
+                <div class="lista-transacciones" id="contenedor-transacciones">
+                    <!-- Las transacciones se cargan con JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación Inferior -->
+        <div class="navegacion-inferior">
+            <div class="elemento-nav activo" data-pagina="inicio">
+                <div class="icono-nav">🏠</div>
+                <div>Inicio</div>
+            </div>
+            <div class="elemento-nav" data-pagina="misiones">
+                <div class="icono-nav">🎮</div>
+                <div>Misiones</div>
+            </div>
+            <div class="elemento-nav" data-pagina="estadisticas">
+                <div class="icono-nav">📊</div>
+                <div>Estadísticas</div>
+            </div>
+            <div class="elemento-nav" data-pagina="perfil">
+                <div class="icono-nav">👤</div>
+                <div>Perfil</div>
             </div>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- CONTROLES EXTERNOS (solo visible en desktop) -->
+    <div class="controles-externos">
+        <h3>🚀 Demo</h3>
+        <div class="botones-control">
+            <button class="boton-control" id="añadir-dinero">➕ Recibir €20</button>
+            <button class="boton-control" id="gastar-dinero">➖ Gastar €15</button>
+            <button class="boton-control" id="completar-mision">✅ Completar</button>
+            <button class="boton-control" id="reiniciar-demo">🔄 Reiniciar</button>
+        </div>
+    </div>
+
+    <script src="src/js/app.js"></script>
 </body>
 </html>

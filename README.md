@@ -71,11 +71,49 @@ Ayuda/Soporte: FAQ, chat, contacto
 Cerrar sesión
 
 
-## Cómo desplegar la demo
-1. Clone el repositorio
-2. Entre al directorio
-3. Ejecute el siguiente comando:
-``` bash
- podman run -d -p 8080:80 --replace --name ibhf25-root ibhf25
+---
+
+## Estructura del Proyecto
+
 ```
-4. Acceder a [http://localhost](http://127.0.0.1:8080)
+IBHF25/
+├── src/                    # Código fuente
+│   ├── css/               # Hojas de estilo
+│   │   └── styles.css     # Estilos principales
+│   ├── js/                # JavaScript
+│   │   └── app.js         # Lógica de la aplicación
+│   └── assets/            # Recursos (imágenes, iconos, etc.)
+├── index.html             # Página principal
+├── Dockerfile             # Configuración de contenedor
+├── .gitignore             # Archivos ignorados por Git
+└── README.md              # Documentación
+```
+
+## Despliegue
+
+### Con Docker/Podman:
+
+```bash
+# Construir la imagen
+docker build -t sabadell-next .
+
+# Ejecutar el contenedor
+docker run -d -p 8080:80 --name sabadell-next sabadell-next
+```
+
+### Desarrollo local:
+
+Simplemente abre `index.html` en tu navegador, o usa un servidor local:
+
+```bash
+# Con Python
+python -m http.server 8080
+
+# Con Node.js (npx)
+npx serve
+
+# Con PHP
+php -S localhost:8080
+```
+
+Accede a la aplicación en: `http://localhost:8080`
