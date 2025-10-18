@@ -535,6 +535,70 @@ body {
     }
 }
 
+/* --- Historial de Tarjeta --- */
+.titulo-historial {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.lista-historial {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.elemento-historial {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.elemento-historial:last-child {
+    border-bottom: none;
+}
+
+.nombre-historial {
+    font-size: 15px;
+    color: #333;
+}
+
+.fecha-historial {
+    font-size: 13px;
+    color: #888;
+}
+
+.cantidad-historial.positivo {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.cantidad-historial.negativo {
+    color: #d32f2f;
+    font-weight: 600;
+}
+
+.boton-volver-historial {
+    background: none;
+    border: none;
+    color: #4a6cf7;
+    font-size: 15px;
+    margin-top: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.boton-volver-historial:hover {
+    text-decoration: underline;
+}
+
 
 /* EFECTOS DE ANIMACIÓN */
 @keyframes aparecer {

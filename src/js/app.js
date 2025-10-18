@@ -183,7 +183,6 @@ function actualizarReloj() {
     document.getElementById('hora-actual').textContent = textoHora;
 }
 
-
 function mostrarSeccion(seccion) {
     const seccionTarjetas = document.getElementById('seccion-tarjetas');
     const bannerTarjeta = document.querySelector('.banner-tarjeta');
@@ -195,13 +194,26 @@ function mostrarSeccion(seccion) {
         if (bannerTarjeta) bannerTarjeta.style.display = '';
         if (seccionMisiones) seccionMisiones.style.display = '';
         if (seccionTransacciones) seccionTransacciones.style.display = '';
+        
+        // Ocultar toda la sección de tarjetas (incluyendo historial)
         if (seccionTarjetas) seccionTarjetas.style.display = 'none';
+        // Ocultar istorial
+        const historial = document.getElementById('historial-tarjeta-contenedor');
+        if (historial) historial.style.display = 'none';
     }
     else if (seccion === 'tarjetas') {
+        // Asegurarse de mostrar la tarjeta (no el historial)
+        const tarjetaDetalle = document.querySelector('.tarjeta-detalle');
+        const historialContenedor = document.getElementById('historial-tarjeta-contenedor');
+        
+        if (tarjetaDetalle) tarjetaDetalle.style.display = 'block';
+        if (historialContenedor) historialContenedor.style.display = 'none';
+
         // Ocultar inicio, mostrar tarjetas
         if (bannerTarjeta) bannerTarjeta.style.display = 'none';
         if (seccionMisiones) seccionMisiones.style.display = 'none';
         if (seccionTransacciones) seccionTransacciones.style.display = 'none';
+        
         if (seccionTarjetas) {
             seccionTarjetas.style.display = 'block';
             // Actualizar últimos dígitos
@@ -210,7 +222,7 @@ function mostrarSeccion(seccion) {
                 ultimos.textContent = estadoApp.tarjeta.numero.slice(-4);
             }
 
-            // Mostrar u ocultar botones según estado
+            // Mostrar/ocultar botones según estado de bloqueo
             const btnBloquear = document.getElementById('bloquear-tarjeta');
             const btnDesbloquear = document.getElementById('desbloquear-tarjeta');
             if (btnBloquear && btnDesbloquear) {
@@ -224,6 +236,23 @@ function mostrarSeccion(seccion) {
             }
         }
     }
+}
+
+function renderizarHistorialTarjeta() {
+    const contenedor = document.getElementById('lista-historial-tarjeta');
+    if (!contenedor) return;
+
+    contenedor.innerHTML = estadoApp.transacciones.map(transaccion => `
+        <div class="elemento-historial">
+            <div>
+                <div class="nombre-historial">${transaccion.nombre}</div>
+                <div class="fecha-historial">${transaccion.fecha}</div>
+            </div>
+            <div class="cantidad-historial ${transaccion.tipo}">
+                ${transaccion.tipo === 'positivo' ? '+' : '-'}€${transaccion.cantidad.toFixed(2)}
+            </div>
+        </div>
+    `).join('');
 }
 
 
@@ -341,6 +370,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 mostrarSeccion('inicio');
             }, 1000);
         }
+    });
+
+    // Acción: Ver historial de la tarjeta
+    document.getElementById('historial-tarjeta').addEventListener('click', () => {
+        // Mostrar el historial
+        document.getElementById('historial-tarjeta-contenedor').style.display = 'block';
+        // Ocultar la tarjeta y acciones
+        document.querySelector('.tarjeta-detalle').style.display = 'none';
+        
+        // Renderizar el historial
+        renderizarHistorialTarjeta();
+    });
+
+    // Volver de historial a vista de tarjeta
+    document.getElementById('boton-volver-historial').addEventListener('click', () => {
+        document.getElementById('historial-tarjeta-contenedor').style.display = 'none';
+        document.querySelector('.tarjeta-detalle').style.display = 'block';
     });
     
     console.log('🚀 Aplicación Sabadell NEXT iniciada correctamente');
