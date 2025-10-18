@@ -5,7 +5,8 @@
 import { APP_CONFIG, TIPOS_TRANSACCION } from '../config/constants.js';
 
 export const initialState = {
-    saldo: APP_CONFIG.SALDO_INICIAL,
+    // El saldo se calcula dinámicamente desde las cuentas
+    saldo: 0, // Fallback si no hay cuentas
     metaAhorro: APP_CONFIG.META_AHORRO_DEFAULT,
     
     tarjetas: [
@@ -24,6 +25,39 @@ export const initialState = {
             bloqueada: false,
             titular: "ALEX MARTÍNEZ", // Nombre por defecto, se actualizará con el perfil
             tipo: "Prepago"
+        }
+    ],
+
+    cuentas: [
+        {
+            id: 1,
+            nombre: "Cuenta Corriente Joven",
+            tipo: "Corriente",
+            iban: "ES91 2100 0418 4502 0005 1332",
+            saldo: 127.80,
+            estado: "Activa",
+            color: "#42D9FF",
+            icono: "fi-rr-wallet"
+        },
+        {
+            id: 2,
+            nombre: "Cuenta Ahorro Plus",
+            tipo: "Ahorro",
+            iban: "ES76 2100 0418 4512 0006 2443",
+            saldo: 250.00,
+            estado: "Activa",
+            color: "#00C853",
+            icono: "fi-rr-piggy-bank"
+        },
+        {
+            id: 3,
+            nombre: "Hucha Digital",
+            tipo: "Ahorro",
+            iban: "ES32 2100 0418 4522 0007 3554",
+            saldo: 75.50,
+            estado: "Activa",
+            color: "#FF6B35",
+            icono: "fi-rr-money-coin"
         }
     ],
 

@@ -65,7 +65,38 @@ class AppState {
     }
 
     /**
-     * Actualiza el estado de las tarjetas
+     * Calcula el saldo total de todas las cuentas
+     */
+    getSaldoTotal() {
+        if (!this.state.cuentas || this.state.cuentas.length === 0) {
+            return this.state.saldo || 0;
+        }
+        return this.state.cuentas.reduce((total, cuenta) => total + cuenta.saldo, 0);
+    }
+
+    /**
+     * Obtiene el saldo de la cuenta principal (primera cuenta corriente)
+     */
+    getSaldoPrincipal() {
+        if (!this.state.cuentas || this.state.cuentas.length === 0) {
+            return this.state.saldo || 0;
+        }
+        const cuentaPrincipal = this.state.cuentas.find(c => c.tipo === 'Corriente') || this.state.cuentas[0];
+        return cuentaPrincipal.saldo;
+    }
+
+    /**
+     * Actualiza el saldo de una cuenta específica
+     */
+    updateSaldoCuenta(cuentaId, nuevoSaldo) {
+        const cuentas = this.state.cuentas.map(cuenta =>
+            cuenta.id === cuentaId ? { ...cuenta, saldo: nuevoSaldo } : cuenta
+        );
+        this.setState({ cuentas });
+    }
+
+    /**
+     * Actualiza el estado de la tarjeta
      */
     updateTarjetas(tarjetas) {
         this.setState({ tarjetas });
