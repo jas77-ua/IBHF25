@@ -70,3 +70,12 @@ Perfil/Configuración: Datos personales, preferencias, seguridad
 Ayuda/Soporte: FAQ, chat, contacto
 Cerrar sesión
 
+
+## Cómo desplegar la demo
+1. Clone el repositorio
+2. Entre al directorio
+3. Ejecute el siguiente comando:
+``` bash
+ podman run -d -p 8080:80 --replace --name ibhf25-root ibhf25
+```
+4. Acceder a [http://localhost](http://127.0.0.1:8080)
