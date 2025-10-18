@@ -12,10 +12,10 @@ Qué problemas resuelve
  - Eliminar ideas malas y mitos sobre las entidades bancarias.
    
 Público objetivo
- - Menores de edad entre 14 y 17 años.
+ - Menores de edad entre 12 y 17 años.
 
 Cuota de mercado
- - En 2025: +2.5 Millones de jóvenes entre 14 y 17 años.
+ - En 2025: +3 Millones de jóvenes entre 14 y 17 años.
 
 Pantallas esenciales de una app de banca
 Autenticación y Seguridad
