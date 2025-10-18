@@ -1,0 +1,68 @@
+/**
+ * Estado inicial de la aplicación
+ */
+
+import { APP_CONFIG, TIPOS_TRANSACCION } from '../config/constants.js';
+
+export const initialState = {
+    saldo: APP_CONFIG.SALDO_INICIAL,
+    metaAhorro: APP_CONFIG.META_AHORRO_DEFAULT,
+
+    misiones: [
+        {
+            id: 1,
+            titulo: "💰 Primer Ahorro Épico",
+            descripcion: "Ahorra €50 este mes y gana recompensas especiales",
+            recompensa: "+€5 bonus + Insignia",
+            completada: false,
+            progreso: 65
+        },
+        {
+            id: 2,
+            titulo: "🛡️ Cazador de Estafas",
+            descripcion: "Aprende a identificar 3 casos de phishing reales",
+            recompensa: "Avatar Exclusivo",
+            completada: false,
+            progreso: 30
+        },
+        {
+            id: 3,
+            titulo: "📈 Inversor Novato",
+            descripcion: "Simula una inversión de €1000 en bolsa virtual",
+            recompensa: "Desbloqueo Simulador Avanzado",
+            completada: false,
+            progreso: 10
+        }
+    ],
+
+    transacciones: [
+        {
+            id: 1,
+            nombre: "Paga Extra Papás",
+            cantidad: 20,
+            fecha: "Hoy, 10:30",
+            tipo: TIPOS_TRANSACCION.POSITIVO
+        },
+        {
+            id: 2,
+            nombre: "Steam - Videojuego",
+            cantidad: 29.99,
+            fecha: "Ayer, 16:45",
+            tipo: TIPOS_TRANSACCION.NEGATIVO
+        },
+        {
+            id: 3,
+            nombre: "Ahorro Automático",
+            cantidad: 10,
+            fecha: "15 Oct, 08:00",
+            tipo: TIPOS_TRANSACCION.POSITIVO
+        },
+        {
+            id: 4,
+            nombre: "McDonald's",
+            cantidad: 12.50,
+            fecha: "14 Oct, 19:20",
+            tipo: TIPOS_TRANSACCION.NEGATIVO
+        }
+    ]
+};
