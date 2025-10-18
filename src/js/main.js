@@ -359,12 +359,13 @@ class App {
         this.imgAvatar.src = datos.avatar;
         this.actualizarBienvenida(datos.nombre);
 
-        // Actualizar el nombre en la tarjeta
-        const { tarjeta } = this.appState.getState();
-        this.appState.updateTarjeta({
+        // Actualizar el nombre en todas las tarjetas
+        const { tarjetas } = this.appState.getState();
+        const tarjetasActualizadas = tarjetas.map(tarjeta => ({
             ...tarjeta,
             titular: datos.nombre.toUpperCase()
-        });
+        }));
+        this.appState.updateTarjetas(tarjetasActualizadas);
         
         this.cerrarPerfilOverlay();
     }
@@ -397,12 +398,13 @@ class App {
         if (datos.nombre) {
             this.actualizarBienvenida(datos.nombre);
             
-            // Actualizar el nombre en la tarjeta
-            const { tarjeta } = this.appState.getState();
-            this.appState.updateTarjeta({
+            // Actualizar el nombre en todas las tarjetas
+            const { tarjetas } = this.appState.getState();
+            const tarjetasActualizadas = tarjetas.map(tarjeta => ({
                 ...tarjeta,
                 titular: datos.nombre.toUpperCase()
-            });
+            }));
+            this.appState.updateTarjetas(tarjetasActualizadas);
         }
     }
 }

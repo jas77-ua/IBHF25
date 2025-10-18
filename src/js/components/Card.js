@@ -31,33 +31,55 @@ export class Card {
             this.init();
         }
 
-        const { tarjeta } = this.appState.getState();
+        const { tarjetas } = this.appState.getState();
+        const tarjetaPrincipal = tarjetas[0]; // La primera tarjeta se muestra en el banner
 
-        // Actualizar banner
+        // Actualizar banner con la tarjeta principal
         const nombreTarjeta = document.getElementById('nombre-tarjeta');
         const terminaEn = document.getElementById('termina-en');
 
         if (nombreTarjeta) {
-            nombreTarjeta.textContent = tarjeta.bloqueada ? 'Tarjeta Bloqueada 🔒' : tarjeta.nombre;
+            nombreTarjeta.textContent = tarjetaPrincipal.bloqueada ? 'Tarjeta Bloqueada 🔒' : tarjetaPrincipal.nombre;
         }
         if (terminaEn) {
-            terminaEn.textContent = `Termina en ${tarjeta.numero.slice(-4)}`;
+            terminaEn.textContent = `Termina en ${tarjetaPrincipal.numero.slice(-4)}`;
         }
 
-        // Actualizar vista detalle
-        const ultimosDigitos = document.getElementById('ultimos-digitos-tarjeta');
-        if (ultimosDigitos) {
-            ultimosDigitos.textContent = tarjeta.numero.slice(-4);
-        document.getElementById('tarjeta-titular').textContent = tarjeta.titular || '—';
-        }
+        // Actualizar todas las tarjetas en la vista detalle
+        tarjetas.forEach((tarjeta, index) => {
+            const tarjetaElement = document.getElementById(`tarjeta-${index + 1}`);
+            if (!tarjetaElement) return;
 
-        // Actualizar botones según estado
-        const btnBloquear = document.getElementById('bloquear-tarjeta');
-        const btnDesbloquear = document.getElementById('desbloquear-tarjeta');
-        if (btnBloquear && btnDesbloquear) {
-            btnBloquear.style.display = tarjeta.bloqueada ? 'none' : '';
-            btnDesbloquear.style.display = tarjeta.bloqueada ? '' : 'none';
-        }
+            // Actualizar número de tarjeta
+            const ultimosDigitos = tarjetaElement.querySelector('.ultimos-digitos-tarjeta');
+            if (ultimosDigitos) {
+                ultimosDigitos.textContent = tarjeta.numero.slice(-4);
+            }
+
+            // Actualizar titular
+            const titular = tarjetaElement.querySelector('.tarjeta-titular');
+            if (titular) {
+                titular.textContent = tarjeta.titular || '—';
+            }
+
+            // Actualizar botones según estado
+            const btnBloquear = tarjetaElement.querySelector('.boton-bloquear');
+            const btnDesbloquear = tarjetaElement.querySelector('.boton-desbloquear');
+            if (btnBloquear && btnDesbloquear) {
+                btnBloquear.style.display = tarjeta.bloqueada ? 'none' : '';
+                btnDesbloquear.style.display = tarjeta.bloqueada ? '' : 'none';
+            }
+
+            // Actualizar clase de tipo de tarjeta
+            const tarjetaBancaria = tarjetaElement.querySelector('.tarjeta-bancaria');
+            if (tarjetaBancaria) {
+                if (tarjeta.tipo === 'Prepago') {
+                    tarjetaBancaria.classList.add('tarjeta-prepago');
+                } else {
+                    tarjetaBancaria.classList.remove('tarjeta-prepago');
+                }
+            }
+        });
     }
 
     renderHistorial() {
@@ -80,24 +102,64 @@ export class Card {
 
     setupEventListeners() {
         console.log('🎴 Configurando event listeners de Card...');
-        console.log('Banner tarjeta encontrado:', this.bannerTarjeta ? '✅' : '❌');
-        console.log('Callback de navegación:', this.navegarCallback ? '✅' : '❌');
 
         // Click en banner de tarjeta - navega a vista de tarjetas
         if (this.bannerTarjeta) {
             this.bannerTarjeta.addEventListener('click', () => {
-                console.log('🖱️ Click en banner de tarjeta detectado');
                 if (this.navegarCallback) {
-                    console.log('📱 Navegando a vista de tarjetas...');
                     this.navegarCallback('tarjetas');
-                } else {
-                    console.error('❌ No hay callback de navegación disponible');
                 }
             });
-            console.log('✅ Event listener del banner configurado correctamente');
-        } else {
-            console.error('❌ No se encontró el elemento banner-tarjeta');
         }
+
+        // Botón volver de tarjetas
+        const botonVolverTarjetas = document.getElementById('boton-volver-tarjetas');
+        if (botonVolverTarjetas) {
+            botonVolverTarjetas.addEventListener('click', () => {
+                if (this.navegarCallback) {
+                    this.navegarCallback('inicio');
+                }
+            });
+        }
+
+        // Configurar event listeners para cada tarjeta
+        const { tarjetas } = this.appState.getState();
+        tarjetas.forEach((tarjeta, index) => {
+            const tarjetaElement = document.getElementById(`tarjeta-${index + 1}`);
+            if (!tarjetaElement) return;
+
+            // Botón bloquear
+            const btnBloquear = tarjetaElement.querySelector('.boton-bloquear');
+            if (btnBloquear) {
+                btnBloquear.addEventListener('click', () => {
+                    tarjeta.bloqueada = true;
+                    this.appState.setState({ tarjetas: [...tarjetas] });
+                    this.render();
+                });
+            }
+
+            // Botón desbloquear
+            const btnDesbloquear = tarjetaElement.querySelector('.boton-desbloquear');
+            if (btnDesbloquear) {
+                btnDesbloquear.addEventListener('click', () => {
+                    tarjeta.bloqueada = false;
+                    this.appState.setState({ tarjetas: [...tarjetas] });
+                    this.render();
+                });
+            }
+
+            // Botón historial
+            const btnHistorial = tarjetaElement.querySelector('.boton-historial');
+            if (btnHistorial) {
+                btnHistorial.addEventListener('click', () => {
+                    const historialContainer = document.getElementById('historial-tarjeta-contenedor');
+                    if (historialContainer) {
+                        historialContainer.style.display = 'block';
+                        this.renderHistorial();
+                    }
+                });
+            }
+        });
 
         // Bloquear tarjeta
         const btnBloquear = document.getElementById('bloquear-tarjeta');
