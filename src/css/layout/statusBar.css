@@ -3,7 +3,7 @@
  */
 
 .barra-estado {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.95);
     padding: var(--espaciado-sm) var(--espaciado-lg) var(--espaciado-xs);
     display: flex;
     justify-content: space-between;
@@ -15,6 +15,7 @@
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .hora-actual {

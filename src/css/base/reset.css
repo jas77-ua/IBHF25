@@ -15,7 +15,7 @@ html, body {
 }
 
 body {
-    background: linear-gradient(135deg, var(--color-fondo-claro) 0%, #c3cfe2 100%);
+    background: var(--color-fondo-blanco);
     min-height: 100vh;
     overflow-x: hidden;
 }
