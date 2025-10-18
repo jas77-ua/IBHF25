@@ -178,14 +178,14 @@
         padding-bottom: 20px;
     }
 
-    /* Añadir espacio superior en vistas que no son inicio para evitar que el botón tape el título */
-    .vista-pagina:not([data-vista="inicio"]) .seccion:first-child {
-        padding-top: 70px;
+    /* Añadir espacio superior en todas las vistas excepto inicio para evitar que el botón tape el título */
+    .vista-pagina:not([data-vista="inicio"]) {
+        padding-top: 60px;
     }
 
-    /* Para la vista de inicio, mantener el diseño original */
-    .vista-pagina[data-vista="inicio"] .seccion:first-child {
-        padding-top: var(--espaciado-lg);
+    /* Asegurar que los títulos de las secciones tengan espacio adicional */
+    .vista-pagina:not([data-vista="inicio"]) .titulo-seccion:first-of-type {
+        margin-top: 8px;
     }
 }
 
