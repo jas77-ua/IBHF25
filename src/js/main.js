@@ -297,7 +297,8 @@ class App {
                 break;
             case 'touch-share':
                 // Navegar a la página de Touch & Share
-                this.navegarATouchShare();
+                this.mostrarVista('touch-share');
+                //this.navegarATouchShare();
                 break;
             case 'estadisticas':
                 console.log('Navegando a página de estadísticas');
@@ -611,5 +612,19 @@ class App {
 // Iniciar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     const app = new App();
+    const botonVolverTouch = document.getElementById('boton-volver-touch');
+    if (botonVolverTouch) {
+        botonVolverTouch.addEventListener('click', () => {
+            // mostrar inicio y ocultar touch-share (ajusta según tu sistema de navegación)
+            document.querySelectorAll('.vista-pagina').forEach(v => v.style.display = 'none');
+            const inicio = document.querySelector('.vista-pagina[data-vista="inicio"]');
+            if (inicio) inicio.style.display = 'block';
+            // actualizar nav activo
+            document.querySelectorAll('.elemento-nav').forEach(n => n.classList.remove('activo'));
+            const navInicio = document.querySelector('.elemento-nav[data-pagina="inicio"]');
+            if (navInicio) navInicio.classList.add('activo');
+        });
+    }
+
     app.init();
 });
