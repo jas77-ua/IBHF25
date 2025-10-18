@@ -44,7 +44,7 @@
                     <i class="fi fi-rr-chart-histogram"></i>
                     <span>Estadísticas</span>
                 </a>
-                <a href="#" class="menu-item" data-pagina="perfil">
+                <a href="../" class="menu-item" data-pagina="perfil">
                     <i class="fi fi-rr-user"></i>
                     <span>Perfil</span>
                 </a>
@@ -81,6 +81,40 @@
                 <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Activas</div>
                 <div class="cuadricula-misiones" id="contenedor-misiones">
                     <!-- Las misiones se cargan con JavaScript -->
+                </div>
+            </div>
+
+            <!-- Sección Misiones Detalladas (se muestra al hacer click en Misiones) -->
+            <div class="seccion" id="seccion-misiones-detalladas" style="display: none;">
+                <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Bancarias</div>
+                
+                <!-- Filtros de misiones -->
+                <div class="filtros-misiones">
+                    <button class="filtro-btn activo" data-filtro="todas">Todas</button>
+                    <button class="filtro-btn" data-filtro="ahorro">Ahorro</button>
+                    <button class="filtro-btn" data-filtro="educacion">Educación</button>
+                    <button class="filtro-btn" data-filtro="recompensas">Recompensas</button>
+                </div>
+
+                <!-- Contenedor de misiones detalladas -->
+                <div class="misiones-detalladas-container" id="misiones-detalladas-container">
+                    <!-- Las misiones detalladas se cargan dinámicamente -->
+                </div>
+
+                <!-- Estadísticas -->
+                <div class="stats-bar">
+                    <div class="stat">
+                        <span class="stat-number" id="misiones-completadas">0</span>
+                        <span class="stat-label">Completadas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="total-recompensas">€0</span>
+                        <span class="stat-label">Ganadas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="progreso-total">0%</span>
+                        <span class="stat-label">Progreso</span>
+                    </div>
                 </div>
             </div>
 

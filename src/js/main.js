@@ -8,6 +8,75 @@ import { Balance } from './components/Balance.js';
 import { Missions } from './components/Missions.js';
 import { Transactions } from './components/Transactions.js';
 
+const misionesData = [
+    {
+        id: 1,
+        titulo: "Primer Ahorro Épico",
+        descripcion: "Ahorra €50 este mes y gana recompensas especiales",
+        recompensa: 5,
+        bonus: true,
+        insignia: true,
+        progreso: 65,
+        completada: false,
+        categoria: "ahorro"
+    },
+    {
+        id: 2,
+        titulo: "Cazador de Estafas", 
+        descripcion: "Aprende a identificar 3 casos de phishing reales",
+        recompensa: 3,
+        bonus: false,
+        insignia: true,
+        progreso: 100,
+        completada: false,
+        categoria: "educacion"
+    },
+    {
+        id: 3,
+        titulo: "Inversor Novato",
+        descripcion: "Simula una inversión de €1000 en bolsa virtual",
+        recompensa: 4,
+        bonus: true,
+        insignia: false,
+        progreso: 100,
+        completada: false,
+        categoria: "educacion"
+    },
+    {
+        id: 4,
+        titulo: "Planificador Semanal",
+        descripcion: "Crea tu primer presupuesto semanal y síguelo 7 días",
+        recompensa: 6,
+        bonus: false,
+        insignia: true,
+        progreso: 25,
+        completada: false,
+        categoria: "ahorro"
+    },
+    {
+        id: 5,
+        titulo: "Reto Ahorro 24/7",
+        descripcion: "No gastes dinero en entretenimiento por 24 horas",
+        recompensa: 8,
+        bonus: true,
+        insignia: true,
+        progreso: 0,
+        completada: false,
+        categoria: "ahorro"
+    },
+    {
+        id: 6,
+        titulo: "Explorador Bancario",
+        descripcion: "Descubre 3 funciones nuevas de la app",
+        recompensa: 2,
+        bonus: false,
+        insignia: false,
+        progreso: 33,
+        completada: false,
+        categoria: "recompensas"
+    }
+];
+
 class App {
     constructor() {
         this.appState = appState;
@@ -24,6 +93,7 @@ class App {
         this.inputEmail = document.getElementById('perfil-email');
         this.inputAvatarUrl = document.getElementById('perfil-avatar-url');
         this.imgAvatar = document.getElementById('perfil-avatar');
+        this.MISIONES_KEY = 'app_misiones_v1';
         
         this.PERFIL_KEY = 'app_perfil_v1';
     }
@@ -56,6 +126,8 @@ class App {
 
         // Cargar datos del perfil
         this.cargarPerfilInicial();
+
+        this.cargarDatosMisiones();
 
         console.log('🚀 Aplicación Sabadell NEXT iniciada correctamente');
     }
@@ -218,6 +290,15 @@ class App {
                 // Abrir el overlay de perfil
                 this.abrirPerfil();
                 break;
+            case 'misiones':
+                console.log('Navegando a página de misiones');
+                this.cerrarPerfilOverlay();
+                // Ocultar sección inicio y mostrar misiones detalladas
+                document.getElementById('seccion-inicio').style.display = 'none';
+                document.getElementById('seccion-transacciones').style.display = 'none';
+                document.getElementById('seccion-misiones-detalladas').style.display = 'block';
+                this.renderMisionesDetalladas();
+                break;
             default:
                 console.log('Página no reconocida:', pagina);
         }
@@ -327,6 +408,141 @@ class App {
         const datos = JSON.parse(localStorage.getItem(this.PERFIL_KEY) || '{}');
         if (datos.nombre) {
             this.actualizarBienvenida(datos.nombre);
+        }
+    }
+
+        /**
+     * Renderiza las misiones en la vista detallada
+     */
+    renderMisionesDetalladas() {
+        const contenedor = document.getElementById('misiones-detalladas-container');
+        const misiones = this.appState.getMisiones();
+        
+        contenedor.innerHTML = misiones.map(mision => `
+            <div class="mision-detallada ${mision.completada ? 'completada' : ''}" 
+                data-categoria="${mision.categoria}">
+                <div class="mision-header">
+                    <div>
+                        <div class="mision-titulo">${mision.titulo}</div>
+                        <div class="mision-descripcion">${mision.descripcion}</div>
+                    </div>
+                    <div class="mision-recompensa ${mision.completada ? 'completada' : ''}">
+                        ${mision.completada ? '✅ Completada' : `+€${mision.recompensa}`}
+                    </div>
+                </div>
+                
+                <div class="mision-detalles">
+                    ${mision.bonus ? `<div class="bonus"><i class="fas fa-star"></i>+€${mision.recompensa} bonus</div>` : ''}
+                    ${mision.insignia ? `<div class="insignia"><i class="fas fa-medal"></i>Insignia</div>` : ''}
+                </div>
+                
+                <div class="mision-progreso">
+                    <div class="progreso-texto">
+                        <span>Progreso</span>
+                        <span>${mision.progreso}%</span>
+                    </div>
+                    <div class="barra-progreso-mision">
+                        <div class="relleno-progreso-mision" style="width: ${mision.progreso}%"></div>
+                    </div>
+                </div>
+                
+                <button class="boton-mision ${mision.completada ? 'completada' : ''}" 
+                        onclick="app.completarMision(${mision.id})"
+                        ${mision.completada ? 'disabled' : ''}>
+                    ${mision.completada ? '✅ Completada' : '🎯 Comenzar Misión'}
+                </button>
+            </div>
+        `).join('');
+
+        this.actualizarEstadisticasMisiones();
+        this.configurarFiltrosMisiones();
+    }
+
+    /**
+     * Maneja la finalización de una misión
+     */
+    completarMision(misionId) {
+        const mision = this.appState.completarMision(misionId);
+
+        if (mision) {
+            this.mostrarNotificacion(`¡Misión completada! +€${mision.recompensa} ganados`);
+            this.guardarDatosMisiones();
+            this.renderMisionesDetalladas();
+        }
+    }
+
+    /**
+     * Actualiza las estadísticas de misiones
+     */
+    actualizarEstadisticasMisiones() {
+        const misionesCompletadas = this.appState.getMisiones().filter(m => m.completada).length;
+        const totalRecompensas = this.appState.getMisiones()
+            .filter(m => m.completada)
+            .reduce((sum, m) => sum + m.recompensa, 0);
+        const progresoTotal = Math.round((misionesCompletadas / this.appState.getMisiones().length) * 100);
+
+        document.getElementById('misiones-completadas').textContent = misionesCompletadas;
+        document.getElementById('total-recompensas').textContent = `€${totalRecompensas}`;
+        document.getElementById('progreso-total').textContent = `${progresoTotal}%`;
+    }
+
+    /**
+     * Configura los filtros de misiones
+     */
+    configurarFiltrosMisiones() {
+        const filtros = document.querySelectorAll('.filtro-btn');
+        
+        filtros.forEach(filtro => {
+            filtro.addEventListener('click', (e) => {
+                filtros.forEach(f => f.classList.remove('activo'));
+                e.target.classList.add('activo');
+                
+                const categoria = e.target.dataset.filtro;
+                this.filtrarMisiones(categoria);
+            });
+        });
+    }
+
+    /**
+     * Filtra las misiones por categoría
+     */
+    filtrarMisiones(categoria) {
+        const misiones = document.querySelectorAll('.mision-detallada');
+        
+        misiones.forEach(mision => {
+            if (categoria === 'todas' || mision.dataset.categoria === categoria) {
+                mision.style.display = 'block';
+            } else {
+                mision.style.display = 'none';
+            }
+        });
+    }
+
+    /**
+     * Guarda los datos de misiones en localStorage
+     */
+    guardarDatosMisiones() {
+        const datos = {
+            misiones: this.appState.misiones,
+            saldo: this.appState.saldo,
+            transacciones: this.appState.transacciones
+        };
+        localStorage.setItem(this.MISIONES_KEY, JSON.stringify(datos));
+    }
+
+    /**
+     * Carga los datos de misiones desde localStorage
+     */
+    cargarDatosMisiones() {
+        const datos = JSON.parse(localStorage.getItem(this.MISIONES_KEY) || '{}');
+        if (datos.misiones) {
+            this.appState.misiones = datos.misiones;
+        }
+        if (datos.saldo !== undefined) {
+            this.appState.saldo = datos.saldo;
+        }
+        if (datos.transacciones) {
+            this.appState.transacciones = datos.transacciones;
         }
     }
 }
