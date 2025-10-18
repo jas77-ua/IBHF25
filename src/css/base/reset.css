@@ -9,6 +9,11 @@
     font-family: var(--font-family);
 }
 
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
 body {
     background: linear-gradient(135deg, var(--color-fondo-claro) 0%, #c3cfe2 100%);
     min-height: 100vh;
