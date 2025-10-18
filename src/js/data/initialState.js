@@ -15,7 +15,7 @@ export const initialState = {
             nombre: "Tarjeta Sabadell First",
             numero: "4532123456784321",
             bloqueada: false,
-            titular: "ALEX MARTÍNEZ",
+            titular: "Default",
             tipo: "Débito",
             vencimiento: "12/27",
             disponible: 500.00
@@ -23,9 +23,9 @@ export const initialState = {
         {
             id: 2,
             nombre: "Tarjeta Sabadell Young",
-            numero: "4532987654321",
+            numero: "4532987656895",
             bloqueada: false,
-            titular: "ALEX MARTÍNEZ",
+            titular: "Default",
             tipo: "Prepago",
             vencimiento: "12/27",
             disponible: 150.00

@@ -61,10 +61,10 @@
 
 .tarjetas-contenedor {
     display: grid;
-    grid-template-columns: repeat(2, minmax(300px, 1fr)); /* Dos columnas con ancho mínimo */
+    grid-template-columns: repeat(2, minmax(450px, 1fr)); /* Columnas más anchas */
     gap: var(--espaciado-xl);
     padding: var(--espaciado-xl) var(--espaciado-lg);
-    max-width: 1400px;
+    max-width: 2000px; /* Contenedor más ancho */
     margin: 0 auto;
     width: 100%;
 }
@@ -73,12 +73,14 @@
     display: flex;
     flex-direction: column;
     gap: var(--espaciado-lg);
-    align-items: stretch;
+    align-items: center; /* Centrar contenido */
     background: var(--color-fondo-claro);
-    padding: var(--espaciado-xl);
+    padding: var(--espaciado-xl) var(--espaciado-xl);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-sm);
     min-width: 0; /* Evita que las tarjetas se desborden */
+    width: 100%; /* Ocupar todo el ancho disponible */
+    margin: var(--espaciado-xl) auto; /* Margen arriba/abajo y centrado horizontal */
 }
 
 .encabezado-seccion {
@@ -119,8 +121,9 @@
 .tarjeta-bancaria {
     position: relative;
     width: 100%;
+    max-width: 480px; /* Ancho máximo para mejor presentación */
     height: 220px;
-    background: linear-gradient(135deg, #1a3a7f, #2d5cb5);
+    background: linear-gradient(135deg, #63dcf5, #111ced);
     border-radius: var(--border-radius-lg);
     padding: var(--espaciado-xl);
     color: white;
@@ -129,6 +132,7 @@
     font-family: 'Arial', sans-serif;
     transform: perspective(1000px) rotateX(5deg);
     transition: transform 0.3s ease;
+    margin: 0 auto; /* Centrar la tarjeta */
 }
 
 .tarjeta-bancaria:hover {
@@ -137,7 +141,7 @@
 
 /* Estilo específico para la tarjeta prepago */
 .tarjeta-prepago {
-    background: linear-gradient(135deg, #2d5cb5, #4a6cf7);
+    background: linear-gradient(135deg, #2d5cb5, #5c0df0);
 }
 
 .tarjeta-logo {
@@ -188,7 +192,10 @@
     flex-direction: column;
     gap: var(--espaciado-md);
     width: 100%;
+    max-width: 480px; /* Mismo ancho que la tarjeta */
     padding: var(--espaciado-md) var(--espaciado-sm);
+    margin: var(--espaciado-md) auto 0; /* Margen superior y centrado horizontal */
+    align-items: stretch; /* Estirar botones al ancho completo */
 }
 
 .boton-accion {
