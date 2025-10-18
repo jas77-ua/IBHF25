@@ -2,26 +2,55 @@
  * Componente de Tarjeta
  */
 export class Card {
-    constructor(appState) {
+    constructor(appState, navegarCallback) {
         this.appState = appState;
+        this.navegarCallback = navegarCallback; // Callback para navegar entre vistas
+        this.bannerTarjeta = null;
+        this.seccionTarjetas = null;
+        this.historialContainer = null;
+        this.eventListenersSetup = false;
+    }
+
+    /**
+     * Inicializa el componente (se llama después de que el DOM esté listo)
+     */
+    init() {
         this.bannerTarjeta = document.getElementById('banner-tarjeta');
         this.seccionTarjetas = document.getElementById('seccion-tarjetas');
         this.historialContainer = document.getElementById('historial-tarjeta-contenedor');
-        this.setupEventListeners();
+
+        if (!this.eventListenersSetup) {
+            this.setupEventListeners();
+            this.eventListenersSetup = true;
+        }
     }
 
     render() {
+        // Inicializar si no se ha hecho
+        if (!this.bannerTarjeta) {
+            this.init();
+        }
+
         const { tarjeta } = this.appState.getState();
-        
+
         // Actualizar banner
-        document.getElementById('nombre-tarjeta').textContent = tarjeta.bloqueada ? 
-            'Tarjeta Bloqueada 🔒' : tarjeta.nombre;
-        document.getElementById('termina-en').textContent = `Termina en ${tarjeta.numero.slice(-4)}`;
-        
+        const nombreTarjeta = document.getElementById('nombre-tarjeta');
+        const terminaEn = document.getElementById('termina-en');
+
+        if (nombreTarjeta) {
+            nombreTarjeta.textContent = tarjeta.bloqueada ? 'Tarjeta Bloqueada 🔒' : tarjeta.nombre;
+        }
+        if (terminaEn) {
+            terminaEn.textContent = `Termina en ${tarjeta.numero.slice(-4)}`;
+        }
+
         // Actualizar vista detalle
-        document.getElementById('ultimos-digitos-tarjeta').textContent = tarjeta.numero.slice(-4);
+        const ultimosDigitos = document.getElementById('ultimos-digitos-tarjeta');
+        if (ultimosDigitos) {
+            ultimosDigitos.textContent = tarjeta.numero.slice(-4);
         document.getElementById('tarjeta-titular').textContent = tarjeta.titular || '—';
-        
+        }
+
         // Actualizar botones según estado
         const btnBloquear = document.getElementById('bloquear-tarjeta');
         const btnDesbloquear = document.getElementById('desbloquear-tarjeta');
@@ -50,28 +79,52 @@ export class Card {
     }
 
     setupEventListeners() {
-        // Click en banner de tarjeta
-        this.bannerTarjeta?.addEventListener('click', () => this.mostrarSeccionTarjetas());
+        console.log('🎴 Configurando event listeners de Card...');
+        console.log('Banner tarjeta encontrado:', this.bannerTarjeta ? '✅' : '❌');
+        console.log('Callback de navegación:', this.navegarCallback ? '✅' : '❌');
 
-        // Botón volver desde tarjetas
-        document.getElementById('boton-volver-tarjetas')?.addEventListener('click', () => 
-            this.mostrarInicio());
+        // Click en banner de tarjeta - navega a vista de tarjetas
+        if (this.bannerTarjeta) {
+            this.bannerTarjeta.addEventListener('click', () => {
+                console.log('🖱️ Click en banner de tarjeta detectado');
+                if (this.navegarCallback) {
+                    console.log('📱 Navegando a vista de tarjetas...');
+                    this.navegarCallback('tarjetas');
+                } else {
+                    console.error('❌ No hay callback de navegación disponible');
+                }
+            });
+            console.log('✅ Event listener del banner configurado correctamente');
+        } else {
+            console.error('❌ No se encontró el elemento banner-tarjeta');
+        }
 
         // Bloquear tarjeta
-        document.getElementById('bloquear-tarjeta')?.addEventListener('click', () => 
-            this.bloquearTarjeta());
+        const btnBloquear = document.getElementById('bloquear-tarjeta');
+        if (btnBloquear) {
+            btnBloquear.addEventListener('click', () => this.bloquearTarjeta());
+        }
 
         // Desbloquear tarjeta
-        document.getElementById('desbloquear-tarjeta')?.addEventListener('click', () => 
-            this.desbloquearTarjeta());
+        const btnDesbloquear = document.getElementById('desbloquear-tarjeta');
+        if (btnDesbloquear) {
+            btnDesbloquear.addEventListener('click', () => this.desbloquearTarjeta());
+        }
 
         // Ver historial
-        document.getElementById('historial-tarjeta')?.addEventListener('click', () => {
-            this.mostrarHistorial();
-            this.renderHistorial();
-        });
+        const btnHistorial = document.getElementById('historial-tarjeta');
+        if (btnHistorial) {
+            btnHistorial.addEventListener('click', () => {
+                this.mostrarHistorial();
+                this.renderHistorial();
+            });
+        }
 
         // Volver del historial
+        const btnVolverHistorial = document.getElementById('boton-volver-historial');
+        if (btnVolverHistorial) {
+            btnVolverHistorial.addEventListener('click', () => this.volverDeHistorial());
+        }
         document.getElementById('boton-volver-historial')?.addEventListener('click', () => 
             this.volverDeHistorial());
     }
@@ -96,12 +149,18 @@ export class Card {
 
     mostrarHistorial() {
         this.historialContainer.style.display = 'block';
-        document.querySelector('.tarjeta-detalle').style.display = 'none';
+        const tarjetaDetalle = document.querySelector('.tarjeta-detalle');
+        if (tarjetaDetalle) {
+            tarjetaDetalle.style.display = 'none';
+        }
     }
 
     volverDeHistorial() {
         this.historialContainer.style.display = 'none';
-        document.querySelector('.tarjeta-detalle').style.display = 'block';
+        const tarjetaDetalle = document.querySelector('.tarjeta-detalle');
+        if (tarjetaDetalle) {
+            tarjetaDetalle.style.display = 'block';
+        }
     }
 
     bloquearTarjeta() {
@@ -114,7 +173,10 @@ export class Card {
         if (confirm('¿Seguro que quieres bloquear tu tarjeta?\n\nNo podrás hacer pagos hasta que la desbloquees.')) {
             this.appState.updateTarjeta({ ...tarjeta, bloqueada: true });
             alert('✅ Tarjeta bloqueada con éxito.\nContacta con soporte para desbloquearla.');
-            setTimeout(() => this.mostrarInicio(), 1000);
+            // Volver a inicio usando el callback de navegación
+            if (this.navegarCallback) {
+                setTimeout(() => this.navegarCallback('inicio'), 1000);
+            }
         }
     }
 
@@ -128,7 +190,10 @@ export class Card {
         if (confirm('¿Seguro que quieres desbloquear tu tarjeta?')) {
             this.appState.updateTarjeta({ ...tarjeta, bloqueada: false });
             alert('✅ Tarjeta desbloqueada con éxito.');
-            setTimeout(() => this.mostrarInicio(), 1000);
+            // Volver a inicio usando el callback de navegación
+            if (this.navegarCallback) {
+                setTimeout(() => this.navegarCallback('inicio'), 1000);
+            }
         }
     }
 }

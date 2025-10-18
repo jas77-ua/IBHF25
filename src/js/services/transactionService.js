@@ -13,12 +13,23 @@ export class TransactionService {
     /**
      * Simula una transacción (ingreso o gasto)
      */
-    simularTransaccion(cantidad, descripcion) {
+    simularTransaccion(cantidad, descripcion, cuentaId = null) {
         const state = this.appState.getState();
-        const nuevoSaldo = state.saldo + cantidad;
 
-        // Actualizar saldo
-        this.appState.updateSaldo(nuevoSaldo);
+        // Si no se especifica cuenta, usar la cuenta corriente principal
+        let cuentaObjetivo;
+        if (cuentaId) {
+            cuentaObjetivo = state.cuentas.find(c => c.id === cuentaId);
+        } else {
+            // Buscar la primera cuenta corriente
+            cuentaObjetivo = state.cuentas.find(c => c.tipo === 'Corriente') || state.cuentas[0];
+        }
+
+        if (cuentaObjetivo) {
+            // Actualizar saldo de la cuenta
+            const nuevoSaldo = cuentaObjetivo.saldo + cantidad;
+            this.appState.updateSaldoCuenta(cuentaObjetivo.id, nuevoSaldo);
+        }
 
         // Crear nueva transacción
         const nuevaTransaccion = {
@@ -26,7 +37,8 @@ export class TransactionService {
             nombre: descripcion,
             cantidad: Math.abs(cantidad),
             fecha: 'Ahora mismo',
-            tipo: cantidad > 0 ? TIPOS_TRANSACCION.POSITIVO : TIPOS_TRANSACCION.NEGATIVO
+            tipo: cantidad > 0 ? TIPOS_TRANSACCION.POSITIVO : TIPOS_TRANSACCION.NEGATIVO,
+            cuentaId: cuentaObjetivo ? cuentaObjetivo.id : null
         };
 
         // Añadir transacción al estado

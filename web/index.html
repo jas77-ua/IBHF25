@@ -34,6 +34,10 @@
                     <i class="fi fi-rr-home"></i>
                     <span>Inicio</span>
                 </a>
+                <a href="#" class="menu-item" data-pagina="cuentas">
+                    <i class="fi fi-rr-bank"></i>
+                    <span>Mis Cuentas</span>
+                </a>
                 <a href="#" class="menu-item" data-pagina="misiones">
                     <i class="fi fi-rr-gamepad"></i>
                     <span>Misiones</span>
@@ -58,86 +62,117 @@
 
         <!-- Contenido de la App -->
         <div class="contenido-app">
-            <!-- Encabezado -->
-            <div class="encabezado-app">
+            <!-- Encabezado (solo en inicio) -->
+            <div class="encabezado-app" data-vista-header="inicio">
                 <div class="info-usuario">
                     <div>
                         <div class="texto-bienvenida">¡Hola, Alex! <i class="fi fi-rr-hand-wave"></i></div>
-                        <div class="cantidad-saldo" id="saldo">€127.80</div>
+                        <div class="cantidad-saldo" id="saldo">€453.30</div>
                     </div>
                     <div class="meta-ahorro">
                         <div class="texto-meta">Meta ahorro</div>
-                        <div class="cantidad-meta">€200</div>
+                        <div class="cantidad-meta">€500</div>
                     </div>
                 </div>
                 <div class="progreso-ahorro">
-                    <div class="texto-progreso">Progreso: <span id="texto-progreso">65%</span></div>
+                    <div class="texto-progreso">Progreso: <span id="texto-progreso">91%</span></div>
                     <div class="barra-progreso">
-                        <div class="relleno-progreso" id="relleno-progreso"></div>
+                        <div class="relleno-progreso" id="relleno-progreso" style="width: 91%"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Banner de Tarjeta -->
-            <div class="banner-tarjeta" id="banner-tarjeta">
-                <div class="info-tarjeta">
-                    <div class="icono-tarjeta">💳</div>
-                    <div class="detalles-tarjeta">
-                        <div class="nombre-tarjeta" id="nombre-tarjeta">—</div>
-                        <div class="termina-en" id="termina-en">Termina en ****</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección de Tarjetas (oculta al inicio) -->
-            <div class="seccion-tarjetas" id="seccion-tarjetas" style="display: none;">
-                <div class="encabezado-seccion">
-                    <button class="boton-volver" id="boton-volver-tarjetas">←</button>
-                    <h2 class="titulo-seccion-tarjetas">Mis Tarjetas</h2>
-                </div>
-
-                <div class="tarjeta-detalle">
-                    <div class="tarjeta-bancaria">
-                        <div class="tarjeta-logo">Visa</div>
-                        <div class="tarjeta-numero">**** **** **** <span id="ultimos-digitos-tarjeta">4321</span></div>
-                        <div class="tarjeta-chip"></div>
-                        <div class="tarjeta-info">
-                            <div class="tarjeta-titular" id="tarjeta-titular">—</div>
-                            <div class="tarjeta-vencimiento">Vence: <span>12/27</span></div>
+            <!-- Vista: Inicio -->
+            <div class="vista-pagina" data-vista="inicio">
+                <!-- Banner de Tarjeta -->
+                <div class="banner-tarjeta" id="banner-tarjeta">
+                    <div class="info-tarjeta">
+                        <div class="icono-tarjeta">💳</div>
+                        <div class="detalles-tarjeta">
+                            <div class="nombre-tarjeta" id="nombre-tarjeta">—</div>
+                            <div class="termina-en" id="termina-en">Termina en ****</div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="acciones-tarjeta">
-                        <button class="boton-accion" id="bloquear-tarjeta">🔒 Bloquear Tarjeta</button>
-                        <button class="boton-accion" id="desbloquear-tarjeta" style="display: none;">🔓 Desbloquear Tarjeta</button>
-                        <button class="boton-accion" id="historial-tarjeta">📊 Ver Historial</button>
-                        <button class="boton-accion" id="limites-tarjeta">📈 Límites y Pagos</button>
+                <!-- Misiones -->
+                <div class="seccion">
+                    <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Activas</div>
+                    <div class="cuadricula-misiones" id="contenedor-misiones">
+                        <!-- Las misiones se cargan con JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Transacciones -->
+                <div class="seccion">
+                    <div class="titulo-seccion"><i class="fi fi-rr-chart-histogram"></i> Últimas Transacciones</div>
+                    <div class="lista-transacciones" id="contenedor-transacciones">
+                        <!-- Las transacciones se cargan con JavaScript -->
                     </div>
                 </div>
             </div>
 
-            <!-- Historial de tarjeta (oculto por defecto) -->
-            <div class="historial-tarjeta" id="historial-tarjeta-contenedor" style="display: none; margin-top: 24px;">
-                <h3 class="titulo-historial">Historial de la Tarjeta</h3>
-                <div class="lista-historial" id="lista-historial-tarjeta">
-                    <!-- Las transacciones se cargarán aquí -->
+            <!-- Vista: Tarjetas -->
+            <div class="vista-pagina" data-vista="tarjetas" style="display: none;">
+                <!-- Sección de Tarjetas -->
+                <div class="seccion-tarjetas" id="seccion-tarjetas">
+                    <div class="encabezado-seccion">
+                        <h2 class="titulo-seccion-tarjetas">💳 Mis Tarjetas</h2>
+                    </div>
+
+                    <div class="tarjeta-detalle">
+                        <div class="tarjeta-bancaria">
+                            <div class="tarjeta-logo">Visa</div>
+                            <div class="tarjeta-numero">**** **** **** <span id="ultimos-digitos-tarjeta">4321</span></div>
+                            <div class="tarjeta-chip"></div>
+                            <div class="tarjeta-info">
+                                <div class="tarjeta-titular" id="tarjeta-titular">—</div>
+                                <div class="tarjeta-vencimiento">Vence: <span>12/27</span></div>
+                            </div>
+                        </div>
+
+                        <div class="acciones-tarjeta">
+                            <button class="boton-accion" id="bloquear-tarjeta">🔒 Bloquear Tarjeta</button>
+                            <button class="boton-accion" id="desbloquear-tarjeta" style="display: none;">🔓 Desbloquear Tarjeta</button>
+                            <button class="boton-accion" id="historial-tarjeta">📊 Ver Historial</button>
+                            <button class="boton-accion" id="limites-tarjeta">📈 Límites y Pagos</button>
+                        </div>
+                    </div>
                 </div>
-                <button class="boton-volver-historial" id="boton-volver-historial">← Volver a Tarjeta</button>
+
+                <!-- Historial de tarjeta (oculto por defecto) -->
+                <div class="historial-tarjeta" id="historial-tarjeta-contenedor" style="display: none; margin-top: 24px;">
+                    <h3 class="titulo-historial">Historial de la Tarjeta</h3>
+                    <div class="lista-historial" id="lista-historial-tarjeta">
+                        <!-- Las transacciones se cargarán aquí -->
+                    </div>
+                    <button class="boton-volver-historial" id="boton-volver-historial">← Volver a Tarjeta</button>
+                </div>
             </div>
 
-            <!-- Misiones -->
-            <div class="seccion">
-                <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Activas</div>
-                <div class="cuadricula-misiones" id="contenedor-misiones">
-                    <!-- Las misiones se cargan con JavaScript -->
+            <!-- Vista: Cuentas -->
+            <div class="vista-pagina" data-vista="cuentas" style="display: none;">
+                <div class="seccion">
+                    <div class="titulo-seccion"><i class="fi fi-rr-bank"></i> Mis Cuentas Bancarias</div>
+                    <div id="contenedor-cuentas">
+                        <!-- Las cuentas se cargan con JavaScript -->
+                    </div>
                 </div>
             </div>
 
-            <!-- Transacciones -->
-            <div class="seccion">
-                <div class="titulo-seccion"><i class="fi fi-rr-chart-histogram"></i> Últimas Transacciones</div>
-                <div class="lista-transacciones" id="contenedor-transacciones">
-                    <!-- Las transacciones se cargan con JavaScript -->
+            <!-- Vista: Misiones -->
+            <div class="vista-pagina" data-vista="misiones" style="display: none;">
+                <div class="seccion">
+                    <div class="titulo-seccion"><i class="fi fi-rr-gamepad"></i> Todas las Misiones</div>
+                    <p class="texto-info">Vista de misiones completa próximamente...</p>
+                </div>
+            </div>
+
+            <!-- Vista: Estadísticas -->
+            <div class="vista-pagina" data-vista="estadisticas" style="display: none;">
+                <div class="seccion">
+                    <div class="titulo-seccion"><i class="fi fi-rr-chart-histogram"></i> Estadísticas</div>
+                    <p class="texto-info">Vista de estadísticas próximamente...</p>
                 </div>
             </div>
         </div>
@@ -148,13 +183,13 @@
                 <div class="icono-nav"><i class="fi fi-rr-home"></i></div>
                 <div>Inicio</div>
             </div>
+            <div class="elemento-nav" data-pagina="cuentas">
+                <div class="icono-nav"><i class="fi fi-rr-bank"></i></div>
+                <div>Cuentas</div>
+            </div>
             <div class="elemento-nav" data-pagina="misiones">
                 <div class="icono-nav"><i class="fi fi-rr-gamepad"></i></div>
                 <div>Misiones</div>
-            </div>
-            <div class="elemento-nav" data-pagina="touch-share">
-                <div class="icono-nav"><i class="fi fi-rr-users-alt"></i></div>
-                <div>Touch & Share</div>
             </div>
             <div class="elemento-nav" data-pagina="estadisticas">
                 <div class="icono-nav"><i class="fi fi-rr-chart-histogram"></i></div>
@@ -163,15 +198,6 @@
             <div class="elemento-nav" data-pagina="perfil">
                 <div class="icono-nav"><i class="fi fi-rr-user"></i></div>
                 <div>Perfil</div>
-            </div>
-        </div>
-
-
-        <!-- Transacciones -->
-        <div class="seccion">
-            <div class="titulo-seccion"><i class="fi fi-rr-chart-histogram"></i> Últimas Transacciones</div>
-            <div class="lista-transacciones" id="contenedor-transacciones">
-                <!-- Las transacciones se cargan con JavaScript -->
             </div>
         </div>
     </div>

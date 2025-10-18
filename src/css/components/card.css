@@ -45,7 +45,7 @@
 /* --- Sección de Tarjetas (vista detallada) --- */
 .seccion-tarjetas {
     padding: var(--espaciado-md);
-    display: none;
+    /* La visibilidad se controla desde .vista-pagina */
 }
 
 .encabezado-seccion {
