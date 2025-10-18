@@ -39,9 +39,17 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     // Mostrar pantalla de carga
     showLoadingScreen();
     
-    // Redirigir después de 2 segundos (simulando carga)
+    // Simular autenticación
     setTimeout(() => {
-        // Redirigir al archivo index.html que está fuera de la carpeta actual
+        // Guardar sesión
+        const sessionData = {
+            dni: dni,
+            timestamp: new Date().getTime(),
+            expiresIn: 3600000 // 1 hora en milisegundos
+        };
+        localStorage.setItem('session', JSON.stringify(sessionData));
+        
+        // Redirigir a la app
         window.location.href = '../../web/index.html';
     }, 2000);
 });
