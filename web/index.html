@@ -116,6 +116,46 @@
                 <div>Perfil</div>
             </div>
         </div>
+
+
+        <!-- Transacciones -->
+        <div class="seccion">
+            <div class="titulo-seccion"><i class="fi fi-rr-chart-histogram"></i> Últimas Transacciones</div>
+            <div class="lista-transacciones" id="contenedor-transacciones">
+                <!-- Las transacciones se cargan con JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Perfil (overlay) -->
+    <div id="pagina-perfil" class="overlay-perfil" style="display:none">
+        <div class="card-perfil">
+            <button id="cerrar-perfil" class="cerrar-perfil" aria-label="Cerrar">✕</button>
+            <div class="avatar-contenedor">
+                <img id="perfil-avatar" src="../src/assets/default-avatar.png" alt="Avatar" class="avatar-img">
+            </div>
+            <div class="info-perfil">
+                <div class="campo">
+                    <label>Nombre</label>
+                    <input id="perfil-nombre" type="text" placeholder="Tu nombre">
+                </div>
+                <div class="campo">
+                    <label>Email</label>
+                    <input id="perfil-email" type="email" placeholder="tu@ejemplo.com">
+                </div>
+                <div class="campo">
+                    <label>Imagen avatar (URL)</label>
+                    <input id="perfil-avatar-url" type="text" placeholder="../src/assets/default-avatar.png">
+                </div>
+                <div class="acciones-perfil">
+                    <button id="guardar-perfil" class="boton-principal">Guardar</button>
+                    <button id="cerrar-perfil-2" class="boton-secundario">Cerrar</button>
+                </div>
+                <div class="accion-logout">
+                    <button id="logout-btn" class="boton-link">Cerrar sesión</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="../src/js/main.js"></script>

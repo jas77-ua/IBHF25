@@ -225,6 +225,89 @@ class App {
     }
 }
 
+// --- Perfil: abrir/guardar/cerrar ---
+const navItems = document.querySelectorAll('.elemento-nav');
+const perfilOverlay = document.getElementById('pagina-perfil');
+const cerrarPerfil = document.getElementById('cerrar-perfil');
+const cerrarPerfil2 = document.getElementById('cerrar-perfil-2');
+const guardarPerfilBtn = document.getElementById('guardar-perfil');
+const logoutBtn = document.getElementById('logout-btn');
+
+const inputNombre = document.getElementById('perfil-nombre');
+const inputEmail = document.getElementById('perfil-email');
+const inputAvatarUrl = document.getElementById('perfil-avatar-url');
+const imgAvatar = document.getElementById('perfil-avatar');
+
+const PERFIL_KEY = 'app_perfil_v1';
+
+function abrirPerfil() {
+    // cargar datos guardados
+    const datos = JSON.parse(localStorage.getItem(PERFIL_KEY) || '{}');
+    inputNombre.value = datos.nombre || 'Alex';
+    inputEmail.value = datos.email || 'alex@ejemplo.com';
+    inputAvatarUrl.value = datos.avatar || '../src/assets/perfil.jpg';
+    imgAvatar.src = inputAvatarUrl.value;
+    perfilOverlay.style.display = 'flex';
+}
+
+function cerrarPerfilOverlay() {
+    perfilOverlay.style.display = 'none';
+}
+
+function guardarPerfil() {
+    const datos = {
+        nombre: inputNombre.value.trim() || 'Alex',
+        email: inputEmail.value.trim() || '',
+        avatar: inputAvatarUrl.value.trim() || '../src/assets/perfil.jpg'
+    };
+    localStorage.setItem(PERFIL_KEY, JSON.stringify(datos));
+    imgAvatar.src = datos.avatar;
+    // actualizar UI de bienvenida si existe
+    const textoBienvenida = document.querySelector('.texto-bienvenida');
+    if (textoBienvenida) textoBienvenida.textContent = `¡Hola, ${datos.nombre}!`;
+    cerrarPerfilOverlay();
+}
+
+function logout() {
+    // acción simple: borrar perfil guardado y recargar (ajusta según tu lógica)
+    localStorage.removeItem(PERFIL_KEY);
+    window.location.href = '../src/index/login.html'
+}
+
+// listeners
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const pagina = item.dataset.pagina;
+        if (pagina === 'perfil') {
+            abrirPerfil();
+            return;
+        }
+        // comportamiento existente de navegación (si lo tienes) puede ir aquí:
+        document.querySelectorAll('.elemento-nav').forEach(n => n.classList.remove('activo'));
+        item.classList.add('activo');
+        // puedes añadir lógica para cambiar vistas según `pagina`
+    });
+});
+
+cerrarPerfil.addEventListener('click', cerrarPerfilOverlay);
+cerrarPerfil2.addEventListener('click', cerrarPerfilOverlay);
+guardarPerfilBtn.addEventListener('click', guardarPerfil);
+logoutBtn.addEventListener('click', logout);
+
+// actualizar avatar en tiempo real al cambiar URL
+inputAvatarUrl && inputAvatarUrl.addEventListener && inputAvatarUrl.addEventListener('input', (e) => {
+    imgAvatar.src = e.target.value || '../src/assets/perfil.jpg';
+});
+
+// cargar perfil al inicio (si quieres mostrar nombre)
+document.addEventListener('DOMContentLoaded', () => {
+    const datos = JSON.parse(localStorage.getItem(PERFIL_KEY) || '{}');
+    if (datos.nombre) {
+        const textoBienvenida = document.querySelector('.texto-bienvenida');
+        if (textoBienvenida) textoBienvenida.textContent = `¡Hola, ${datos.nombre}!`;
+    }
+});
+
 // Iniciar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     const app = new App();
