@@ -16,7 +16,10 @@ export class Balance {
      * Renderiza el saldo y progreso
      */
     render() {
-        const { saldo, metaAhorro } = this.appState.getState();
+        const { metaAhorro } = this.appState.getState();
+
+        // Obtener saldo total de todas las cuentas
+        const saldo = this.appState.getSaldoTotal();
 
         // Actualizar saldo
         this.elementoSaldo.textContent = `€${saldo.toFixed(2)}`;

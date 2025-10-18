@@ -5,6 +5,18 @@
 ###### Idea:
 > Creación de una APP para menores
 
+Qué problemas resuelve
+ - Falta de acceso a Sabadell para menores.
+ - Captación de nuevos clientes. A la larga se quedan en Sabadell.
+ - Falta de educación financiera en los más jóvenes: ir introduciendo la mentalidad inversora antes 
+ - Eliminar ideas malas y mitos sobre las entidades bancarias.
+   
+Público objetivo
+ - Menores de edad entre 14 y 17 años.
+
+Cuota de mercado
+ - En 2025: +2.5 Millones de jóvenes entre 14 y 17 años.
+
 Pantallas esenciales de una app de banca
 Autenticación y Seguridad
 
@@ -37,6 +49,21 @@ Mis tarjetas: Lista de tarjetas de débito/crédito
 Detalle de tarjeta: Saldo, límite, movimientos, opciones (bloquear, activar)
 
 Otras Funcionalidades Básicas
+Para los padres/tutores:
+ - limites de gasto(semanal o mensual)
+ - resumen de gastos(semanal o mensual)
+ - según el resumen de gastos hacer recomendaciones ajustadas.
+
+Agrega amigos:
+ - sin acceso a ver el dinero que tienen los demás.
+ - ranking de los mas ahorradores.
+ - misiones conjuntas de gasto responsable.
+   
+Cashback: 
+ - cada vez que compran, un porcentaje va a una hucha de ahorro automático.
+ - habitos saludables 5% cashback, si no 0%.
+ - 
+ - “Has recuperado 0,40 €. Si hicieras esto cada semana, ahorrarías 20 € al año”.
 
 Notificaciones: Centro de alertas y mensajes
 Perfil/Configuración: Datos personales, preferencias, seguridad

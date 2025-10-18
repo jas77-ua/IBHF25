@@ -7,6 +7,79 @@ import { TransactionService } from './services/transactionService.js';
 import { Balance } from './components/Balance.js';
 import { Missions } from './components/Missions.js';
 import { Transactions } from './components/Transactions.js';
+import { Card } from './components/Card.js';
+import { Accounts } from './components/Accounts.js';
+import { Transfers } from './components/Transfers.js';
+import { Statistics } from './components/Statistics.js';
+
+const misionesData = [
+    {
+        id: 1,
+        titulo: "Primer Ahorro Épico",
+        descripcion: "Ahorra €50 este mes y gana recompensas especiales",
+        recompensa: 5,
+        bonus: true,
+        insignia: true,
+        progreso: 65,
+        completada: false,
+        categoria: "ahorro"
+    },
+    {
+        id: 2,
+        titulo: "Cazador de Estafas", 
+        descripcion: "Aprende a identificar 3 casos de phishing reales",
+        recompensa: 3,
+        bonus: false,
+        insignia: true,
+        progreso: 100,
+        completada: false,
+        categoria: "educacion"
+    },
+    {
+        id: 3,
+        titulo: "Inversor Novato",
+        descripcion: "Simula una inversión de €1000 en bolsa virtual",
+        recompensa: 4,
+        bonus: true,
+        insignia: false,
+        progreso: 100,
+        completada: false,
+        categoria: "educacion"
+    },
+    {
+        id: 4,
+        titulo: "Planificador Semanal",
+        descripcion: "Crea tu primer presupuesto semanal y síguelo 7 días",
+        recompensa: 6,
+        bonus: false,
+        insignia: true,
+        progreso: 25,
+        completada: false,
+        categoria: "ahorro"
+    },
+    {
+        id: 5,
+        titulo: "Reto Ahorro 24/7",
+        descripcion: "No gastes dinero en entretenimiento por 24 horas",
+        recompensa: 8,
+        bonus: true,
+        insignia: true,
+        progreso: 0,
+        completada: false,
+        categoria: "ahorro"
+    },
+    {
+        id: 6,
+        titulo: "Explorador Bancario",
+        descripcion: "Descubre 3 funciones nuevas de la app",
+        recompensa: 2,
+        bonus: false,
+        insignia: false,
+        progreso: 33,
+        completada: false,
+        categoria: "recompensas"
+    }
+];
 
 class App {
     constructor() {
@@ -17,6 +90,20 @@ class App {
         this.balanceComponent = null;
         this.missionsComponent = null;
         this.transactionsComponent = null;
+        this.cardComponent = null;
+        this.accountsComponent = null;
+        this.transfersComponent = null;
+        this.statisticsComponent = null;
+
+        // Elementos del perfil
+        this.perfilOverlay = document.getElementById('pagina-perfil');
+        this.inputNombre = document.getElementById('perfil-nombre');
+        this.inputEmail = document.getElementById('perfil-email');
+        this.inputAvatarUrl = document.getElementById('perfil-avatar-url');
+        this.imgAvatar = document.getElementById('perfil-avatar');
+        this.MISIONES_KEY = 'app_misiones_v1';
+        
+        this.PERFIL_KEY = 'app_perfil_v1';
     }
 
     /**
@@ -27,20 +114,35 @@ class App {
         this.balanceComponent = new Balance(this.appState);
         this.missionsComponent = new Missions(this.appState);
         this.transactionsComponent = new Transactions(this.appState);
+        this.cardComponent = new Card(this.appState, (pagina) => this.navegarAPagina(pagina));
+        this.accountsComponent = new Accounts(this.appState);
+        this.transfersComponent = new Transfers(this.appState);
+        this.statisticsComponent = new Statistics(this.appState);
 
         // Configurar callback de misiones
         this.missionsComponent.setOnMissionClick((misionId) => {
             this.handleCompletarMision(misionId);
         });
 
-        // Renderizar contenido inicial
-        this.render();
+        // Inicializar transfers
+        this.transfersComponent.init();
 
         // Configurar navegación
         this.setupNavigation();
 
+        // Configurar eventos del perfil
+        this.setupPerfilEvents();
+
+        // Renderizar contenido inicial
+        this.render();
+
         // Suscribirse a cambios de estado
         this.appState.subscribe(() => this.render());
+
+        // Cargar datos del perfil
+        this.cargarPerfilInicial();
+
+        this.cargarDatosMisiones();
 
         console.log('🚀 Aplicación Sabadell NEXT iniciada correctamente');
     }
@@ -52,6 +154,10 @@ class App {
         this.balanceComponent.render();
         this.missionsComponent.render();
         this.transactionsComponent.render();
+        this.cardComponent.render();
+        this.accountsComponent.render();
+        this.transfersComponent.render();
+        this.statisticsComponent.render();
     }
 
     /**
@@ -76,13 +182,6 @@ class App {
         // Navegación inferior (desktop)
         elementosNav.forEach(elemento => {
             elemento.addEventListener('click', (e) => {
-                // Remover clase activo de todos
-                elementosNav.forEach(nav => nav.classList.remove('activo'));
-                menuItems.forEach(item => item.classList.remove('activo'));
-
-                // Añadir clase activo al clickeado
-                e.currentTarget.classList.add('activo');
-
                 // Obtener página
                 const pagina = e.currentTarget.getAttribute('data-pagina');
                 console.log(`Navegando a: ${pagina}`);
@@ -96,13 +195,6 @@ class App {
         menuItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
-
-                // Remover clase activo de todos
-                menuItems.forEach(mi => mi.classList.remove('activo'));
-                elementosNav.forEach(nav => nav.classList.remove('activo'));
-
-                // Añadir clase activo al clickeado
-                e.currentTarget.classList.add('activo');
 
                 // Obtener página
                 const pagina = e.currentTarget.getAttribute('data-pagina');
@@ -185,14 +277,38 @@ class App {
      * Maneja la navegación entre páginas
      */
     navegarAPagina(pagina) {
+        // Remover clase activo de todos los elementos de navegación
+        document.querySelectorAll('.elemento-nav').forEach(nav => nav.classList.remove('activo'));
+        document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('activo'));
+
+        // Añadir clase activo al elemento correspondiente
+        document.querySelectorAll(`[data-pagina="${pagina}"]`).forEach(el => {
+            el.classList.add('activo');
+        });
+
+        // Cerrar perfil si está abierto
+        this.cerrarPerfilOverlay();
+
         switch(pagina) {
             case 'inicio':
-                // Ya estamos en inicio
                 console.log('Navegando a página de inicio');
+                this.mostrarVista('inicio');
+                break;
+            case 'cuentas':
+                console.log('Navegando a página de cuentas');
+                this.mostrarVista('cuentas');
+                break;
+            case 'tarjetas':
+                console.log('Navegando a página de tarjetas');
+                this.mostrarVista('tarjetas');
+                break;
+            case 'transferencias':
+                console.log('Navegando a página de transferencias');
+                this.mostrarVista('transferencias');
                 break;
             case 'misiones':
-                // Aquí puedes implementar navegación a misiones
                 console.log('Navegando a página de misiones');
+                this.mostrarVista('misiones');
                 break;
             case 'sabadingo':
                 // Navegar a la página de SabaDingo
@@ -200,19 +316,73 @@ class App {
                 break;
             case 'touch-share':
                 // Navegar a la página de Touch & Share
-                this.navegarATouchShare();
+                this.mostrarVista('touch-share');
+                //this.navegarATouchShare();
                 break;
             case 'estadisticas':
-                // Aquí puedes implementar navegación a estadísticas
                 console.log('Navegando a página de estadísticas');
+                this.mostrarVista('estadisticas');
                 break;
             case 'perfil':
-                // Aquí puedes implementar navegación a perfil
                 console.log('Navegando a página de perfil');
+                // Abrir el overlay de perfil
+                this.abrirPerfil();
+                break;
+            case 'misiones':
+                console.log('Navegando a página de misiones');
+                this.cerrarPerfilOverlay();
+                // Ocultar sección inicio y mostrar misiones detalladas
+                document.getElementById('seccion-inicio').style.display = 'none';
+                document.getElementById('seccion-transacciones').style.display = 'none';
+                document.getElementById('seccion-misiones-detalladas').style.display = 'block';
+                this.renderMisionesDetalladas();
                 break;
             default:
                 console.log('Página no reconocida:', pagina);
         }
+    }
+
+    /**
+     * Muestra una vista específica y oculta las demás
+     */
+    mostrarVista(nombreVista) {
+        // Ocultar todas las vistas
+        document.querySelectorAll('.vista-pagina').forEach(vista => {
+            vista.style.display = 'none';
+        });
+
+        // Mostrar la vista seleccionada
+        const vistaActiva = document.querySelector(`[data-vista="${nombreVista}"]`);
+        if (vistaActiva) {
+            vistaActiva.style.display = 'block';
+        }
+
+        // Mostrar/ocultar encabezado según la vista
+        const encabezado = document.querySelector('[data-vista-header]');
+        if (encabezado) {
+            const vistaHeader = encabezado.getAttribute('data-vista-header');
+            encabezado.style.display = (vistaHeader === nombreVista) ? 'block' : 'none';
+        }
+
+        // Si estamos en la vista de tarjetas, resetear el historial
+        if (nombreVista === 'tarjetas') {
+            const historialContainer = document.getElementById('historial-tarjeta-contenedor');
+            const tarjetaDetalle = document.querySelector('.tarjeta-detalle');
+            if (historialContainer) {
+                historialContainer.style.display = 'none';
+            }
+            if (tarjetaDetalle) {
+                tarjetaDetalle.style.display = 'block';
+            }
+        }
+
+        // Hacer scroll al inicio del contenido
+        const contenidoApp = document.querySelector('.contenido-app');
+        if (contenidoApp) {
+            contenidoApp.scrollTop = 0;
+        }
+
+        console.log(`Vista activa: ${nombreVista}`);
     }
 
     /**
@@ -227,6 +397,7 @@ class App {
         
         console.log('🔗 Navegando a Touch & Share:', urlTouchShare);
     }
+<<<<<<< HEAD
 
     /**
      * Navega a la página de SabaDingo
@@ -241,92 +412,255 @@ class App {
         console.log('🎓 Navegando a SabaDingo:', urlSabaDingo);
     }
 }
+=======
+>>>>>>> 7b29287b721ef0cd5f128e89c0848955d457d994
 
-// --- Perfil: abrir/guardar/cerrar ---
-const navItems = document.querySelectorAll('.elemento-nav');
-const perfilOverlay = document.getElementById('pagina-perfil');
-const cerrarPerfil = document.getElementById('cerrar-perfil');
-const cerrarPerfil2 = document.getElementById('cerrar-perfil-2');
-const guardarPerfilBtn = document.getElementById('guardar-perfil');
-const logoutBtn = document.getElementById('logout-btn');
+    /**
+     * Configura los eventos del perfil
+     */
+    setupPerfilEvents() {
+        const cerrarPerfil = document.getElementById('cerrar-perfil');
+        const cerrarPerfil2 = document.getElementById('cerrar-perfil-2');
+        const guardarPerfilBtn = document.getElementById('guardar-perfil');
+        const logoutBtn = document.getElementById('logout-btn');
 
-const inputNombre = document.getElementById('perfil-nombre');
-const inputEmail = document.getElementById('perfil-email');
-const inputAvatarUrl = document.getElementById('perfil-avatar-url');
-const imgAvatar = document.getElementById('perfil-avatar');
-
-const PERFIL_KEY = 'app_perfil_v1';
-
-function abrirPerfil() {
-    // cargar datos guardados
-    const datos = JSON.parse(localStorage.getItem(PERFIL_KEY) || '{}');
-    inputNombre.value = datos.nombre || 'Alex';
-    inputEmail.value = datos.email || 'alex@ejemplo.com';
-    inputAvatarUrl.value = datos.avatar || '../src/assets/perfil.jpg';
-    imgAvatar.src = inputAvatarUrl.value;
-    perfilOverlay.style.display = 'flex';
-}
-
-function cerrarPerfilOverlay() {
-    perfilOverlay.style.display = 'none';
-}
-
-function guardarPerfil() {
-    const datos = {
-        nombre: inputNombre.value.trim() || 'Alex',
-        email: inputEmail.value.trim() || '',
-        avatar: inputAvatarUrl.value.trim() || '../src/assets/perfil.jpg'
-    };
-    localStorage.setItem(PERFIL_KEY, JSON.stringify(datos));
-    imgAvatar.src = datos.avatar;
-    // actualizar UI de bienvenida si existe
-    const textoBienvenida = document.querySelector('.texto-bienvenida');
-    if (textoBienvenida) textoBienvenida.textContent = `¡Hola, ${datos.nombre}!`;
-    cerrarPerfilOverlay();
-}
-
-function logout() {
-    // acción simple: borrar perfil guardado y recargar (ajusta según tu lógica)
-    localStorage.removeItem(PERFIL_KEY);
-    window.location.href = '../src/index/login.html'
-}
-
-// listeners
-navItems.forEach(item => {
-    item.addEventListener('click', () => {
-        const pagina = item.dataset.pagina;
-        if (pagina === 'perfil') {
-            abrirPerfil();
-            return;
+        if (cerrarPerfil) {
+            cerrarPerfil.addEventListener('click', () => this.cerrarPerfilOverlay());
         }
-        // comportamiento existente de navegación (si lo tienes) puede ir aquí:
-        document.querySelectorAll('.elemento-nav').forEach(n => n.classList.remove('activo'));
-        item.classList.add('activo');
-        // puedes añadir lógica para cambiar vistas según `pagina`
-    });
-});
+        if (cerrarPerfil2) {
+            cerrarPerfil2.addEventListener('click', () => this.cerrarPerfilOverlay());
+        }
+        if (guardarPerfilBtn) {
+            guardarPerfilBtn.addEventListener('click', () => this.guardarPerfil());
+        }
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => this.logout());
+        }
 
-cerrarPerfil.addEventListener('click', cerrarPerfilOverlay);
-cerrarPerfil2.addEventListener('click', cerrarPerfilOverlay);
-guardarPerfilBtn.addEventListener('click', guardarPerfil);
-logoutBtn.addEventListener('click', logout);
-
-// actualizar avatar en tiempo real al cambiar URL
-inputAvatarUrl && inputAvatarUrl.addEventListener && inputAvatarUrl.addEventListener('input', (e) => {
-    imgAvatar.src = e.target.value || '../src/assets/perfil.jpg';
-});
-
-// cargar perfil al inicio (si quieres mostrar nombre)
-document.addEventListener('DOMContentLoaded', () => {
-    const datos = JSON.parse(localStorage.getItem(PERFIL_KEY) || '{}');
-    if (datos.nombre) {
-        const textoBienvenida = document.querySelector('.texto-bienvenida');
-        if (textoBienvenida) textoBienvenida.textContent = `¡Hola, ${datos.nombre}!`;
+        // Actualizar avatar en tiempo real
+        if (this.inputAvatarUrl) {
+            this.inputAvatarUrl.addEventListener('input', (e) => {
+                this.imgAvatar.src = e.target.value || '../src/assets/perfil.jpg';
+            });
+        }
     }
-});
+
+    /**
+     * Abre el overlay del perfil
+     */
+    abrirPerfil() {
+        const datos = JSON.parse(localStorage.getItem(this.PERFIL_KEY) || '{}');
+        this.inputNombre.value = datos.nombre || 'Alex';
+        this.inputEmail.value = datos.email || 'alex@ejemplo.com';
+        this.inputAvatarUrl.value = datos.avatar || '../src/assets/perfil.jpg';
+        this.imgAvatar.src = this.inputAvatarUrl.value;
+        this.perfilOverlay.style.display = 'flex';
+    }
+
+    /**
+     * Cierra el overlay del perfil
+     */
+    cerrarPerfilOverlay() {
+        this.perfilOverlay.style.display = 'none';
+    }
+
+    /**
+     * Guarda los datos del perfil
+     */
+    guardarPerfil() {
+        const datos = {
+            nombre: this.inputNombre.value.trim() || 'Alex',
+            email: this.inputEmail.value.trim() || '',
+            avatar: this.inputAvatarUrl.value.trim() || '../src/assets/perfil.jpg'
+        };
+        localStorage.setItem(this.PERFIL_KEY, JSON.stringify(datos));
+        this.imgAvatar.src = datos.avatar;
+        this.actualizarBienvenida(datos.nombre);
+        this.cerrarPerfilOverlay();
+    }
+
+    /**
+     * Actualiza el mensaje de bienvenida
+     */
+    actualizarBienvenida(nombre) {
+        const textoBienvenida = document.querySelector('.texto-bienvenida');
+        if (textoBienvenida) {
+            textoBienvenida.innerHTML = `¡Hola, ${nombre}! <i class="fi fi-rr-hand-wave"></i>`;
+        }
+    }
+
+    /**
+     * Cierra sesión
+     */
+    logout() {
+        if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+            localStorage.removeItem(this.PERFIL_KEY);
+            window.location.href = '../src/index/login.html';
+        }
+    }
+
+    /**
+     * Carga los datos iniciales del perfil
+     */
+    cargarPerfilInicial() {
+        const datos = JSON.parse(localStorage.getItem(this.PERFIL_KEY) || '{}');
+        if (datos.nombre) {
+            this.actualizarBienvenida(datos.nombre);
+        }
+    }
+
+        /**
+     * Renderiza las misiones en la vista detallada
+     */
+    renderMisionesDetalladas() {
+        const contenedor = document.getElementById('misiones-detalladas-container');
+        const misiones = this.appState.getMisiones();
+        
+        contenedor.innerHTML = misiones.map(mision => `
+            <div class="mision-detallada ${mision.completada ? 'completada' : ''}" 
+                data-categoria="${mision.categoria}">
+                <div class="mision-header">
+                    <div>
+                        <div class="mision-titulo">${mision.titulo}</div>
+                        <div class="mision-descripcion">${mision.descripcion}</div>
+                    </div>
+                    <div class="mision-recompensa ${mision.completada ? 'completada' : ''}">
+                        ${mision.completada ? '✅ Completada' : `+€${mision.recompensa}`}
+                    </div>
+                </div>
+                
+                <div class="mision-detalles">
+                    ${mision.bonus ? `<div class="bonus"><i class="fas fa-star"></i>+€${mision.recompensa} bonus</div>` : ''}
+                    ${mision.insignia ? `<div class="insignia"><i class="fas fa-medal"></i>Insignia</div>` : ''}
+                </div>
+                
+                <div class="mision-progreso">
+                    <div class="progreso-texto">
+                        <span>Progreso</span>
+                        <span>${mision.progreso}%</span>
+                    </div>
+                    <div class="barra-progreso-mision">
+                        <div class="relleno-progreso-mision" style="width: ${mision.progreso}%"></div>
+                    </div>
+                </div>
+                
+                <button class="boton-mision ${mision.completada ? 'completada' : ''}" 
+                        onclick="app.completarMision(${mision.id})"
+                        ${mision.completada ? 'disabled' : ''}>
+                    ${mision.completada ? '✅ Completada' : '🎯 Comenzar Misión'}
+                </button>
+            </div>
+        `).join('');
+
+        this.actualizarEstadisticasMisiones();
+        this.configurarFiltrosMisiones();
+    }
+
+    /**
+     * Maneja la finalización de una misión
+     */
+    completarMision(misionId) {
+        const mision = this.appState.completarMision(misionId);
+
+        if (mision) {
+            this.mostrarNotificacion(`¡Misión completada! +€${mision.recompensa} ganados`);
+            this.guardarDatosMisiones();
+            this.renderMisionesDetalladas();
+        }
+    }
+
+    /**
+     * Actualiza las estadísticas de misiones
+     */
+    actualizarEstadisticasMisiones() {
+        const misionesCompletadas = this.appState.getMisiones().filter(m => m.completada).length;
+        const totalRecompensas = this.appState.getMisiones()
+            .filter(m => m.completada)
+            .reduce((sum, m) => sum + m.recompensa, 0);
+        const progresoTotal = Math.round((misionesCompletadas / this.appState.getMisiones().length) * 100);
+
+        document.getElementById('misiones-completadas').textContent = misionesCompletadas;
+        document.getElementById('total-recompensas').textContent = `€${totalRecompensas}`;
+        document.getElementById('progreso-total').textContent = `${progresoTotal}%`;
+    }
+
+    /**
+     * Configura los filtros de misiones
+     */
+    configurarFiltrosMisiones() {
+        const filtros = document.querySelectorAll('.filtro-btn');
+        
+        filtros.forEach(filtro => {
+            filtro.addEventListener('click', (e) => {
+                filtros.forEach(f => f.classList.remove('activo'));
+                e.target.classList.add('activo');
+                
+                const categoria = e.target.dataset.filtro;
+                this.filtrarMisiones(categoria);
+            });
+        });
+    }
+
+    /**
+     * Filtra las misiones por categoría
+     */
+    filtrarMisiones(categoria) {
+        const misiones = document.querySelectorAll('.mision-detallada');
+        
+        misiones.forEach(mision => {
+            if (categoria === 'todas' || mision.dataset.categoria === categoria) {
+                mision.style.display = 'block';
+            } else {
+                mision.style.display = 'none';
+            }
+        });
+    }
+
+    /**
+     * Guarda los datos de misiones en localStorage
+     */
+    guardarDatosMisiones() {
+        const datos = {
+            misiones: this.appState.misiones,
+            saldo: this.appState.saldo,
+            transacciones: this.appState.transacciones
+        };
+        localStorage.setItem(this.MISIONES_KEY, JSON.stringify(datos));
+    }
+
+    /**
+     * Carga los datos de misiones desde localStorage
+     */
+    cargarDatosMisiones() {
+        const datos = JSON.parse(localStorage.getItem(this.MISIONES_KEY) || '{}');
+        if (datos.misiones) {
+            this.appState.misiones = datos.misiones;
+        }
+        if (datos.saldo !== undefined) {
+            this.appState.saldo = datos.saldo;
+        }
+        if (datos.transacciones) {
+            this.appState.transacciones = datos.transacciones;
+        }
+    }
+}
 
 // Iniciar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     const app = new App();
+    const botonVolverTouch = document.getElementById('boton-volver-touch');
+    if (botonVolverTouch) {
+        botonVolverTouch.addEventListener('click', () => {
+            // mostrar inicio y ocultar touch-share (ajusta según tu sistema de navegación)
+            document.querySelectorAll('.vista-pagina').forEach(v => v.style.display = 'none');
+            const inicio = document.querySelector('.vista-pagina[data-vista="inicio"]');
+            if (inicio) inicio.style.display = 'block';
+            // actualizar nav activo
+            document.querySelectorAll('.elemento-nav').forEach(n => n.classList.remove('activo'));
+            const navInicio = document.querySelector('.elemento-nav[data-pagina="inicio"]');
+            if (navInicio) navInicio.classList.add('activo');
+        });
+    }
+
     app.init();
 });

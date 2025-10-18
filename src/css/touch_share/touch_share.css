@@ -22,10 +22,32 @@ body {
 
 /* Encabezado */
 .encabezado {
+    position: relative;
     text-align: center;
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 2px solid #42D9FF;
+}
+
+.boton-volver {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    border: 2px solid #42D9FF;
+    color: #004481;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.boton-volver:hover {
+    background-color: #42D9FF;
+    color: white;
+    transform: translateX(-2px);
 }
 
 .logo-sabadell {
@@ -38,7 +60,7 @@ body {
 .circulo-logo {
     width: 40px;
     height: 40px;
-    background-color: #42D9FF;
+    background-color: #036bfe;
     border-radius: 50%;
     margin-right: 10px;
 }
