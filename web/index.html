@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/x-icon" href="../src/assets/favicon.ico">
+    <title>Sabadell NEXT - Demo App</title>
+    <link rel="stylesheet" href="../src/css/main.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+    <div class="pantalla">
+        <!-- Contenido de la App -->
+        <div class="contenido-app">
+            <!-- Encabezado -->
+            <div class="encabezado-app">
+                <div class="info-usuario">
+                    <div>
+                        <div class="texto-bienvenida">¡Hola, Alex! <i class="fi fi-rr-hand-wave"></i></div>
+                        <div class="cantidad-saldo" id="saldo">€127.80</div>
+                    </div>
+                    <div class="meta-ahorro">
+                        <div class="texto-meta">Meta ahorro</div>
+                        <div class="cantidad-meta">€200</div>
+                    </div>
+                </div>
+                <div class="progreso-ahorro">
+                    <div class="texto-progreso">Progreso: <span id="texto-progreso">65%</span></div>
+                    <div class="barra-progreso">
+                        <div class="relleno-progreso" id="relleno-progreso"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Misiones -->
+            <div class="seccion">
+                <div class="titulo-seccion"><i class="fi fi-rr-target"></i> Misiones Activas</div>
+                <div class="cuadricula-misiones" id="contenedor-misiones">
+                    <!-- Las misiones se cargan con JavaScript -->
+                </div>
+            </div>
+
+            <!-- Transacciones -->
+            <div class="seccion">
+                <div class="titulo-seccion"><i class="fi fi-rr-chart-histogram"></i> Últimas Transacciones</div>
+                <div class="lista-transacciones" id="contenedor-transacciones">
+                    <!-- Las transacciones se cargan con JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación Inferior -->
+        <div class="navegacion-inferior">
+            <div class="elemento-nav activo" data-pagina="inicio">
+                <div class="icono-nav"><i class="fi fi-rr-home"></i></div>
+                <div>Inicio</div>
+            </div>
+            <div class="elemento-nav" data-pagina="misiones">
+                <div class="icono-nav"><i class="fi fi-rr-gamepad"></i></div>
+                <div>Misiones</div>
+            </div>
+            <div class="elemento-nav" data-pagina="touch-share">
+                <div class="icono-nav"><i class="fi fi-rr-users-alt"></i></div>
+                <div>Touch & Share</div>
+            </div>
+            <div class="elemento-nav" data-pagina="estadisticas">
+                <div class="icono-nav"><i class="fi fi-rr-chart-histogram"></i></div>
+                <div>Estadísticas</div>
+            </div>
+            <div class="elemento-nav" data-pagina="perfil">
+                <div class="icono-nav"><i class="fi fi-rr-user"></i></div>
+                <div>Perfil</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../src/js/main.js"></script>
+</body>
+</html>

@@ -84,9 +84,53 @@ class App {
                 const pagina = e.currentTarget.getAttribute('data-pagina');
                 console.log(`Navegando a: ${pagina}`);
 
-                // Aquí se podría implementar navegación real en el futuro
+                // Manejar navegación específica
+                this.navegarAPagina(pagina);
             });
         });
+    }
+
+    /**
+     * Maneja la navegación entre páginas
+     */
+    navegarAPagina(pagina) {
+        switch(pagina) {
+            case 'inicio':
+                // Ya estamos en inicio
+                console.log('Navegando a página de inicio');
+                break;
+            case 'misiones':
+                // Aquí puedes implementar navegación a misiones
+                console.log('Navegando a página de misiones');
+                break;
+            case 'touch-share':
+                // Navegar a la página de Touch & Share
+                this.navegarATouchShare();
+                break;
+            case 'estadisticas':
+                // Aquí puedes implementar navegación a estadísticas
+                console.log('Navegando a página de estadísticas');
+                break;
+            case 'perfil':
+                // Aquí puedes implementar navegación a perfil
+                console.log('Navegando a página de perfil');
+                break;
+            default:
+                console.log('Página no reconocida:', pagina);
+        }
+    }
+
+    /**
+     * Navega a la página de Touch & Share
+     */
+    navegarATouchShare() {
+        // CAMBIA ESTA URL POR LA QUE TÚ QUIERAS
+        const urlTouchShare = '../src/index/touch_share.html'; 
+        
+        // Redirigir a la página
+        window.location.href = urlTouchShare;
+        
+        console.log('🔗 Navegando a Touch & Share:', urlTouchShare);
     }
 }
 
