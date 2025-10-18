@@ -2,6 +2,12 @@
 const estadoApp = {
     saldo: 127.80,
     metaAhorro: 200,
+    // jaime
+    tarjeta: {
+        nombre: "Tarjeta de Débito (Visa)",
+        numero: "4532123456784321", // se pueden cambiar los ultimos 4 digit
+        bloqueada: false  //se activa si bloqueas la tarjeta
+    },
     misiones: [
         {
             id: 1,
@@ -177,6 +183,50 @@ function actualizarReloj() {
     document.getElementById('hora-actual').textContent = textoHora;
 }
 
+
+function mostrarSeccion(seccion) {
+    const seccionTarjetas = document.getElementById('seccion-tarjetas');
+    const bannerTarjeta = document.querySelector('.banner-tarjeta');
+    const seccionMisiones = document.querySelector('.seccion:nth-of-type(1)');
+    const seccionTransacciones = document.querySelector('.seccion:nth-of-type(2)');
+
+    if (seccion === 'inicio') {
+        // Mostrar todo lo del inicio
+        if (bannerTarjeta) bannerTarjeta.style.display = '';
+        if (seccionMisiones) seccionMisiones.style.display = '';
+        if (seccionTransacciones) seccionTransacciones.style.display = '';
+        if (seccionTarjetas) seccionTarjetas.style.display = 'none';
+    }
+    else if (seccion === 'tarjetas') {
+        // Ocultar inicio, mostrar tarjetas
+        if (bannerTarjeta) bannerTarjeta.style.display = 'none';
+        if (seccionMisiones) seccionMisiones.style.display = 'none';
+        if (seccionTransacciones) seccionTransacciones.style.display = 'none';
+        if (seccionTarjetas) {
+            seccionTarjetas.style.display = 'block';
+            // Actualizar últimos dígitos
+            const ultimos = document.getElementById('ultimos-digitos-tarjeta');
+            if (ultimos) {
+                ultimos.textContent = estadoApp.tarjeta.numero.slice(-4);
+            }
+
+            // Mostrar u ocultar botones según estado
+            const btnBloquear = document.getElementById('bloquear-tarjeta');
+            const btnDesbloquear = document.getElementById('desbloquear-tarjeta');
+            if (btnBloquear && btnDesbloquear) {
+                if (estadoApp.tarjeta.bloqueada) {
+                    btnBloquear.style.display = 'none';
+                    btnDesbloquear.style.display = '';
+                } else {
+                    btnBloquear.style.display = '';
+                    btnDesbloquear.style.display = 'none';
+                }
+            }
+        }
+    }
+}
+
+
 // INICIALIZACIÓN
 document.addEventListener('DOMContentLoaded', function() {
     // Configurar reloj
@@ -214,6 +264,83 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.getElementById('reiniciar-demo').addEventListener('click', () => {
         reiniciarDemo();
+    });
+
+    // jaime
+    // Mostrar info de la tarjeta al cargar
+    const nombreTarjetaEl = document.getElementById('nombre-tarjeta');
+    const terminaEnEl = document.getElementById('termina-en');
+    if (nombreTarjetaEl && terminaEnEl) {
+        nombreTarjetaEl.textContent = estadoApp.tarjeta.nombre;
+        terminaEnEl.textContent = `Termina en ${estadoApp.tarjeta.numero.slice(-4)}`;
+    }
+
+    // Configurar clic en el banner de tarjeta
+    const bannerTarjeta = document.getElementById('banner-tarjeta');
+    if (bannerTarjeta) {
+        bannerTarjeta.addEventListener('click', () => {
+            mostrarSeccion('tarjetas');
+        });
+    }
+
+    // Volver desde tarjetas al inicio
+    const botonVolver = document.getElementById('boton-volver-tarjetas');
+    if (botonVolver) {
+        botonVolver.addEventListener('click', () => {
+            mostrarSeccion('inicio');
+        });
+    }
+
+        // Acción: Bloquear tarjeta
+    document.getElementById('bloquear-tarjeta').addEventListener('click', () => {
+        if (estadoApp.tarjeta.bloqueada) {
+            alert('⚠️ Esta tarjeta ya está bloqueada.');
+            return;
+        }
+
+        if (confirm('¿Seguro que quieres bloquear tu tarjeta?\n\nNo podrás hacer pagos hasta que la desbloquees.')) {
+            estadoApp.tarjeta.bloqueada = true;
+            alert('✅ Tarjeta bloqueada con éxito.\nContacta con soporte para desbloquearla.');
+            
+            // Actualizar el banner en la vista principal
+            const nombreTarjetaEl = document.getElementById('nombre-tarjeta');
+            if (nombreTarjetaEl) {
+                nombreTarjetaEl.textContent = 'Tarjeta Bloqueada 🔒';
+            }
+            
+            // Volver al inicio después de 1 segundo
+            setTimeout(() => {
+                mostrarSeccion('inicio');
+            }, 1000);
+        }
+    });
+
+        // Acción: Desbloquear tarjeta
+    document.getElementById('desbloquear-tarjeta').addEventListener('click', () => {
+        if (!estadoApp.tarjeta.bloqueada) {
+            alert('ℹ️ La tarjeta ya está activa.');
+            return;
+        }
+
+        if (confirm('¿Seguro que quieres desbloquear tu tarjeta?')) {
+            estadoApp.tarjeta.bloqueada = false;
+            alert('✅ Tarjeta desbloqueada con éxito.');
+
+            // Restaurar el nombre original en el banner
+            const nombreTarjetaEl = document.getElementById('nombre-tarjeta');
+            if (nombreTarjetaEl) {
+                nombreTarjetaEl.textContent = estadoApp.tarjeta.nombre;
+            }
+
+            // Ocultar el botón de desbloquear y mostrar el de bloquear
+            document.getElementById('desbloquear-tarjeta').style.display = 'none';
+            document.getElementById('bloquear-tarjeta').style.display = '';
+
+            // Volver al inicio
+            setTimeout(() => {
+                mostrarSeccion('inicio');
+            }, 1000);
+        }
     });
     
     console.log('🚀 Aplicación Sabadell NEXT iniciada correctamente');
