@@ -10,6 +10,13 @@
     border-bottom-right-radius: var(--border-radius-xl);
 }
 
+/* Ajuste para móvil con menú hamburguesa */
+@media (max-width: 768px) {
+    .encabezado-app {
+        padding-top: 70px; /* Espacio para el botón hamburguesa */
+    }
+}
+
 .info-usuario {
     display: flex;
     justify-content: space-between;

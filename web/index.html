@@ -12,6 +12,48 @@
 </head>
 <body>
     <div class="pantalla">
+        <!-- Botón hamburguesa (solo móvil) -->
+        <button class="boton-hamburguesa" id="boton-hamburguesa" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Menú lateral móvil -->
+        <div class="menu-lateral" id="menu-lateral">
+            <div class="menu-header">
+                <h2>Menú</h2>
+                <button class="boton-cerrar-menu" id="boton-cerrar-menu" aria-label="Cerrar menú">
+                    <i class="fi fi-rr-cross"></i>
+                </button>
+            </div>
+            <nav class="menu-navegacion">
+                <a href="#" class="menu-item activo" data-pagina="inicio">
+                    <i class="fi fi-rr-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="#" class="menu-item" data-pagina="misiones">
+                    <i class="fi fi-rr-gamepad"></i>
+                    <span>Misiones</span>
+                </a>
+                <a href="#" class="menu-item" data-pagina="touch-share">
+                    <i class="fi fi-rr-users-alt"></i>
+                    <span>Touch & Share</span>
+                </a>
+                <a href="#" class="menu-item" data-pagina="estadisticas">
+                    <i class="fi fi-rr-chart-histogram"></i>
+                    <span>Estadísticas</span>
+                </a>
+                <a href="#" class="menu-item" data-pagina="perfil">
+                    <i class="fi fi-rr-user"></i>
+                    <span>Perfil</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Overlay oscuro -->
+        <div class="menu-overlay" id="menu-overlay"></div>
+
         <!-- Contenido de la App -->
         <div class="contenido-app">
             <!-- Encabezado -->

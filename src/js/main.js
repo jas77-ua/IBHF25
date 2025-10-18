@@ -71,11 +71,14 @@ class App {
      */
     setupNavigation() {
         const elementosNav = document.querySelectorAll('.elemento-nav');
+        const menuItems = document.querySelectorAll('.menu-item');
 
+        // Navegación inferior (desktop)
         elementosNav.forEach(elemento => {
             elemento.addEventListener('click', (e) => {
                 // Remover clase activo de todos
                 elementosNav.forEach(nav => nav.classList.remove('activo'));
+                menuItems.forEach(item => item.classList.remove('activo'));
 
                 // Añadir clase activo al clickeado
                 e.currentTarget.classList.add('activo');
@@ -88,6 +91,94 @@ class App {
                 this.navegarAPagina(pagina);
             });
         });
+
+        // Navegación menú lateral (móvil)
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Remover clase activo de todos
+                menuItems.forEach(mi => mi.classList.remove('activo'));
+                elementosNav.forEach(nav => nav.classList.remove('activo'));
+
+                // Añadir clase activo al clickeado
+                e.currentTarget.classList.add('activo');
+
+                // Obtener página
+                const pagina = e.currentTarget.getAttribute('data-pagina');
+                console.log(`Navegando a: ${pagina}`);
+
+                // Cerrar menú móvil
+                this.cerrarMenuMovil();
+
+                // Manejar navegación específica
+                this.navegarAPagina(pagina);
+            });
+        });
+
+        // Configurar menú hamburguesa
+        this.setupHamburgerMenu();
+    }
+
+    /**
+     * Configura el menú hamburguesa para móviles
+     */
+    setupHamburgerMenu() {
+        const botonHamburguesa = document.getElementById('boton-hamburguesa');
+        const botonCerrar = document.getElementById('boton-cerrar-menu');
+        const menuLateral = document.getElementById('menu-lateral');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        if (!botonHamburguesa || !menuLateral || !menuOverlay) return;
+
+        // Abrir menú
+        botonHamburguesa.addEventListener('click', () => {
+            this.abrirMenuMovil();
+        });
+
+        // Cerrar menú con botón X
+        if (botonCerrar) {
+            botonCerrar.addEventListener('click', () => {
+                this.cerrarMenuMovil();
+            });
+        }
+
+        // Cerrar menú con overlay
+        menuOverlay.addEventListener('click', () => {
+            this.cerrarMenuMovil();
+        });
+    }
+
+    /**
+     * Abre el menú móvil
+     */
+    abrirMenuMovil() {
+        const botonHamburguesa = document.getElementById('boton-hamburguesa');
+        const menuLateral = document.getElementById('menu-lateral');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        botonHamburguesa.classList.add('activo');
+        menuLateral.classList.add('abierto');
+        menuOverlay.classList.add('visible');
+
+        // Prevenir scroll del body
+        document.body.style.overflow = 'hidden';
+    }
+
+    /**
+     * Cierra el menú móvil
+     */
+    cerrarMenuMovil() {
+        const botonHamburguesa = document.getElementById('boton-hamburguesa');
+        const menuLateral = document.getElementById('menu-lateral');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        botonHamburguesa.classList.remove('activo');
+        menuLateral.classList.remove('abierto');
+        menuOverlay.classList.remove('visible');
+
+        // Restaurar scroll del body
+        document.body.style.overflow = '';
     }
 
     /**
