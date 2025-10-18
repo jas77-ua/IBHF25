@@ -310,6 +310,10 @@ class App {
                 console.log('Navegando a página de misiones');
                 this.mostrarVista('misiones');
                 break;
+            case 'sabadingo':
+                // Navegar a la página de SabaDingo
+                this.navegarASabaDingo();
+                break;
             case 'touch-share':
                 // Navegar a la página de Touch & Share
                 this.mostrarVista('touch-share');
@@ -393,6 +397,20 @@ class App {
         
         console.log('🔗 Navegando a Touch & Share:', urlTouchShare);
     }
+
+    /**
+     * Navega a la página de SabaDingo
+     */
+    navegarASabaDingo() {
+        // CAMBIA ESTA URL POR LA RUTA A TU HTML DE SABADINGO
+        const urlSabaDingo = '../src/index/sabadingo.html';
+        
+        // Redirigir a la página
+        window.location.href = urlSabaDingo;
+        
+        console.log('🎓 Navegando a SabaDingo:', urlSabaDingo);
+    }
+
 
     /**
      * Configura los eventos del perfil
