@@ -1,0 +1,82 @@
+/**
+ * CSS Principal - Importa todos los módulos
+ */
+
+/* Base */
+@import 'base/variables.css';
+@import 'base/reset.css';
+
+/* Layout */
+@import 'layout/statusBar.css';
+@import 'layout/header.css';
+@import 'layout/navigation.css';
+
+/* Componentes */
+@import 'components/missions.css';
+@import 'components/transactions.css';
+@import 'components/controls.css';
+
+/* Contenedor principal */
+.pantalla {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.contenido-app {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 80px;
+}
+
+/* Secciones */
+.seccion {
+    padding: var(--espaciado-lg);
+}
+
+.titulo-seccion {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--espaciado-md);
+    color: var(--color-texto-principal);
+    display: flex;
+    align-items: center;
+    gap: var(--espaciado-sm);
+}
+
+/* Animaciones */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .controles-externos {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pantalla {
+        max-width: 375px;
+        border-radius: 40px;
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+    }
+}
