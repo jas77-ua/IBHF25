@@ -6,19 +6,26 @@
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
 body {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
-    overflow-x: hidden;
 }
 
 /* PANTALLA PRINCIPAL */
 .pantalla {
     width: 100%;
+    height: 100vh;
     min-height: 100vh;
+    height: 100dvh; /* Para móviles modernos */
     display: flex;
     flex-direction: column;
     position: relative;
+    max-width: 100%;
 }
 
 /* BARRA DE ESTADO */
@@ -31,10 +38,10 @@ body {
     font-size: 14px;
     font-weight: 600;
     color: #000;
-    position: sticky;
-    top: 0;
-    z-index: 100;
     backdrop-filter: blur(10px);
+    flex-shrink: 0;
+    min-height: 40px;
+    display: none;
 }
 
 .hora-actual {
@@ -48,9 +55,11 @@ body {
 
 /* CONTENIDO DE LA APP */
 .contenido-app {
-    flex: 1;
+    flex: 1 1 auto;
     overflow-y: auto;
-    padding-bottom: 80px;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    min-height: 0;
 }
 
 /* ENCABEZADO DE LA APP */
@@ -67,6 +76,8 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .texto-bienvenida {
@@ -295,11 +306,10 @@ body {
     padding: 15px 10px;
     background: white;
     border-top: 1px solid #e0e0e0;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 200;
+    flex-shrink: 0;
+    flex-grow: 0;
+    min-height: 65px;
+    padding-bottom: max(15px, env(safe-area-inset-bottom));
 }
 
 .elemento-nav {
@@ -320,7 +330,7 @@ body {
     margin-bottom: 4px;
 }
 
-/* CONTROLES EXTERNOS - Solo visible en desktop */
+/* CONTROLES EXTERNOS */
 .controles-externos {
     position: fixed;
     top: 20px;
@@ -331,6 +341,7 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     text-align: center;
     z-index: 1000;
+    display: none;
 }
 
 .botones-control {
@@ -378,24 +389,50 @@ body {
 }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .controles-externos {
-        display: none;
+        display: block;
+    }
+    
+    .pantalla {
+        max-width: 100%;
     }
 }
 
-@media (min-width: 769px) {
-    body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+/* Tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .cantidad-saldo {
+        font-size: 3em;
     }
+    
+    .cuadricula-misiones {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
-    .pantalla {
-        max-width: 375px;
-        border-radius: 40px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        overflow: hidden;
+/* Desktop grande */
+@media (min-width: 1025px) {
+    .cantidad-saldo {
+        font-size: 3.5em;
+    }
+    
+    .cuadricula-misiones {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .seccion {
+        padding: 30px;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 375px) {
+    .cantidad-saldo {
+        font-size: 2em;
+    }
+    
+    .info-usuario {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
