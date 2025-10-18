@@ -42,7 +42,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     // Redirigir después de 2 segundos (simulando carga)
     setTimeout(() => {
         // Redirigir al archivo index.html que está fuera de la carpeta actual
-        window.location.href = '../../../web/index.html';
+        window.location.href = '../../web/index.html';
     }, 2000);
 });
 
