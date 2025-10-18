@@ -11,9 +11,9 @@
 @import 'layout/navigation.css';
 
 /* Componentes */
+@import 'components/buttons.css';
 @import 'components/missions.css';
 @import 'components/transactions.css';
-@import 'components/controls.css';
 
 /* Contenedor principal */
 .pantalla {
@@ -60,13 +60,9 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .controles-externos {
-        display: none;
-    }
+    /* Estilos responsive móvil */
 }
 
 @media (min-width: 769px) {
-    .controles-externos {
-        display: block;
-    }
+    /* Estilos responsive desktop */
 }

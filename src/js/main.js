@@ -39,9 +39,6 @@ class App {
         // Configurar navegación
         this.setupNavigation();
 
-        // Configurar controles de demo
-        this.setupDemoControls();
-
         // Suscribirse a cambios de estado
         this.appState.subscribe(() => this.render());
 
@@ -90,53 +87,6 @@ class App {
                 // Aquí se podría implementar navegación real en el futuro
             });
         });
-    }
-
-    /**
-     * Configura los controles de demostración
-     */
-    setupDemoControls() {
-        // Botón añadir dinero
-        const btnAñadirDinero = document.getElementById('añadir-dinero');
-        if (btnAñadirDinero) {
-            btnAñadirDinero.addEventListener('click', () => {
-                this.transactionService.simularTransaccion(20, 'Paga extra');
-                this.balanceComponent.animateSaldoChange();
-            });
-        }
-
-        // Botón gastar dinero
-        const btnGastarDinero = document.getElementById('gastar-dinero');
-        if (btnGastarDinero) {
-            btnGastarDinero.addEventListener('click', () => {
-                this.transactionService.simularTransaccion(-15, 'Compra juegos');
-                this.balanceComponent.animateSaldoChange();
-            });
-        }
-
-        // Botón completar misión
-        const btnCompletarMision = document.getElementById('completar-mision');
-        if (btnCompletarMision) {
-            btnCompletarMision.addEventListener('click', () => {
-                const mision = this.transactionService.completarMisionAleatoria();
-
-                if (mision) {
-                    this.balanceComponent.animateSaldoChange();
-                    alert(`🎉 ¡Misión completada! Recompensa: ${mision.recompensa}`);
-                } else {
-                    alert('¡Todas las misiones están completadas! 🏆');
-                }
-            });
-        }
-
-        // Botón reiniciar demo
-        const btnReiniciarDemo = document.getElementById('reiniciar-demo');
-        if (btnReiniciarDemo) {
-            btnReiniciarDemo.addEventListener('click', () => {
-                this.transactionService.reiniciarDemo();
-                alert('Demo reiniciada 🔄');
-            });
-        }
     }
 }
 

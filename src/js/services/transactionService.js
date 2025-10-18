@@ -62,27 +62,4 @@ export class TransactionService {
 
         return mision;
     }
-
-    /**
-     * Completa una misión aleatoria de las incompletas
-     */
-    completarMisionAleatoria() {
-        const misionesIncompletas = this.appState.getMisionesIncompletas();
-
-        if (misionesIncompletas.length === 0) {
-            return null;
-        }
-
-        const indiceAleatorio = Math.floor(Math.random() * misionesIncompletas.length);
-        const misionAleatoria = misionesIncompletas[indiceAleatorio];
-
-        return this.completarMision(misionAleatoria.id);
-    }
-
-    /**
-     * Reinicia la demo al estado inicial
-     */
-    reiniciarDemo() {
-        this.appState.reset();
-    }
 }
