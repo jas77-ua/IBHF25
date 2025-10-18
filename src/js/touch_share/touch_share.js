@@ -20,11 +20,19 @@ const listaPagos = document.getElementById('lista-pagos');
 document.addEventListener('DOMContentLoaded', function() {
     // Cargar datos guardados si existen
     cargarDatosGuardados();
-    
+
     // Configurar event listeners
     calcularBtn.addEventListener('click', calcularReparto);
     activarNFCBtn.addEventListener('click', toggleNFC);
-    
+
+    // Configurar botón de volver
+    const botonVolver = document.getElementById('boton-volver');
+    if (botonVolver) {
+        botonVolver.addEventListener('click', () => {
+            window.location.href = '../../web/index.html';
+        });
+    }
+
     // Mostrar historial de pagos
     actualizarHistorialPagos();
 });
