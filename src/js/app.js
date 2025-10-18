@@ -131,41 +131,6 @@ function completarMision(idMision) {
     }
 }
 
-function completarMisionAleatoria() {
-    const misionesIncompletas = estadoApp.misiones.filter(m => !m.completada);
-    
-    if (misionesIncompletas.length > 0) {
-        const misionAleatoria = misionesIncompletas[Math.floor(Math.random() * misionesIncompletas.length)];
-        completarMision(misionAleatoria.id);
-    } else {
-        alert('¡Todas las misiones están completadas! 🏆');
-    }
-}
-
-function reiniciarDemo() {
-    estadoApp.saldo = 127.80;
-    
-    estadoApp.misiones.forEach(mision => {
-        mision.completada = false;
-        if (mision.id === 1) mision.progreso = 65;
-        else if (mision.id === 2) mision.progreso = 30;
-        else mision.progreso = 10;
-    });
-    
-    estadoApp.transacciones = [
-        { id: 1, nombre: "Paga Extra Papás", cantidad: 20, fecha: "Hoy, 10:30", tipo: "positivo" },
-        { id: 2, nombre: "Steam - Videojuego", cantidad: 29.99, fecha: "Ayer, 16:45", tipo: "negativo" },
-        { id: 3, nombre: "Ahorro Automático", cantidad: 10, fecha: "15 Oct, 08:00", tipo: "positivo" },
-        { id: 4, nombre: "McDonald's", cantidad: 12.50, fecha: "14 Oct, 19:20", tipo: "negativo" }
-    ];
-    
-    actualizarSaldo();
-    renderizarMisiones();
-    renderizarTransacciones();
-    
-    alert('Demo reiniciada 🔄');
-}
-
 // RELOJ EN TIEMPO REAL
 function actualizarReloj() {
     const ahora = new Date();
@@ -206,14 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.getElementById('gastar-dinero').addEventListener('click', () => {
         simularTransaccion(-15, 'Compra juegos');
-    });
-    
-    document.getElementById('completar-mision').addEventListener('click', () => {
-        completarMisionAleatoria();
-    });
-    
-    document.getElementById('reiniciar-demo').addEventListener('click', () => {
-        reiniciarDemo();
     });
     
     console.log('🚀 Aplicación Sabadell NEXT iniciada correctamente');
