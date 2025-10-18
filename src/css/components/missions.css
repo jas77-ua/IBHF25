@@ -6,6 +6,9 @@
     display: grid;
     gap: var(--espaciado-md);
     margin-bottom: 25px;
+    /* Mostrar tarjetas lado a lado de forma responsive */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    align-items: start; /* Alinear tarjetas en la parte superior */
 }
 
 .tarjeta-mision {
@@ -16,6 +19,12 @@
     border-left: 5px solid var(--color-primario);
     transition: all var(--transition-rapida);
     animation: aparecer 0.5s ease-out;
+}
+
+/* Asegurar que el contenido de la tarjeta se apile verticalmente */
+.tarjeta-mision {
+    display: flex;
+    flex-direction: column;
 }
 
 .tarjeta-mision:active {

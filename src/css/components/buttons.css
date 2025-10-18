@@ -17,6 +17,7 @@
 .boton-principal {
     background: var(--color-primario);
     color: white;
+    border-radius: 5px;
 }
 
 .boton-principal:active {
