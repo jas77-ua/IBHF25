@@ -1,0 +1,243 @@
+/**
+ * Estilos del componente de Tarjeta
+ */
+
+/* --- Banner de Tarjeta (en la vista principal) --- */
+.banner-tarjeta {
+    background: linear-gradient(135deg, #4a6cf7, #6a8cff);
+    color: white;
+    border-radius: var(--border-radius-md);
+    padding: var(--espaciado-md);
+    margin: var(--espaciado-md) var(--espaciado-md) var(--espaciado-lg);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: transform var(--transition-rapida), box-shadow var(--transition-rapida);
+}
+
+.banner-tarjeta:hover,
+.banner-tarjeta:active {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.info-tarjeta {
+    display: flex;
+    align-items: center;
+    gap: var(--espaciado-md);
+}
+
+.icono-tarjeta {
+    font-size: 50px;
+    line-height: 1;
+}
+
+.detalles-tarjeta .nombre-tarjeta {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.detalles-tarjeta .termina-en {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
+/* --- Sección de Tarjetas (vista detallada) --- */
+.seccion-tarjetas {
+    padding: var(--espaciado-md);
+    display: none;
+}
+
+.encabezado-seccion {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--espaciado-xl);
+}
+
+.boton-volver {
+    background: none;
+    border: none;
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    color: var(--color-texto-principal);
+    margin-right: var(--espaciado-sm);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-full);
+}
+
+.boton-volver:hover {
+    background: var(--color-fondo-gris);
+}
+
+.titulo-seccion-tarjetas {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-texto-principal);
+}
+
+/* --- Tarjeta bancaria visual --- */
+.tarjeta-bancaria {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    height: 200px;
+    background: linear-gradient(135deg, #1a3a7f, #2d5cb5);
+    border-radius: var(--border-radius-lg);
+    padding: var(--espaciado-xl);
+    color: white;
+    box-shadow: var(--shadow-lg);
+    margin: 0 auto var(--espaciado-xl);
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+.tarjeta-logo {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--espaciado-xl);
+    text-align: right;
+}
+
+.tarjeta-numero {
+    font-size: var(--font-size-lg);
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+    font-family: monospace;
+}
+
+.tarjeta-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.tarjeta-titular {
+    font-size: var(--font-size-base);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tarjeta-vencimiento {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
+.tarjeta-chip {
+    position: relative;
+    top: 1px;
+    bottom: 2000px;
+    left: 16px;
+    width: 45px;
+    height: 35px;
+    background: linear-gradient(135deg, #c0a062, #d4b475);
+    border-radius: 4px;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+    z-index: 1;
+}
+
+/* --- Acciones bajo la tarjeta --- */
+.acciones-tarjeta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaciado-sm);
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.boton-accion {
+    background: var(--color-fondo-claro);
+    border: 1px solid var(--color-primario);
+    border-radius: var(--border-radius-md);
+    padding: var(--espaciado-md);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--color-primario);
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-rapida);
+}
+
+.boton-accion:hover {
+    background: #edf0ff;
+    transform: translateY(-1px);
+}
+
+/* --- Historial de Tarjeta --- */
+.titulo-historial {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    margin-bottom: var(--espaciado-md);
+    color: var(--color-texto-principal);
+}
+
+.lista-historial {
+    background: var(--color-fondo-blanco);
+    border-radius: var(--border-radius-md);
+    padding: var(--espaciado-md);
+    box-shadow: var(--shadow-sm);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.elemento-historial {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--espaciado-sm) 0;
+    border-bottom: 1px solid var(--color-fondo-gris);
+}
+
+.elemento-historial:last-child {
+    border-bottom: none;
+}
+
+.nombre-historial {
+    font-size: var(--font-size-base);
+    color: var(--color-texto-principal);
+}
+
+.fecha-historial {
+    font-size: var(--font-size-sm);
+    color: var(--color-texto-terciario);
+}
+
+.cantidad-historial.positivo {
+    color: var(--color-exito);
+    font-weight: 600;
+}
+
+.cantidad-historial.negativo {
+    color: var(--color-error);
+    font-weight: 600;
+}
+
+.boton-volver-historial {
+    background: none;
+    border: none;
+    color: var(--color-primario);
+    font-size: var(--font-size-base);
+    margin-top: var(--espaciado-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--espaciado-xs);
+}
+
+.boton-volver-historial:hover {
+    text-decoration: underline;
+}
+
+/* Responsive para móviles pequeños */
+@media (max-width: 400px) {
+    .tarjeta-bancaria {
+        height: auto;
+        padding: var(--espaciado-lg);
+    }
+
+    .tarjeta-numero {
+        font-size: var(--font-size-lg);
+    }
+}

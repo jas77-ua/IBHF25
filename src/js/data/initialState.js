@@ -7,6 +7,12 @@ import { APP_CONFIG, TIPOS_TRANSACCION } from '../config/constants.js';
 export const initialState = {
     saldo: APP_CONFIG.SALDO_INICIAL,
     metaAhorro: APP_CONFIG.META_AHORRO_DEFAULT,
+    
+    tarjeta: {
+        nombre: "Tarjeta de Débito (Visa)",
+        numero: "4532123456784321",
+        bloqueada: false
+    },
 
     misiones: [
         {
@@ -57,7 +63,7 @@ export const initialState = {
             id: 3,
             nombre: "Ahorro Automático",
             cantidad: 10,
-            fecha: "15 Oct, 08:00",
+            fecha: "11 Oct, 08:00",
             tipo: TIPOS_TRANSACCION.POSITIVO
         },
         {
