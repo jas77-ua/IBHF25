@@ -7,6 +7,7 @@ import { TransactionService } from './services/transactionService.js';
 import { Balance } from './components/Balance.js';
 import { Missions } from './components/Missions.js';
 import { Transactions } from './components/Transactions.js';
+import { Accounts } from './components/Accounts.js';
 
 class App {
     constructor() {
@@ -17,6 +18,7 @@ class App {
         this.balanceComponent = null;
         this.missionsComponent = null;
         this.transactionsComponent = null;
+        this.accountsComponent = null;
 
         // Elementos del perfil
         this.perfilOverlay = document.getElementById('pagina-perfil');
@@ -36,6 +38,7 @@ class App {
         this.balanceComponent = new Balance(this.appState);
         this.missionsComponent = new Missions(this.appState);
         this.transactionsComponent = new Transactions(this.appState);
+        this.accountsComponent = new Accounts(this.appState);
 
         // Configurar callback de misiones
         this.missionsComponent.setOnMissionClick((misionId) => {
@@ -67,6 +70,7 @@ class App {
         this.balanceComponent.render();
         this.missionsComponent.render();
         this.transactionsComponent.render();
+        this.accountsComponent.render();
     }
 
     /**
@@ -189,21 +193,27 @@ class App {
         // Remover clase activo de todos los elementos de navegación
         document.querySelectorAll('.elemento-nav').forEach(nav => nav.classList.remove('activo'));
         document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('activo'));
-        
+
         // Añadir clase activo al elemento correspondiente
         document.querySelectorAll(`[data-pagina="${pagina}"]`).forEach(el => {
             el.classList.add('activo');
         });
 
+        // Cerrar perfil si está abierto
+        this.cerrarPerfilOverlay();
+
         switch(pagina) {
             case 'inicio':
                 console.log('Navegando a página de inicio');
-                // Ocultar perfil si está abierto
-                this.cerrarPerfilOverlay();
+                this.mostrarVista('inicio');
+                break;
+            case 'cuentas':
+                console.log('Navegando a página de cuentas');
+                this.mostrarVista('cuentas');
                 break;
             case 'misiones':
                 console.log('Navegando a página de misiones');
-                this.cerrarPerfilOverlay();
+                this.mostrarVista('misiones');
                 break;
             case 'touch-share':
                 // Navegar a la página de Touch & Share
@@ -211,7 +221,7 @@ class App {
                 break;
             case 'estadisticas':
                 console.log('Navegando a página de estadísticas');
-                this.cerrarPerfilOverlay();
+                this.mostrarVista('estadisticas');
                 break;
             case 'perfil':
                 console.log('Navegando a página de perfil');
@@ -221,6 +231,31 @@ class App {
             default:
                 console.log('Página no reconocida:', pagina);
         }
+    }
+
+    /**
+     * Muestra una vista específica y oculta las demás
+     */
+    mostrarVista(nombreVista) {
+        // Ocultar todas las vistas
+        document.querySelectorAll('.vista-pagina').forEach(vista => {
+            vista.style.display = 'none';
+        });
+
+        // Mostrar la vista seleccionada
+        const vistaActiva = document.querySelector(`[data-vista="${nombreVista}"]`);
+        if (vistaActiva) {
+            vistaActiva.style.display = 'block';
+        }
+
+        // Mostrar/ocultar encabezado según la vista
+        const encabezado = document.querySelector('[data-vista-header]');
+        if (encabezado) {
+            const vistaHeader = encabezado.getAttribute('data-vista-header');
+            encabezado.style.display = (vistaHeader === nombreVista) ? 'block' : 'none';
+        }
+
+        console.log(`Vista activa: ${nombreVista}`);
     }
 
     /**
