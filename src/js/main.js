@@ -301,6 +301,14 @@ class App {
         localStorage.setItem(this.PERFIL_KEY, JSON.stringify(datos));
         this.imgAvatar.src = datos.avatar;
         this.actualizarBienvenida(datos.nombre);
+
+        // Actualizar el nombre en la tarjeta
+        const { tarjeta } = this.appState.getState();
+        this.appState.updateTarjeta({
+            ...tarjeta,
+            titular: datos.nombre.toUpperCase()
+        });
+        
         this.cerrarPerfilOverlay();
     }
 
@@ -331,6 +339,13 @@ class App {
         const datos = JSON.parse(localStorage.getItem(this.PERFIL_KEY) || '{}');
         if (datos.nombre) {
             this.actualizarBienvenida(datos.nombre);
+            
+            // Actualizar el nombre en la tarjeta
+            const { tarjeta } = this.appState.getState();
+            this.appState.updateTarjeta({
+                ...tarjeta,
+                titular: datos.nombre.toUpperCase()
+            });
         }
     }
 }

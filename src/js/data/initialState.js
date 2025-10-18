@@ -9,9 +9,10 @@ export const initialState = {
     metaAhorro: APP_CONFIG.META_AHORRO_DEFAULT,
     
     tarjeta: {
-        nombre: "Tarjeta de Débito (Visa)",
+        nombre: "Tarjeta Sabadell First",
         numero: "4532123456784321",
-        bloqueada: false
+        bloqueada: false,
+        titular: "ALEX MARTÍNEZ" // Nombre por defecto, se actualizará con el perfil
     },
 
     misiones: [

@@ -20,6 +20,7 @@ export class Card {
         
         // Actualizar vista detalle
         document.getElementById('ultimos-digitos-tarjeta').textContent = tarjeta.numero.slice(-4);
+        document.getElementById('tarjeta-titular').textContent = tarjeta.titular || '—';
         
         // Actualizar botones según estado
         const btnBloquear = document.getElementById('bloquear-tarjeta');
