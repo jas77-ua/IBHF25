@@ -3,8 +3,8 @@
  */
 
 export const APP_CONFIG = {
-    META_AHORRO_DEFAULT: 200,
-    SALDO_INICIAL: 127.80,
+    META_AHORRO_DEFAULT: 500,
+    SALDO_INICIAL: 0, // El saldo se calcula desde las cuentas
     NOMBRE_USUARIO: 'Alex',
     DURACION_ANIMACION_SALDO_MS: 300
 };
