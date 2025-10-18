@@ -9,6 +9,8 @@ import { Missions } from './components/Missions.js';
 import { Transactions } from './components/Transactions.js';
 import { Card } from './components/Card.js';
 import { Accounts } from './components/Accounts.js';
+import { Transfers } from './components/Transfers.js';
+import { Statistics } from './components/Statistics.js';
 
 class App {
     constructor() {
@@ -21,6 +23,8 @@ class App {
         this.transactionsComponent = null;
         this.cardComponent = null;
         this.accountsComponent = null;
+        this.transfersComponent = null;
+        this.statisticsComponent = null;
 
         // Elementos del perfil
         this.perfilOverlay = document.getElementById('pagina-perfil');
@@ -42,11 +46,16 @@ class App {
         this.transactionsComponent = new Transactions(this.appState);
         this.cardComponent = new Card(this.appState, (pagina) => this.navegarAPagina(pagina));
         this.accountsComponent = new Accounts(this.appState);
+        this.transfersComponent = new Transfers(this.appState);
+        this.statisticsComponent = new Statistics(this.appState);
 
         // Configurar callback de misiones
         this.missionsComponent.setOnMissionClick((misionId) => {
             this.handleCompletarMision(misionId);
         });
+
+        // Inicializar transfers
+        this.transfersComponent.init();
 
         // Configurar navegación
         this.setupNavigation();
@@ -75,6 +84,8 @@ class App {
         this.transactionsComponent.render();
         this.cardComponent.render();
         this.accountsComponent.render();
+        this.transfersComponent.render();
+        this.statisticsComponent.render();
     }
 
     /**
@@ -218,6 +229,10 @@ class App {
             case 'tarjetas':
                 console.log('Navegando a página de tarjetas');
                 this.mostrarVista('tarjetas');
+                break;
+            case 'transferencias':
+                console.log('Navegando a página de transferencias');
+                this.mostrarVista('transferencias');
                 break;
             case 'misiones':
                 console.log('Navegando a página de misiones');

@@ -71,7 +71,7 @@ export class Accounts {
                 <div class="cuenta-header">
                     <div class="cuenta-info-principal">
                         <div class="cuenta-icono" style="background: ${cuenta.color}20">
-                            <i class="${cuenta.icono}" style="color: ${cuenta.color}"></i>
+                            <i class="fi ${cuenta.icono}" style="color: ${cuenta.color}"></i>
                         </div>
                         <div class="cuenta-nombre-tipo">
                             <h3 class="cuenta-nombre">${cuenta.nombre}</h3>

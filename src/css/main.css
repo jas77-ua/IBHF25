@@ -17,6 +17,8 @@
 @import 'components/card.css';
 @import 'components/hamburger-menu.css';
 @import 'components/accounts.css';
+@import 'components/transfers.css';
+@import 'components/statistics.css';
 
 /* Contenedor principal */
 .pantalla {

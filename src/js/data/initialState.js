@@ -44,7 +44,7 @@ export const initialState = {
             saldo: 75.50,
             estado: "Activa",
             color: "#FF6B35",
-            icono: "fi-rr-money-coin"
+            icono: "fi-rr-coins"
         }
     ],
 
@@ -84,28 +84,108 @@ export const initialState = {
             nombre: "Paga Extra Papás",
             cantidad: 20,
             fecha: "Hoy, 10:30",
-            tipo: TIPOS_TRANSACCION.POSITIVO
+            tipo: TIPOS_TRANSACCION.POSITIVO,
+            categoria: "ingresos",
+            fechaCompleta: new Date()
         },
         {
             id: 2,
             nombre: "Steam - Videojuego",
             cantidad: 29.99,
             fecha: "Ayer, 16:45",
-            tipo: TIPOS_TRANSACCION.NEGATIVO
+            tipo: TIPOS_TRANSACCION.NEGATIVO,
+            categoria: "ocio",
+            fechaCompleta: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
         },
         {
             id: 3,
             nombre: "Ahorro Automático",
             cantidad: 10,
             fecha: "11 Oct, 08:00",
-            tipo: TIPOS_TRANSACCION.POSITIVO
+            tipo: TIPOS_TRANSACCION.POSITIVO,
+            categoria: "ahorro",
+            fechaCompleta: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
         },
         {
             id: 4,
             nombre: "McDonald's",
             cantidad: 12.50,
             fecha: "14 Oct, 19:20",
-            tipo: TIPOS_TRANSACCION.NEGATIVO
+            tipo: TIPOS_TRANSACCION.NEGATIVO,
+            categoria: "comida",
+            fechaCompleta: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000)
+        },
+        {
+            id: 5,
+            nombre: "Spotify Premium",
+            cantidad: 9.99,
+            fecha: "13 Oct, 12:00",
+            tipo: TIPOS_TRANSACCION.NEGATIVO,
+            categoria: "suscripciones",
+            fechaCompleta: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+        },
+        {
+            id: 6,
+            nombre: "Netflix",
+            cantidad: 12.99,
+            fecha: "10 Oct, 09:00",
+            tipo: TIPOS_TRANSACCION.NEGATIVO,
+            categoria: "suscripciones",
+            fechaCompleta: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000)
+        },
+        {
+            id: 7,
+            nombre: "Zara",
+            cantidad: 45.00,
+            fecha: "9 Oct, 17:30",
+            tipo: TIPOS_TRANSACCION.NEGATIVO,
+            categoria: "ropa",
+            fechaCompleta: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000)
+        },
+        {
+            id: 8,
+            nombre: "Starbucks",
+            cantidad: 5.20,
+            fecha: "8 Oct, 11:15",
+            tipo: TIPOS_TRANSACCION.NEGATIVO,
+            categoria: "comida",
+            fechaCompleta: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)
+        },
+        {
+            id: 9,
+            nombre: "Cine Yelmo",
+            cantidad: 8.50,
+            fecha: "7 Oct, 20:00",
+            tipo: TIPOS_TRANSACCION.NEGATIVO,
+            categoria: "ocio",
+            fechaCompleta: new Date(Date.now() - 11 * 24 * 60 * 60 * 1000)
+        },
+        {
+            id: 10,
+            nombre: "Paga Mensual",
+            cantidad: 50,
+            fecha: "1 Oct, 08:00",
+            tipo: TIPOS_TRANSACCION.POSITIVO,
+            categoria: "ingresos",
+            fechaCompleta: new Date(Date.now() - 17 * 24 * 60 * 60 * 1000)
+        },
+        {
+            id: 11,
+            nombre: "Burger King",
+            cantidad: 9.30,
+            fecha: "5 Oct, 14:30",
+            tipo: TIPOS_TRANSACCION.NEGATIVO,
+            categoria: "comida",
+            fechaCompleta: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000)
+        },
+        {
+            id: 12,
+            nombre: "Amazon - Auriculares",
+            cantidad: 35.99,
+            fecha: "3 Oct, 10:20",
+            tipo: TIPOS_TRANSACCION.NEGATIVO,
+            categoria: "compras",
+            fechaCompleta: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000)
         }
     ]
 };
