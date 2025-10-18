@@ -397,7 +397,6 @@ class App {
         
         console.log('🔗 Navegando a Touch & Share:', urlTouchShare);
     }
-<<<<<<< HEAD
 
     /**
      * Navega a la página de SabaDingo
@@ -411,9 +410,7 @@ class App {
         
         console.log('🎓 Navegando a SabaDingo:', urlSabaDingo);
     }
-}
-=======
->>>>>>> 7b29287b721ef0cd5f128e89c0848955d457d994
+
 
     /**
      * Configura los eventos del perfil
