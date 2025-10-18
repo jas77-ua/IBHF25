@@ -11,7 +11,8 @@ export const initialState = {
     misiones: [
         {
             id: 1,
-            titulo: "💰 Primer Ahorro Épico",
+            titulo: "Primer Ahorro Épico",
+            icono: "fi-rr-piggy-bank",
             descripcion: "Ahorra €50 este mes y gana recompensas especiales",
             recompensa: "+€5 bonus + Insignia",
             completada: false,
@@ -19,7 +20,8 @@ export const initialState = {
         },
         {
             id: 2,
-            titulo: "🛡️ Cazador de Estafas",
+            titulo: "Cazador de Estafas",
+            icono: "fi-rr-shield-check",
             descripcion: "Aprende a identificar 3 casos de phishing reales",
             recompensa: "Avatar Exclusivo",
             completada: false,
@@ -27,7 +29,8 @@ export const initialState = {
         },
         {
             id: 3,
-            titulo: "📈 Inversor Novato",
+            titulo: "Inversor Novato",
+            icono: "fi-rr-chart-line-up",
             descripcion: "Simula una inversión de €1000 en bolsa virtual",
             recompensa: "Desbloqueo Simulador Avanzado",
             completada: false,

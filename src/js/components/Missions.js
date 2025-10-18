@@ -16,7 +16,9 @@ export class Missions {
 
         this.contenedor.innerHTML = misiones.map(mision => `
             <div class="tarjeta-mision">
-                <div class="titulo-mision">${mision.titulo}</div>
+                <div class="titulo-mision">
+                    <i class="fi ${mision.icono}"></i> ${mision.titulo}
+                </div>
                 <div class="descripcion-mision">${mision.descripcion}</div>
                 <div class="recompensa-mision">${mision.recompensa}</div>
                 <div class="progreso-mision">
@@ -28,7 +30,7 @@ export class Missions {
                 <button class="boton ${mision.completada ? 'boton-exito' : 'boton-principal'}"
                         data-mision-id="${mision.id}"
                         ${mision.completada ? 'disabled' : ''}>
-                    ${mision.completada ? '✅ Completada' : 'Comenzar Misión'}
+                    ${mision.completada ? '<i class="fi fi-rr-check"></i> Completada' : 'Comenzar Misión'}
                 </button>
             </div>
         `).join('');
