@@ -7,7 +7,6 @@
 @import 'base/reset.css';
 
 /* Layout */
-@import 'layout/statusBar.css';
 @import 'layout/header.css';
 @import 'layout/navigation.css';
 

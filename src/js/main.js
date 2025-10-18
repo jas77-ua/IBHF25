@@ -7,7 +7,6 @@ import { TransactionService } from './services/transactionService.js';
 import { Balance } from './components/Balance.js';
 import { Missions } from './components/Missions.js';
 import { Transactions } from './components/Transactions.js';
-import { Clock } from './components/Clock.js';
 
 class App {
     constructor() {
@@ -18,7 +17,6 @@ class App {
         this.balanceComponent = null;
         this.missionsComponent = null;
         this.transactionsComponent = null;
-        this.clockComponent = null;
     }
 
     /**
@@ -29,7 +27,6 @@ class App {
         this.balanceComponent = new Balance(this.appState);
         this.missionsComponent = new Missions(this.appState);
         this.transactionsComponent = new Transactions(this.appState);
-        this.clockComponent = new Clock();
 
         // Configurar callback de misiones
         this.missionsComponent.setOnMissionClick((misionId) => {
@@ -38,9 +35,6 @@ class App {
 
         // Renderizar contenido inicial
         this.render();
-
-        // Iniciar reloj
-        this.clockComponent.start();
 
         // Configurar navegación
         this.setupNavigation();
