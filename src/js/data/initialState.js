@@ -8,12 +8,24 @@ export const initialState = {
     saldo: APP_CONFIG.SALDO_INICIAL,
     metaAhorro: APP_CONFIG.META_AHORRO_DEFAULT,
     
-    tarjeta: {
-        nombre: "Tarjeta Sabadell First",
-        numero: "4532123456784321",
-        bloqueada: false,
-        titular: "ALEX MARTÍNEZ" // Nombre por defecto, se actualizará con el perfil
-    },
+    tarjetas: [
+        {
+            id: 1,
+            nombre: "Tarjeta Sabadell First",
+            numero: "4532123456784321",
+            bloqueada: false,
+            titular: "ALEX MARTÍNEZ", // Nombre por defecto, se actualizará con el perfil
+            tipo: "Débito"
+        },
+        {
+            id: 2,
+            nombre: "Tarjeta Sabadell Young",
+            numero: "4532987654321",
+            bloqueada: false,
+            titular: "ALEX MARTÍNEZ", // Nombre por defecto, se actualizará con el perfil
+            tipo: "Prepago"
+        }
+    ],
 
     misiones: [
         {

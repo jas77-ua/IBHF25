@@ -44,14 +44,38 @@
 
 /* --- Sección de Tarjetas (vista detallada) --- */
 .seccion-tarjetas {
-    padding: var(--espaciado-md);
+    padding: var(--espaciado-lg);
     display: none;
 }
 
+.tarjetas-contenedor {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(300px, 1fr)); /* Dos columnas con ancho mínimo */
+    gap: var(--espaciado-xl);
+    padding: var(--espaciado-xl) var(--espaciado-lg);
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.tarjeta-detalle {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaciado-lg);
+    align-items: stretch;
+    background: var(--color-fondo-claro);
+    padding: var(--espaciado-xl);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    min-width: 0; /* Evita que las tarjetas se desborden */
+}
+
 .encabezado-seccion {
+    grid-column: 1 / -1; /* Ocupa todas las columnas */
     display: flex;
     align-items: center;
     margin-bottom: var(--espaciado-xl);
+    padding: 0 var(--espaciado-sm);
 }
 
 .boton-volver {
@@ -84,16 +108,25 @@
 .tarjeta-bancaria {
     position: relative;
     width: 100%;
-    max-width: 360px;
-    height: 200px;
+    height: 220px;
     background: linear-gradient(135deg, #1a3a7f, #2d5cb5);
     border-radius: var(--border-radius-lg);
     padding: var(--espaciado-xl);
     color: white;
     box-shadow: var(--shadow-lg);
-    margin: 0 auto var(--espaciado-xl);
     overflow: hidden;
     font-family: 'Arial', sans-serif;
+    transform: perspective(1000px) rotateX(5deg);
+    transition: transform 0.3s ease;
+}
+
+.tarjeta-bancaria:hover {
+    transform: perspective(1000px) rotateX(0);
+}
+
+/* Estilo específico para la tarjeta prepago */
+.tarjeta-prepago {
+    background: linear-gradient(135deg, #2d5cb5, #4a6cf7);
 }
 
 .tarjeta-logo {
@@ -142,27 +175,30 @@
 .acciones-tarjeta {
     display: flex;
     flex-direction: column;
-    gap: var(--espaciado-sm);
-    max-width: 360px;
-    margin: 0 auto;
+    gap: var(--espaciado-md);
+    width: 100%;
+    padding: var(--espaciado-md) var(--espaciado-sm);
 }
 
 .boton-accion {
-    background: var(--color-fondo-claro);
+    background: var(--color-fondo-blanco);
     border: 1px solid var(--color-primario);
     border-radius: var(--border-radius-md);
-    padding: var(--espaciado-md);
+    padding: var(--espaciado-md) var(--espaciado-lg);
     font-size: var(--font-size-base);
     font-weight: 600;
     color: var(--color-primario);
     cursor: pointer;
     text-align: left;
     transition: all var(--transition-rapida);
+    box-shadow: var(--shadow-sm);
 }
 
 .boton-accion:hover {
-    background: #edf0ff;
-    transform: translateY(-1px);
+    background: var(--color-primario);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 /* --- Historial de Tarjeta --- */
@@ -229,14 +265,47 @@
     text-decoration: underline;
 }
 
-/* Responsive para móviles pequeños */
-@media (max-width: 400px) {
-    .tarjeta-bancaria {
-        height: auto;
+/* Responsive para tablets y móviles */
+@media (max-width: 1024px) {
+    .tarjetas-contenedor {
+        grid-template-columns: minmax(300px, 600px);
+        justify-content: center;
+        gap: var(--espaciado-xl);
+        padding: var(--espaciado-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .seccion-tarjetas {
+        padding: var(--espaciado-md);
+    }
+    
+    .tarjeta-detalle {
         padding: var(--espaciado-lg);
     }
 
+    .tarjeta-bancaria {
+        height: 200px;
+        padding: var(--espaciado-lg);
+        transform: none;
+    }
+
     .tarjeta-numero {
-        font-size: var(--font-size-lg);
+        font-size: var(--font-size-md);
+    }
+    
+    .acciones-tarjeta {
+        padding: var(--espaciado-sm) 0;
+    }
+}
+
+@media (max-width: 400px) {
+    .tarjeta-bancaria {
+        height: 180px;
+    }
+    
+    .tarjeta-chip {
+        width: 35px;
+        height: 28px;
     }
 }

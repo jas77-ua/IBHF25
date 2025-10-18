@@ -96,22 +96,45 @@
                     <h2 class="titulo-seccion-tarjetas">Mis Tarjetas</h2>
                 </div>
 
-                <div class="tarjeta-detalle">
-                    <div class="tarjeta-bancaria">
-                        <div class="tarjeta-logo">Visa</div>
-                        <div class="tarjeta-numero">**** **** **** <span id="ultimos-digitos-tarjeta">4321</span></div>
-                        <div class="tarjeta-chip"></div>
-                        <div class="tarjeta-info">
-                            <div class="tarjeta-titular" id="tarjeta-titular">—</div>
-                            <div class="tarjeta-vencimiento">Vence: <span>12/27</span></div>
+                <div class="tarjetas-contenedor">
+                    <!-- Primera Tarjeta -->
+                    <div class="tarjeta-detalle">
+                        <div class="tarjeta-bancaria">
+                            <div class="tarjeta-logo">Débito</div>
+                            <div class="tarjeta-numero">**** **** **** <span id="ultimos-digitos-tarjeta-1">4321</span></div>
+                            <div class="tarjeta-chip"></div>
+                            <div class="tarjeta-info">
+                                <div class="tarjeta-titular" id="tarjeta-titular-1">—</div>
+                                <div class="tarjeta-vencimiento">Vence: <span>12/27</span></div>
+                            </div>
+                        </div>
+
+                        <div class="acciones-tarjeta">
+                            <button class="boton-accion" id="bloquear-tarjeta-1">🔒 Bloquear Tarjeta</button>
+                            <button class="boton-accion" id="desbloquear-tarjeta-1" style="display: none;">🔓 Desbloquear Tarjeta</button>
+                            <button class="boton-accion" id="historial-tarjeta-1">📊 Ver Historial</button>
+                            <button class="boton-accion" id="limites-tarjeta-1">📈 Límites y Pagos</button>
                         </div>
                     </div>
 
-                    <div class="acciones-tarjeta">
-                        <button class="boton-accion" id="bloquear-tarjeta">🔒 Bloquear Tarjeta</button>
-                        <button class="boton-accion" id="desbloquear-tarjeta" style="display: none;">🔓 Desbloquear Tarjeta</button>
-                        <button class="boton-accion" id="historial-tarjeta">📊 Ver Historial</button>
-                        <button class="boton-accion" id="limites-tarjeta">📈 Límites y Pagos</button>
+                    <!-- Segunda Tarjeta -->
+                    <div class="tarjeta-detalle">
+                        <div class="tarjeta-bancaria tarjeta-prepago">
+                            <div class="tarjeta-logo">Prepago</div>
+                            <div class="tarjeta-numero">**** **** **** <span id="ultimos-digitos-tarjeta-2">4321</span></div>
+                            <div class="tarjeta-chip"></div>
+                            <div class="tarjeta-info">
+                                <div class="tarjeta-titular" id="tarjeta-titular-2">—</div>
+                                <div class="tarjeta-vencimiento">Vence: <span>12/27</span></div>
+                            </div>
+                        </div>
+
+                        <div class="acciones-tarjeta">
+                            <button class="boton-accion" id="bloquear-tarjeta-2">🔒 Bloquear Tarjeta</button>
+                            <button class="boton-accion" id="desbloquear-tarjeta-2" style="display: none;">🔓 Desbloquear Tarjeta</button>
+                            <button class="boton-accion" id="historial-tarjeta-2">📊 Ver Historial</button>
+                            <button class="boton-accion" id="recargar-tarjeta-2">💰 Recargar Saldo</button>
+                        </div>
                     </div>
                 </div>
             </div>

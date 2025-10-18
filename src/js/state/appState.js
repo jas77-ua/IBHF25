@@ -65,10 +65,10 @@ class AppState {
     }
 
     /**
-     * Actualiza el estado de la tarjeta
+     * Actualiza el estado de las tarjetas
      */
-    updateTarjeta(tarjeta) {
-        this.setState({ tarjeta });
+    updateTarjetas(tarjetas) {
+        this.setState({ tarjetas });
     }
 
     /**
