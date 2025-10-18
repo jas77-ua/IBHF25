@@ -15,9 +15,10 @@ export class Card {
      * Inicializa el componente (se llama después de que el DOM esté listo)
      */
     init() {
-        this.bannerTarjeta = document.getElementById('banner-tarjeta');
         this.seccionTarjetas = document.getElementById('seccion-tarjetas');
         this.historialContainer = document.getElementById('historial-tarjeta-contenedor');
+        this.bannerTarjeta1 = document.getElementById('banner-tarjeta-1');
+        this.bannerTarjeta2 = document.getElementById('banner-tarjeta-2');
 
         if (!this.eventListenersSetup) {
             this.setupEventListeners();
@@ -27,23 +28,27 @@ export class Card {
 
     render() {
         // Inicializar si no se ha hecho
-        if (!this.bannerTarjeta) {
+        if (!this.bannerTarjeta1 || !this.bannerTarjeta2) {
             this.init();
         }
 
         const { tarjetas } = this.appState.getState();
-        const tarjetaPrincipal = tarjetas[0]; // La primera tarjeta se muestra en el banner
 
-        // Actualizar banner con la tarjeta principal
-        const nombreTarjeta = document.getElementById('nombre-tarjeta');
-        const terminaEn = document.getElementById('termina-en');
+        // Actualizar banners con la información de las tarjetas
+        tarjetas.forEach((tarjeta, index) => {
+            const banner = document.querySelector(`#banner-tarjeta-${index + 1} .detalles-tarjeta`);
+            if (banner) {
+                const nombreElement = banner.querySelector('.nombre-tarjeta');
+                const terminaElement = banner.querySelector('.termina-en');
 
-        if (nombreTarjeta) {
-            nombreTarjeta.textContent = tarjetaPrincipal.bloqueada ? 'Tarjeta Bloqueada 🔒' : tarjetaPrincipal.nombre;
-        }
-        if (terminaEn) {
-            terminaEn.textContent = `Termina en ${tarjetaPrincipal.numero.slice(-4)}`;
-        }
+                if (nombreElement) {
+                    nombreElement.textContent = tarjeta.bloqueada ? 'Tarjeta Bloqueada 🔒' : tarjeta.nombre;
+                }
+                if (terminaElement) {
+                    terminaElement.textContent = `Termina en ${tarjeta.numero.slice(-4)}`;
+                }
+            }
+        });
 
         // Actualizar todas las tarjetas en la vista detalle
         tarjetas.forEach((tarjeta, index) => {
@@ -103,14 +108,22 @@ export class Card {
     setupEventListeners() {
         console.log('🎴 Configurando event listeners de Card...');
 
-        // Click en banner de tarjeta - navega a vista de tarjetas
-        if (this.bannerTarjeta) {
-            this.bannerTarjeta.addEventListener('click', () => {
-                if (this.navegarCallback) {
-                    this.navegarCallback('tarjetas');
-                }
-            });
-        }
+        // Click en banners de tarjetas - navega a vista de tarjetas
+        const setupBannerListener = (banner, index) => {
+            if (banner) {
+                banner.addEventListener('click', () => {
+                    if (this.navegarCallback) {
+                        this.navegarCallback('tarjetas');
+                        // Mostrar la tarjeta correspondiente
+                        this.mostrarTarjetaEspecifica(index);
+                    }
+                });
+            }
+        };
+
+        // Configurar listeners para ambos banners
+        setupBannerListener(this.bannerTarjeta1, 0);
+        setupBannerListener(this.bannerTarjeta2, 1);
 
         // Botón volver de tarjetas
         const botonVolverTarjetas = document.getElementById('boton-volver-tarjetas');
@@ -192,21 +205,34 @@ export class Card {
     }
 
     mostrarSeccionTarjetas() {
-        this.bannerTarjeta.style.display = 'none';
+        document.querySelector('.banners-tarjetas').style.display = 'none';
         this.seccionTarjetas.style.display = 'block';
         document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none');
-        // Aseguramos que el detalle de la tarjeta esté visible y el historial oculto
-        document.querySelector('.tarjeta-detalle').style.display = 'block';
+        // Aseguramos que los detalles de las tarjetas estén visibles y el historial oculto
+        document.querySelectorAll('.tarjeta-detalle').forEach(t => t.style.display = 'block');
+        this.historialContainer.style.display = 'none';
+    }
+
+    mostrarTarjetaEspecifica(index) {
+        // Ocultar todas las tarjetas primero
+        document.querySelectorAll('.tarjeta-detalle').forEach(t => t.style.display = 'none');
+        
+        // Mostrar solo la tarjeta seleccionada
+        const tarjetaSeleccionada = document.getElementById(`tarjeta-${index + 1}`);
+        if (tarjetaSeleccionada) {
+            tarjetaSeleccionada.style.display = 'block';
+        }
+        
         this.historialContainer.style.display = 'none';
     }
 
     mostrarInicio() {
-        this.bannerTarjeta.style.display = '';
+        document.querySelector('.banners-tarjetas').style.display = '';
         this.seccionTarjetas.style.display = 'none';
         document.querySelectorAll('.seccion').forEach(s => s.style.display = '');
         this.historialContainer.style.display = 'none';
-        // Reseteamos el estado de la vista de tarjeta
-        document.querySelector('.tarjeta-detalle').style.display = 'block';
+        // Reseteamos el estado de la vista de tarjetas
+        document.querySelectorAll('.tarjeta-detalle').forEach(t => t.style.display = 'block');
     }
 
     mostrarHistorial() {

@@ -2,16 +2,27 @@
  * Estilos del componente de Tarjeta
  */
 
-/* --- Banner de Tarjeta (en la vista principal) --- */
+/* --- Banners de Tarjetas (en la vista principal) --- */
+.banners-tarjetas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--espaciado-md);
+    padding: var(--espaciado-md);
+    margin-bottom: var(--espaciado-lg);
+}
+
 .banner-tarjeta {
     background: linear-gradient(135deg, #4a6cf7, #6a8cff);
     color: white;
     border-radius: var(--border-radius-md);
     padding: var(--espaciado-md);
-    margin: var(--espaciado-md) var(--espaciado-md) var(--espaciado-lg);
     box-shadow: var(--shadow-sm);
     cursor: pointer;
     transition: transform var(--transition-rapida), box-shadow var(--transition-rapida);
+}
+
+.banner-tarjeta.tarjeta-prepago {
+    background: linear-gradient(135deg, #2d5cb5, #4a6cf7);
 }
 
 .banner-tarjeta:hover,
