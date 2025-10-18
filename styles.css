@@ -7,43 +7,15 @@
 }
 
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    overflow-x: hidden;
 }
 
-/* CONTENEDOR DEL MÓVIL */
-.contenedor-movil {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
-
-/* MÓVIL VIRTUAL */
-.mockup-movil {
-    width: 375px;
-    height: 812px;
-    background: #000;
-    border-radius: 50px;
-    padding: 15px;
-    box-shadow: 
-        0 20px 60px rgba(0,0,0,0.5),
-        inset 0 0 0 2px rgba(255,255,255,0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-/* PANTALLA DEL MÓVIL */
+/* PANTALLA PRINCIPAL */
 .pantalla {
     width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    border-radius: 40px;
-    overflow: hidden;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -59,11 +31,10 @@ body {
     font-size: 14px;
     font-weight: 600;
     color: #000;
-    position: absolute;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 100;
+    backdrop-filter: blur(10px);
 }
 
 .hora-actual {
@@ -79,7 +50,7 @@ body {
 .contenido-app {
     flex: 1;
     overflow-y: auto;
-    padding-top: 50px;
+    padding-bottom: 80px;
 }
 
 /* ENCABEZADO DE LA APP */
@@ -185,9 +156,8 @@ body {
     transition: all 0.3s ease;
 }
 
-.tarjeta-mision:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+.tarjeta-mision:active {
+    transform: scale(0.98);
 }
 
 .titulo-mision {
@@ -255,9 +225,9 @@ body {
     color: white;
 }
 
-.boton-principal:hover {
+.boton-principal:active {
     background: #0088c0;
-    transform: scale(1.02);
+    transform: scale(0.98);
 }
 
 .boton-exito {
@@ -287,7 +257,7 @@ body {
     border-bottom: 1px solid #f0f0f0;
 }
 
-.elemento-transaccion:ultimo-hijo {
+.elemento-transaccion:last-child {
     border-bottom: none;
 }
 
@@ -325,8 +295,11 @@ body {
     padding: 15px 10px;
     background: white;
     border-top: 1px solid #e0e0e0;
-    position: sticky;
+    position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
 }
 
 .elemento-nav {
@@ -347,30 +320,23 @@ body {
     margin-bottom: 4px;
 }
 
-/* INDICADOR HOME */
-.indicador-home {
-    width: 134px;
-    height: 5px;
-    background: #000;
-    border-radius: 3px;
-    margin: 10px auto;
-    opacity: 0.3;
-}
-
-/* CONTROLES EXTERNOS */
+/* CONTROLES EXTERNOS - Solo visible en desktop */
 .controles-externos {
+    position: fixed;
+    top: 20px;
+    right: 20px;
     background: white;
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     text-align: center;
+    z-index: 1000;
 }
 
 .botones-control {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
-    justify-content: center;
     margin-top: 15px;
 }
 
@@ -383,7 +349,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 140px;
+    min-width: 180px;
 }
 
 .boton-control:hover {
@@ -412,17 +378,24 @@ body {
 }
 
 /* RESPONSIVE */
-@media (max-width: 480px) {
-    .contenedor-movil {
-        transform: scale(0.8);
+@media (max-width: 768px) {
+    .controles-externos {
+        display: none;
     }
-    
-    .botones-control {
-        flex-direction: column;
+}
+
+@media (min-width: 769px) {
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        justify-content: center;
         align-items: center;
     }
-    
-    .boton-control {
-        min-width: 200px;
+
+    .pantalla {
+        max-width: 375px;
+        border-radius: 40px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        overflow: hidden;
     }
 }
