@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SabaDingo - Quiz Financiero</title>
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    /* === ESTILOS ESPECÍFICOS SABADINGO === */
+        body {
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        flex-direction: column;
+        width: 100vw;   
+        margin: 0;
+        background: #fff;
+        overflow-x: hidden; 
+        overflow-y: auto;  
+    }
+
+
+
+    /* Top bar (energía y monedas) */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background: #f8f8f8;
+      border-bottom: 2px solid #e5e5e5;
+      font-size: 1rem;
+    }
+
+    .energy {
+      color: #42d9ff;
+      font-weight: bold;
+    }
+
+    .coins {
+      color: #ffb300;
+      font-weight: bold;
+    }
+
+    /* Mapa de niveles */
+    .level-map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  padding: 60px 0 100px;
+  width: 100%;
+  max-width: 720px; /* centrar y limitar ancho para controlar offsets */
+  margin: 0 auto;
+  background: white;
+  box-sizing: border-box;
+  }
+
+
+  .level {
+  position: relative;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  margin: 38px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: #16a34a33; /* ligero fondo para visibilidad */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+  }
+
+  /* Row wrapper to control spacing between levels */
+  .row {
+    position: relative;
+    width: 100%;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  /* Posicionamiento explícito a izquierda/derecha dentro de la fila */
+  .row .level.left {
+    left: 18%;
+    transform: translateX(-50%);
+  }
+  .row .level.right {
+    left: 82%;
+    transform: translateX(-50%);
+  }
+
+  /* Ajuste: asegurar que left/right se posicionan relativamente dentro de la row */
+  .row .level { position: absolute; }
+
+  /* Conectores más suaves: usar sombras y transparencia */
+  .level::after { opacity: 0.85; }
+
+  /* ocultar pseudo-conectores ahora que usaremos SVG */
+  .level::after { display: none; }
+
+    .level.completed {
+      background: #42d9ff;
+      color: white;
+    }
+
+    .level.locked {
+      background: #ccc;
+      color: #777;
+      cursor: not-allowed;
+    }
+
+    .level:hover {
+      transform: scale(1.05);
+    }
+
+    /* Zig-zag irregular estilo Duolingo: alterna offset lateral y añade conectores */
+  /* (Se usan clases .left / .right por fila; se elimina el uso de nth-child que causaba conflicto) */
+
+    /* Conectores diagonales: usando pseudo-elementos en cada level que conecta con el siguiente */
+    .level::after {
+      content: '';
+      position: absolute;
+      width: 3px;
+      height: 110px; /* conector ajustado para alcanzar la línea central */
+      background: linear-gradient(to bottom, #e0f7ff, transparent);
+      left: 50%;
+      top: 100%;
+      transform-origin: top center;
+      z-index: -1;
+      border-radius: 2px;
+    }
+
+    /* Usar clases left/right para rotar conectores hacia la línea central */
+    .row .level.left::after {
+      transform: translateX(-50%) rotate(32deg);
+    }
+    .row .level.right::after {
+      transform: translateX(-50%) rotate(-32deg);
+    }
+
+    /* Ocultar conector en el último nodo */
+    .level:last-child::after { display: none; }
+
+    /* Burbuja de nivel */
+    .level-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: none;
+      z-index: 10;
+      text-align: center;
+      width: 280px;
+    }
+
+    .level-popup h2 {
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .level-popup button {
+      background: #42d9ff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .level-popup button:hover {
+      background: #35bce0;
+    }
+
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #888;
+    }
+
+    .connector {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 6px;
+        height: 100%;
+        background: linear-gradient(#e0f7ff, transparent 25%);
+        z-index: -2;
+        transform: translateX(-50%);
+    }
+
+    /* Ajustes responsivos: en pantallas pequeñas reducir offsets y conector */
+    @media (max-width: 640px) {
+      .level:nth-child(odd), .level:nth-child(even) { transform: translateX(0); align-self: center; }
+      .level::after { display: none; }
+      .connector { left: 50%; width: 4px; }
+      .level-map { padding: 40px 10px 120px; }
+    }
+
+
+    
+
+    /* Pantalla del nivel (demo) */
+    .level-demo {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+    }
+
+    .progress-bar {
+      width: 80%;
+      height: 15px;
+      background: #eee;
+      border-radius: 8px;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #42d9ff;
+      transition: width 0.3s;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <span class="energy">⚡ Energía: <span id="energy-count">20</span></span>
+    <span class="coins">💰 <span id="coin-count">120</span></span>
+  </div>
+
+  <div id="map" class="level-map">
+    <div class="connector"></div>
+    <!-- SVG overlay para conectores curvos -->
+    <svg id="map-svg" class="map-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:-3"></svg>
+
+    <div class="row">
+      <div class="level completed left" data-level="1">1</div>
+    </div>
+    <div class="row">
+      <div class="level completed right" data-level="2">2</div>
+    </div>
+    <div class="row">
+      <div class="level left" data-level="3">3</div>
+    </div>
+    <div class="row">
+      <div class="level locked right" data-level="4">4</div>
+    </div>
+    <div class="row">
+      <div class="level locked left" data-level="5">5</div>
+    </div>
+    <div class="row">
+      <div class="level locked right" data-level="6">6</div>
+    </div>
+    <div class="row">
+      <div class="level locked left" data-level="7">7</div>
+    </div>
+    <div class="row">
+      <div class="level locked right" data-level="8">8</div>
+    </div>
+    <div class="row">
+      <div class="level locked left" data-level="9">9</div>
+    </div>
+    <div class="row">
+      <div class="level locked right" data-level="10">10</div>
+    </div>
+  </div>
+
+  <div id="popup" class="level-popup">
+    <span class="close-popup" id="close-popup">✖</span>
+    <h2 id="popup-title">Nivel 3: Seguridad Financiera</h2>
+    <button id="start-level">Comenzar</button>
+  </div>
+
+  <div id="demo" class="level-demo">
+    <h2>Simulación de Nivel</h2>
+    <p>Completa el reto para ganar FinCoins 🔥</p>
+    <div class="progress-bar">
+      <div id="progress-fill" class="progress-fill"></div>
+    </div>
+  </div>
+
+  <script>
+    // DIBUJAR CURVAS SVG ENTRE NODOS
+    function drawCurves() {
+      const svg = document.getElementById('map-svg');
+      const map = document.getElementById('map');
+
+      // usar dimensiones completas del contenedor (incluye scroll) para el SVG
+      const width = Math.max(map.scrollWidth, map.clientWidth);
+      const height = Math.max(map.scrollHeight, map.clientHeight);
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      svg.style.width = width + 'px';
+      svg.style.height = height + 'px';
+      svg.innerHTML = '';
+
+      const levels = Array.from(document.querySelectorAll('.row .level'));
+
+      // helper: posición relativa de un elemento dentro del contenedor 'map'
+      function getRelativePos(el, container) {
+        let x = 0, y = 0;
+        let node = el;
+        while (node && node !== container) {
+          x += node.offsetLeft || 0;
+          y += node.offsetTop || 0;
+          node = node.offsetParent;
+        }
+        // añadir la mitad del tamaño para obtener el centro
+        x += (el.offsetWidth || 0) / 2;
+        y += (el.offsetHeight || 0) / 2;
+        return { x, y };
+      }
+
+      for (let i = 0; i < levels.length - 1; i++) {
+        const aPos = getRelativePos(levels[i], map);
+        const bPos = getRelativePos(levels[i+1], map);
+
+        const ax = aPos.x;
+        const ay = aPos.y;
+        const bx = bPos.x;
+        const by = bPos.y;
+
+        // control points más amplios para curvas pronunciadas tipo mapa
+        const dx = bx - ax;
+        const cyOffset = Math.max(80, Math.abs(ay - by) * 0.6);
+        const cx1 = ax + dx * 0.35;
+        const cy1 = ay + cyOffset;
+        const cx2 = ax + dx * 0.65;
+        const cy2 = by - cyOffset;
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        path.setAttribute('d', `M ${ax} ${ay} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${bx} ${by}`);
+        path.setAttribute('fill','none');
+        path.setAttribute('stroke','#e0f7ff');
+        path.setAttribute('stroke-width','8');
+        path.setAttribute('stroke-linecap','round');
+        path.setAttribute('stroke-linejoin','round');
+        path.setAttribute('opacity','0.95');
+        path.style.filter = 'drop-shadow(0 6px 8px rgba(0,0,0,0.06))';
+        svg.appendChild(path);
+      }
+    }
+
+    // Redibujar en carga y resize
+    window.addEventListener('load', drawCurves);
+    window.addEventListener('resize', () => { setTimeout(drawCurves, 120); });
+    window.addEventListener('scroll', () => { /* redibujar si el contenedor se mueve */ setTimeout(drawCurves, 60); });
+
+    const levels = document.querySelectorAll('.level');
+    const popup = document.getElementById('popup');
+    const closePopup = document.getElementById('close-popup');
+    const startBtn = document.getElementById('start-level');
+    const map = document.getElementById('map');
+    const demo = document.getElementById('demo');
+    const energyCount = document.getElementById('energy-count');
+    const progressFill = document.getElementById('progress-fill');
+
+    let energy = 20;
+
+    // Mostrar burbuja de nivel al hacer clic
+    levels.forEach(level => {
+      level.addEventListener('click', () => {
+        if (!level.classList.contains('locked')) {
+          popup.style.display = 'block';
+          const lvl = level.dataset.level;
+          document.getElementById('popup-title').innerText = `Nivel ${lvl}: Seguridad Financiera`;
+        }
+      });
+    });
+
+    // Cerrar burbuja
+    closePopup.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+
+    // Comenzar nivel
+    startBtn.addEventListener('click', () => {
+      if (energy >= 5) {
+        energy -= 5;
+        energyCount.innerText = energy;
+        popup.style.display = 'none';
+        map.style.display = 'none';
+        demo.style.display = 'flex';
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 10;
+          progressFill.style.width = progress + '%';
+          if (progress >= 100) clearInterval(interval);
+        }, 400);
+      } else {
+        alert('No tienes suficiente energía ⚡');
+      }
+    });
+  </script>
+</body>
+</html>
