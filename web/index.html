@@ -19,6 +19,8 @@
             <span></span>
         </button>
 
+        
+
         <!-- Menú lateral móvil -->
         <div class="menu-lateral" id="menu-lateral">
             <div class="menu-header">
@@ -74,6 +76,53 @@
                         <div class="relleno-progreso" id="relleno-progreso"></div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Banner de Tarjeta -->
+            <div class="banner-tarjeta" id="banner-tarjeta">
+                <div class="info-tarjeta">
+                    <div class="icono-tarjeta">💳</div>
+                    <div class="detalles-tarjeta">
+                        <div class="nombre-tarjeta" id="nombre-tarjeta">—</div>
+                        <div class="termina-en" id="termina-en">Termina en ****</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Tarjetas (oculta al inicio) -->
+            <div class="seccion-tarjetas" id="seccion-tarjetas" style="display: none;">
+                <div class="encabezado-seccion">
+                    <button class="boton-volver" id="boton-volver-tarjetas">←</button>
+                    <h2 class="titulo-seccion-tarjetas">Mis Tarjetas</h2>
+                </div>
+
+                <div class="tarjeta-detalle">
+                    <div class="tarjeta-bancaria">
+                        <div class="tarjeta-logo">Visa</div>
+                        <div class="tarjeta-numero">**** **** **** <span id="ultimos-digitos-tarjeta">4321</span></div>
+                        <div class="tarjeta-chip"></div>
+                        <div class="tarjeta-info">
+                            <div class="tarjeta-titular">ALEX MARTÍNEZ</div>
+                            <div class="tarjeta-vencimiento">Vence: <span>12/27</span></div>
+                        </div>
+                    </div>
+
+                    <div class="acciones-tarjeta">
+                        <button class="boton-accion" id="bloquear-tarjeta">🔒 Bloquear Tarjeta</button>
+                        <button class="boton-accion" id="desbloquear-tarjeta" style="display: none;">🔓 Desbloquear Tarjeta</button>
+                        <button class="boton-accion" id="historial-tarjeta">📊 Ver Historial</button>
+                        <button class="boton-accion" id="limites-tarjeta">📈 Límites y Pagos</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historial de tarjeta (oculto por defecto) -->
+            <div class="historial-tarjeta" id="historial-tarjeta-contenedor" style="display: none; margin-top: 24px;">
+                <h3 class="titulo-historial">Historial de la Tarjeta</h3>
+                <div class="lista-historial" id="lista-historial-tarjeta">
+                    <!-- Las transacciones se cargarán aquí -->
+                </div>
+                <button class="boton-volver-historial" id="boton-volver-historial">← Volver a Tarjeta</button>
             </div>
 
             <!-- Misiones -->
