@@ -357,6 +357,185 @@ body {
     transform: scale(1.05);
 }
 
+/* jaime tarejtas
+/* --- Banner de Tarjeta (en la vista principal) --- */
+.banner-tarjeta {
+    background: linear-gradient(135deg, #4a6cf7, #6a8cff);
+    color: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin: 16px 16px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.banner-tarjeta:hover,
+.banner-tarjeta:active {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.info-tarjeta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.icono-tarjeta {
+    font-size: 50px;
+    line-height: 1; /* Elimina el espacio extra debajo del emoji */
+}
+
+.detalles-tarjeta .nombre-tarjeta {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.detalles-tarjeta .termina-en {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+
+/* --- Sección de Tarjetas (vista detallada) --- */
+.seccion-tarjetas {
+    padding: 16px;
+    display: none; /* Se controla con JS */
+}
+
+.encabezado-seccion {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.boton-volver {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    margin-right: 12px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.boton-volver:hover {
+    background: #f0f0f0;
+}
+
+.titulo-seccion-tarjetas {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+
+
+/* --- Tarjeta bancaria visual --- */
+.tarjeta-bancaria {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    height: 200px;
+    background: linear-gradient(135deg, #1a3a7f, #2d5cb5);
+    border-radius: 20px;
+    padding: 24px;
+    color: white;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    margin: 0 auto 24px;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+.tarjeta-logo {
+    font-size: 32px;
+    margin-bottom: 24px;
+    text-align: right;
+}
+
+.tarjeta-numero {
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+    font-family: monospace;
+}
+
+.tarjeta-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.tarjeta-titular {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tarjeta-vencimiento {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.tarjeta-chip {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    width: 50px;
+    height: 40px;
+    background: #c0a062;
+    border-radius: 4px;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+}
+
+
+/* --- Acciones bajo la tarjeta --- */
+.acciones-tarjeta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.boton-accion {
+    background: #f8f9ff;
+    border: 1px solid #d0d9ff;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #4a6cf7;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.boton-accion:hover {
+    background: #edf0ff;
+    transform: translateY(-1px);
+}
+
+/* Responsive para móviles pequeños */
+@media (max-width: 400px) {
+    .tarjeta-bancaria {
+        height: auto;
+        padding: 20px;
+    }
+
+    .tarjeta-numero {
+        font-size: 20px;
+    }
+}
+
+
 /* EFECTOS DE ANIMACIÓN */
 @keyframes aparecer {
     from {
