@@ -455,6 +455,15 @@ class App {
         localStorage.setItem(this.PERFIL_KEY, JSON.stringify(datos));
         this.imgAvatar.src = datos.avatar;
         this.actualizarBienvenida(datos.nombre);
+
+        // Actualizar el nombre en todas las tarjetas
+        const { tarjetas } = this.appState.getState();
+        const tarjetasActualizadas = tarjetas.map(tarjeta => ({
+            ...tarjeta,
+            titular: datos.nombre.toUpperCase()
+        }));
+        this.appState.updateTarjetas(tarjetasActualizadas);
+        
         this.cerrarPerfilOverlay();
     }
 
@@ -485,6 +494,14 @@ class App {
         const datos = JSON.parse(localStorage.getItem(this.PERFIL_KEY) || '{}');
         if (datos.nombre) {
             this.actualizarBienvenida(datos.nombre);
+            
+            // Actualizar el nombre en todas las tarjetas
+            const { tarjetas } = this.appState.getState();
+            const tarjetasActualizadas = tarjetas.map(tarjeta => ({
+                ...tarjeta,
+                titular: datos.nombre.toUpperCase()
+            }));
+            this.appState.updateTarjetas(tarjetasActualizadas);
         }
     }
 
