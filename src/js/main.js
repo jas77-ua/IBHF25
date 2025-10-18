@@ -19,6 +19,15 @@ class App {
         this.missionsComponent = null;
         this.transactionsComponent = null;
         this.cardComponent = null;
+
+        // Elementos del perfil
+        this.perfilOverlay = document.getElementById('pagina-perfil');
+        this.inputNombre = document.getElementById('perfil-nombre');
+        this.inputEmail = document.getElementById('perfil-email');
+        this.inputAvatarUrl = document.getElementById('perfil-avatar-url');
+        this.imgAvatar = document.getElementById('perfil-avatar');
+        
+        this.PERFIL_KEY = 'app_perfil_v1';
     }
 
     /**
@@ -36,14 +45,20 @@ class App {
             this.handleCompletarMision(misionId);
         });
 
-        // Renderizar contenido inicial
-        this.render();
-
         // Configurar navegación
         this.setupNavigation();
 
+        // Configurar eventos del perfil
+        this.setupPerfilEvents();
+
+        // Renderizar contenido inicial
+        this.render();
+
         // Suscribirse a cambios de estado
         this.appState.subscribe(() => this.render());
+
+        // Cargar datos del perfil
+        this.cargarPerfilInicial();
 
         console.log('🚀 Aplicación Sabadell NEXT iniciada correctamente');
     }
@@ -80,13 +95,6 @@ class App {
         // Navegación inferior (desktop)
         elementosNav.forEach(elemento => {
             elemento.addEventListener('click', (e) => {
-                // Remover clase activo de todos
-                elementosNav.forEach(nav => nav.classList.remove('activo'));
-                menuItems.forEach(item => item.classList.remove('activo'));
-
-                // Añadir clase activo al clickeado
-                e.currentTarget.classList.add('activo');
-
                 // Obtener página
                 const pagina = e.currentTarget.getAttribute('data-pagina');
                 console.log(`Navegando a: ${pagina}`);
@@ -100,13 +108,6 @@ class App {
         menuItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
-
-                // Remover clase activo de todos
-                menuItems.forEach(mi => mi.classList.remove('activo'));
-                elementosNav.forEach(nav => nav.classList.remove('activo'));
-
-                // Añadir clase activo al clickeado
-                e.currentTarget.classList.add('activo');
 
                 // Obtener página
                 const pagina = e.currentTarget.getAttribute('data-pagina');
@@ -189,26 +190,37 @@ class App {
      * Maneja la navegación entre páginas
      */
     navegarAPagina(pagina) {
+        // Remover clase activo de todos los elementos de navegación
+        document.querySelectorAll('.elemento-nav').forEach(nav => nav.classList.remove('activo'));
+        document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('activo'));
+        
+        // Añadir clase activo al elemento correspondiente
+        document.querySelectorAll(`[data-pagina="${pagina}"]`).forEach(el => {
+            el.classList.add('activo');
+        });
+
         switch(pagina) {
             case 'inicio':
-                // Ya estamos en inicio
                 console.log('Navegando a página de inicio');
+                // Ocultar perfil si está abierto
+                this.cerrarPerfilOverlay();
                 break;
             case 'misiones':
-                // Aquí puedes implementar navegación a misiones
                 console.log('Navegando a página de misiones');
+                this.cerrarPerfilOverlay();
                 break;
             case 'touch-share':
                 // Navegar a la página de Touch & Share
                 this.navegarATouchShare();
                 break;
             case 'estadisticas':
-                // Aquí puedes implementar navegación a estadísticas
                 console.log('Navegando a página de estadísticas');
+                this.cerrarPerfilOverlay();
                 break;
             case 'perfil':
-                // Aquí puedes implementar navegación a perfil
                 console.log('Navegando a página de perfil');
+                // Abrir el overlay de perfil
+                this.abrirPerfil();
                 break;
             default:
                 console.log('Página no reconocida:', pagina);
@@ -227,90 +239,101 @@ class App {
         
         console.log('🔗 Navegando a Touch & Share:', urlTouchShare);
     }
-}
 
-// --- Perfil: abrir/guardar/cerrar ---
-const navItems = document.querySelectorAll('.elemento-nav');
-const perfilOverlay = document.getElementById('pagina-perfil');
-const cerrarPerfil = document.getElementById('cerrar-perfil');
-const cerrarPerfil2 = document.getElementById('cerrar-perfil-2');
-const guardarPerfilBtn = document.getElementById('guardar-perfil');
-const logoutBtn = document.getElementById('logout-btn');
+    /**
+     * Configura los eventos del perfil
+     */
+    setupPerfilEvents() {
+        const cerrarPerfil = document.getElementById('cerrar-perfil');
+        const cerrarPerfil2 = document.getElementById('cerrar-perfil-2');
+        const guardarPerfilBtn = document.getElementById('guardar-perfil');
+        const logoutBtn = document.getElementById('logout-btn');
 
-const inputNombre = document.getElementById('perfil-nombre');
-const inputEmail = document.getElementById('perfil-email');
-const inputAvatarUrl = document.getElementById('perfil-avatar-url');
-const imgAvatar = document.getElementById('perfil-avatar');
-
-const PERFIL_KEY = 'app_perfil_v1';
-
-function abrirPerfil() {
-    // cargar datos guardados
-    const datos = JSON.parse(localStorage.getItem(PERFIL_KEY) || '{}');
-    inputNombre.value = datos.nombre || 'Alex';
-    inputEmail.value = datos.email || 'alex@ejemplo.com';
-    inputAvatarUrl.value = datos.avatar || '../src/assets/perfil.jpg';
-    imgAvatar.src = inputAvatarUrl.value;
-    perfilOverlay.style.display = 'flex';
-}
-
-function cerrarPerfilOverlay() {
-    perfilOverlay.style.display = 'none';
-}
-
-function guardarPerfil() {
-    const datos = {
-        nombre: inputNombre.value.trim() || 'Alex',
-        email: inputEmail.value.trim() || '',
-        avatar: inputAvatarUrl.value.trim() || '../src/assets/perfil.jpg'
-    };
-    localStorage.setItem(PERFIL_KEY, JSON.stringify(datos));
-    imgAvatar.src = datos.avatar;
-    // actualizar UI de bienvenida si existe
-    const textoBienvenida = document.querySelector('.texto-bienvenida');
-    if (textoBienvenida) textoBienvenida.textContent = `¡Hola, ${datos.nombre}!`;
-    cerrarPerfilOverlay();
-}
-
-function logout() {
-    // acción simple: borrar perfil guardado y recargar (ajusta según tu lógica)
-    localStorage.removeItem(PERFIL_KEY);
-    window.location.href = '../src/index/login.html'
-}
-
-// listeners
-navItems.forEach(item => {
-    item.addEventListener('click', () => {
-        const pagina = item.dataset.pagina;
-        if (pagina === 'perfil') {
-            abrirPerfil();
-            return;
+        if (cerrarPerfil) {
+            cerrarPerfil.addEventListener('click', () => this.cerrarPerfilOverlay());
         }
-        // comportamiento existente de navegación (si lo tienes) puede ir aquí:
-        document.querySelectorAll('.elemento-nav').forEach(n => n.classList.remove('activo'));
-        item.classList.add('activo');
-        // puedes añadir lógica para cambiar vistas según `pagina`
-    });
-});
+        if (cerrarPerfil2) {
+            cerrarPerfil2.addEventListener('click', () => this.cerrarPerfilOverlay());
+        }
+        if (guardarPerfilBtn) {
+            guardarPerfilBtn.addEventListener('click', () => this.guardarPerfil());
+        }
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => this.logout());
+        }
 
-cerrarPerfil.addEventListener('click', cerrarPerfilOverlay);
-cerrarPerfil2.addEventListener('click', cerrarPerfilOverlay);
-guardarPerfilBtn.addEventListener('click', guardarPerfil);
-logoutBtn.addEventListener('click', logout);
-
-// actualizar avatar en tiempo real al cambiar URL
-inputAvatarUrl && inputAvatarUrl.addEventListener && inputAvatarUrl.addEventListener('input', (e) => {
-    imgAvatar.src = e.target.value || '../src/assets/perfil.jpg';
-});
-
-// cargar perfil al inicio (si quieres mostrar nombre)
-document.addEventListener('DOMContentLoaded', () => {
-    const datos = JSON.parse(localStorage.getItem(PERFIL_KEY) || '{}');
-    if (datos.nombre) {
-        const textoBienvenida = document.querySelector('.texto-bienvenida');
-        if (textoBienvenida) textoBienvenida.textContent = `¡Hola, ${datos.nombre}!`;
+        // Actualizar avatar en tiempo real
+        if (this.inputAvatarUrl) {
+            this.inputAvatarUrl.addEventListener('input', (e) => {
+                this.imgAvatar.src = e.target.value || '../src/assets/perfil.jpg';
+            });
+        }
     }
-});
+
+    /**
+     * Abre el overlay del perfil
+     */
+    abrirPerfil() {
+        const datos = JSON.parse(localStorage.getItem(this.PERFIL_KEY) || '{}');
+        this.inputNombre.value = datos.nombre || 'Alex';
+        this.inputEmail.value = datos.email || 'alex@ejemplo.com';
+        this.inputAvatarUrl.value = datos.avatar || '../src/assets/perfil.jpg';
+        this.imgAvatar.src = this.inputAvatarUrl.value;
+        this.perfilOverlay.style.display = 'flex';
+    }
+
+    /**
+     * Cierra el overlay del perfil
+     */
+    cerrarPerfilOverlay() {
+        this.perfilOverlay.style.display = 'none';
+    }
+
+    /**
+     * Guarda los datos del perfil
+     */
+    guardarPerfil() {
+        const datos = {
+            nombre: this.inputNombre.value.trim() || 'Alex',
+            email: this.inputEmail.value.trim() || '',
+            avatar: this.inputAvatarUrl.value.trim() || '../src/assets/perfil.jpg'
+        };
+        localStorage.setItem(this.PERFIL_KEY, JSON.stringify(datos));
+        this.imgAvatar.src = datos.avatar;
+        this.actualizarBienvenida(datos.nombre);
+        this.cerrarPerfilOverlay();
+    }
+
+    /**
+     * Actualiza el mensaje de bienvenida
+     */
+    actualizarBienvenida(nombre) {
+        const textoBienvenida = document.querySelector('.texto-bienvenida');
+        if (textoBienvenida) {
+            textoBienvenida.innerHTML = `¡Hola, ${nombre}! <i class="fi fi-rr-hand-wave"></i>`;
+        }
+    }
+
+    /**
+     * Cierra sesión
+     */
+    logout() {
+        if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+            localStorage.removeItem(this.PERFIL_KEY);
+            window.location.href = '../src/index/login.html';
+        }
+    }
+
+    /**
+     * Carga los datos iniciales del perfil
+     */
+    cargarPerfilInicial() {
+        const datos = JSON.parse(localStorage.getItem(this.PERFIL_KEY) || '{}');
+        if (datos.nombre) {
+            this.actualizarBienvenida(datos.nombre);
+        }
+    }
+}
 
 // Iniciar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
