@@ -127,9 +127,8 @@
 }
 
 .tarjeta-chip {
-    position: relative;
-    top: 1px;
-    bottom: 2000px;
+    position: absolute;
+    top: 16px;
     left: 16px;
     width: 45px;
     height: 35px;

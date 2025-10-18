@@ -79,6 +79,9 @@ export class Card {
         this.bannerTarjeta.style.display = 'none';
         this.seccionTarjetas.style.display = 'block';
         document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none');
+        // Aseguramos que el detalle de la tarjeta esté visible y el historial oculto
+        document.querySelector('.tarjeta-detalle').style.display = 'block';
+        this.historialContainer.style.display = 'none';
     }
 
     mostrarInicio() {
@@ -86,6 +89,8 @@ export class Card {
         this.seccionTarjetas.style.display = 'none';
         document.querySelectorAll('.seccion').forEach(s => s.style.display = '');
         this.historialContainer.style.display = 'none';
+        // Reseteamos el estado de la vista de tarjeta
+        document.querySelector('.tarjeta-detalle').style.display = 'block';
     }
 
     mostrarHistorial() {
