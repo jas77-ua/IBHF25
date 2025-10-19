@@ -21,7 +21,7 @@ export class Transactions {
                     <div class="fecha-transaccion">${transaccion.fecha}</div>
                 </div>
                 <div class="cantidad-transaccion ${transaccion.tipo}">
-                    ${transaccion.tipo === 'positivo' ? '+' : '-'}€${transaccion.cantidad.toFixed(2)}
+                    ${transaccion.tipo === 'positivo' ? '+' : '-'}${transaccion.cantidad.toFixed(2)}€
                 </div>
             </div>
         `).join('');

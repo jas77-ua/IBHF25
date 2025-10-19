@@ -23,7 +23,7 @@ missionButtons.forEach(button => {
         }, 2000);
         
         // Mostrar notificación
-        showNotification(`¡Has comenzado la misión: ${missionTitle}!`);
+        //showNotification(`¡Has comenzado la misión: ${missionTitle}!`);
         
         // Aumentar progreso (simulación)
         increaseProgress(missionCard);
@@ -44,7 +44,7 @@ function increaseProgress(missionCard) {
     // Si llega al 100%, mostrar mensaje de completado
     if (newWidth >= 100) {
         setTimeout(() => {
-            showNotification('¡Misión completada! Recompensa desbloqueada.');
+            //showNotification('¡Misión completada! Recompensa desbloqueada.');
         }, 500);
     }
 }
@@ -103,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
     });
 });
-
 // Simular progreso automático cada 10 segundos (solo para demostración)
 setInterval(() => {
     const randomIndex = Math.floor(Math.random() * missionButtons.length);

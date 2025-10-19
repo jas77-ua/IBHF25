@@ -99,7 +99,7 @@ export class Card {
                     <div class="fecha-historial">${transaccion.fecha}</div>
                 </div>
                 <div class="cantidad-historial ${transaccion.tipo}">
-                    ${transaccion.tipo === 'positivo' ? '+' : '-'}€${transaccion.cantidad.toFixed(2)}
+                    ${transaccion.tipo === 'positivo' ? '+' : '-'}${transaccion.cantidad.toFixed(2)}€
                 </div>
             </div>
         `).join('');
@@ -121,16 +121,6 @@ export class Card {
         };
         setupBannerListener(this.bannerTarjeta1, 0);
         setupBannerListener(this.bannerTarjeta2, 1);
-
-        // Botón volver de tarjetas → inicio
-        document.getElementById('boton-volver-tarjetas')?.addEventListener('click', () => {
-            if (this.navegarCallback) this.navegarCallback('inicio');
-        });
-
-        // Botón volver del historial
-        document.getElementById('boton-volver-historial')?.addEventListener('click', () => 
-            this.volverDeHistorial()
-        );
 
         // Configurar listeners para cada tarjeta
         const { tarjetas } = this.appState.getState();

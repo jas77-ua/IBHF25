@@ -179,7 +179,7 @@ export class Transfers {
         cuentas.forEach(cuenta => {
             const option = document.createElement('option');
             option.value = cuenta.id;
-            option.textContent = `${cuenta.nombre} - €${cuenta.saldo.toFixed(2)}`;
+            option.textContent = `${cuenta.nombre} - ${cuenta.saldo.toFixed(2)}€`;
             select.appendChild(option);
         });
     }
@@ -199,7 +199,7 @@ export class Transfers {
             if (cuenta.id !== cuentaOrigenId) {
                 const option = document.createElement('option');
                 option.value = cuenta.id;
-                option.textContent = `${cuenta.nombre} - €${cuenta.saldo.toFixed(2)}`;
+                option.textContent = `${cuenta.nombre} - ${cuenta.saldo.toFixed(2)}€`;
                 select.appendChild(option);
             }
         });
@@ -222,7 +222,7 @@ export class Transfers {
             infoLimite.style.display = 'none';
         } else {
             infoLimite.style.display = 'block';
-            infoLimite.textContent = `Límite máximo: €${limite}`;
+            infoLimite.textContent = `Límite máximo: ${limite}€`;
             infoLimite.className = 'info-limite';
         }
     }
@@ -242,12 +242,12 @@ export class Transfers {
         const limite = this.limites[this.tipoActual];
         if (importe > limite) {
             infoLimite.style.display = 'block';
-            infoLimite.textContent = `⚠️ El importe supera el límite de €${limite}`;
+            infoLimite.textContent = `⚠️ El importe supera el límite de ${limite}€`;
             infoLimite.classList.add('error');
             return false;
         } else {
             infoLimite.style.display = 'block';
-            infoLimite.textContent = `✅ Importe válido (límite: €${limite})`;
+            infoLimite.textContent = `✅ Importe válido (límite: ${limite}€)`;
             infoLimite.classList.remove('error');
             return true;
         }
@@ -268,7 +268,7 @@ export class Transfers {
         this.mostrarResumen(datos);
 
         // Confirmar con el usuario
-        if (confirm(`¿Confirmar transferencia de €${datos.importe}?\n\n${datos.concepto || 'Sin concepto'}`)) {
+        if (confirm(`¿Confirmar transferencia de ${datos.importe}€?\n\n${datos.concepto || 'Sin concepto'}`)) {
             this.ejecutarTransferencia(datos);
         }
     }
@@ -321,7 +321,7 @@ export class Transfers {
         }
 
         if (datos.importe > this.limites[datos.tipo]) {
-            alert(`⚠️ El importe supera el límite de €${this.limites[datos.tipo]}`);
+            alert(`⚠️ El importe supera el límite de ${this.limites[datos.tipo]}€`);
             return false;
         }
 
@@ -368,7 +368,7 @@ export class Transfers {
 
         document.getElementById('resumen-desde').textContent = cuentaOrigen.nombre;
         document.getElementById('resumen-hacia').textContent = destino;
-        document.getElementById('resumen-importe').textContent = `€${datos.importe.toFixed(2)}`;
+        document.getElementById('resumen-importe').textContent = `${datos.importe.toFixed(2)}€`;
         document.getElementById('resumen-transferencia').style.display = 'block';
     }
 

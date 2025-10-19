@@ -49,7 +49,7 @@ export class Accounts {
             <div class="resumen-cuentas">
                 <div class="resumen-item">
                     <div class="resumen-label">Saldo Total</div>
-                    <div class="resumen-valor saldo-total">€${saldoTotal.toFixed(2)}</div>
+                    <div class="resumen-valor saldo-total">${saldoTotal.toFixed(2)}€</div>
                 </div>
                 <div class="resumen-item">
                     <div class="resumen-label">Cuentas Activas</div>
@@ -85,7 +85,7 @@ export class Accounts {
 
                 <div class="cuenta-saldo">
                     <div class="saldo-label">Saldo Disponible</div>
-                    <div class="saldo-cantidad ${saldoClass}">€${cuenta.saldo.toFixed(2)}</div>
+                    <div class="saldo-cantidad ${saldoClass}">${cuenta.saldo.toFixed(2)}€</div>
                 </div>
 
                 <div class="cuenta-iban">

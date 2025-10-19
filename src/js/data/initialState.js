@@ -70,8 +70,8 @@ export const initialState = {
             id: 1,
             titulo: "Primer Ahorro Épico",
             icono: "fi-rr-piggy-bank",
-            descripcion: "Ahorra €50 este mes y gana recompensas especiales",
-            recompensa: "+€5 bonus + Insignia",
+            descripcion: "Ahorra 50€ este mes y gana recompensas especiales",
+            recompensa: "+5€ bonus + Insignia",
             completada: false,
             progreso: 65
         },
@@ -88,7 +88,7 @@ export const initialState = {
             id: 3,
             titulo: "Inversor Novato",
             icono: "fi-rr-chart-line-up",
-            descripcion: "Simula una inversión de €1000 en bolsa virtual",
+            descripcion: "Simula una inversión de 1000€ en bolsa virtual",
             recompensa: "Desbloqueo Simulador Avanzado",
             completada: false,
             progreso: 10
