@@ -2,7 +2,7 @@
 function checkSession() {
     const sessionData = localStorage.getItem('session');
     if (!sessionData) {
-        window.location.href = '../src/login/index.html';
+        window.location.href = '../src/index/login.html';
         return;
     }
 
@@ -14,13 +14,13 @@ function checkSession() {
         if (now > sessionExpires) {
             // Sesión expirada
             localStorage.removeItem('session');
-            window.location.href = '../src/login/index.html';
+            window.location.href = '../src/index/login.html';
             return;
         }
     } catch (e) {
         // Error al procesar la sesión
         localStorage.removeItem('session');
-        window.location.href = '../src/login/index.html';
+        window.location.href = '../src/index/login.html';
         return;
     }
 }
