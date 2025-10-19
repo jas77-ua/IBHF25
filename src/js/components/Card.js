@@ -108,90 +108,43 @@ export class Card {
     setupEventListeners() {
         console.log('🎴 Configurando event listeners de Card...');
 
-        // Click en banners de tarjetas - navega a vista de tarjetas
+        // Banners → navegar a tarjetas y mostrar la específica
         const setupBannerListener = (banner, index) => {
             if (banner) {
                 banner.addEventListener('click', () => {
                     if (this.navegarCallback) {
                         this.navegarCallback('tarjetas');
-                        // Mostrar la tarjeta correspondiente
                         this.mostrarTarjetaEspecifica(index);
                     }
                 });
             }
         };
-
-        // Configurar listeners para ambos banners
         setupBannerListener(this.bannerTarjeta1, 0);
         setupBannerListener(this.bannerTarjeta2, 1);
 
-        // Configurar event listeners para cada tarjeta
+        // Configurar listeners para cada tarjeta
         const { tarjetas } = this.appState.getState();
-        tarjetas.forEach((tarjeta, index) => {
+        tarjetas.forEach((_, index) => {
             const tarjetaElement = document.getElementById(`tarjeta-${index + 1}`);
             if (!tarjetaElement) return;
 
-            // Botón bloquear
-            const btnBloquear = tarjetaElement.querySelector('.boton-bloquear');
-            if (btnBloquear) {
-                btnBloquear.addEventListener('click', () => {
-                    tarjeta.bloqueada = true;
-                    this.appState.setState({ tarjetas: [...tarjetas] });
-                    this.render();
-                });
-            }
+            // Bloquear/Desbloquear usando tus métodos con alertas
+            tarjetaElement.querySelector('.boton-bloquear')?.addEventListener('click', () => 
+                this.bloquearTarjeta(index)
+            );
+            tarjetaElement.querySelector('.boton-desbloquear')?.addEventListener('click', () => 
+                this.desbloquearTarjeta(index)
+            );
 
-            // Botón desbloquear
-            const btnDesbloquear = tarjetaElement.querySelector('.boton-desbloquear');
-            if (btnDesbloquear) {
-                btnDesbloquear.addEventListener('click', () => {
-                    tarjeta.bloqueada = false;
-                    this.appState.setState({ tarjetas: [...tarjetas] });
-                    this.render();
-                });
-            }
-
-            // Botón historial
-            const btnHistorial = tarjetaElement.querySelector('.boton-historial');
-            if (btnHistorial) {
-                btnHistorial.addEventListener('click', () => {
-                    const historialContainer = document.getElementById('historial-tarjeta-contenedor');
-                    if (historialContainer) {
-                        historialContainer.style.display = 'block';
-                        this.renderHistorial();
-                    }
-                });
-            }
-        });
-
-        // Bloquear tarjeta
-        const btnBloquear = document.getElementById('bloquear-tarjeta');
-        if (btnBloquear) {
-            btnBloquear.addEventListener('click', () => this.bloquearTarjeta());
-        }
-
-        // Desbloquear tarjeta
-        const btnDesbloquear = document.getElementById('desbloquear-tarjeta');
-        if (btnDesbloquear) {
-            btnDesbloquear.addEventListener('click', () => this.desbloquearTarjeta());
-        }
-
-        // Ver historial
-        const btnHistorial = document.getElementById('historial-tarjeta');
-        if (btnHistorial) {
-            btnHistorial.addEventListener('click', () => {
-                this.mostrarHistorial();
-                this.renderHistorial();
+            // Historial
+            tarjetaElement.querySelector('.boton-historial')?.addEventListener('click', () => {
+                const historialContainer = document.getElementById('historial-tarjeta-contenedor');
+                if (historialContainer) {
+                    historialContainer.style.display = 'block';
+                    this.renderHistorial();
+                }
             });
-        }
-
-        // Volver del historial
-        const btnVolverHistorial = document.getElementById('boton-volver-historial');
-        if (btnVolverHistorial) {
-            btnVolverHistorial.addEventListener('click', () => this.volverDeHistorial());
-        }
-        document.getElementById('boton-volver-historial')?.addEventListener('click', () => 
-            this.volverDeHistorial());
+        });
     }
 
     mostrarSeccionTarjetas() {
@@ -241,18 +194,28 @@ export class Card {
         }
     }
 
-    bloquearTarjeta(index) {
+   bloquearTarjeta(index) {
         const { tarjetas } = this.appState.getState();
         const tarjeta = tarjetas[index];
-        
+
+        if (!tarjeta) return; // Seguridad por si no existe
+
         if (tarjeta.bloqueada) {
             alert(`⚠️ La ${tarjeta.nombre} ya está bloqueada.`);
             return;
         }
 
         if (confirm('¿Seguro que quieres bloquear tu tarjeta?\n\nNo podrás hacer pagos hasta que la desbloquees.')) {
-            this.appState.updateTarjeta({ ...tarjeta, bloqueada: true });
+            // Creamos un nuevo array de tarjetas con la tarjeta bloqueada
+            const nuevasTarjetas = tarjetas.map((t, i) =>
+                i === index ? { ...t, bloqueada: true } : t
+            );
+
+            // Actualizamos el estado completo
+            this.appState.updateTarjetas(nuevasTarjetas);
+
             alert('✅ Tarjeta bloqueada con éxito.\nContacta con soporte para desbloquearla.');
+
             // Volver a inicio usando el callback de navegación
             if (this.navegarCallback) {
                 setTimeout(() => this.navegarCallback('inicio'), 1000);
@@ -261,21 +224,29 @@ export class Card {
     }
 
     desbloquearTarjeta(index) {
-        const { tarjetas } = this.appState.getState();
-        const tarjeta = tarjetas[index];
-        
-        if (!tarjeta.bloqueada) {
-            alert(`ℹ️ La ${tarjeta.nombre} ya está activa.`);
-            return;
-        }
+    const { tarjetas } = this.appState.getState();
+    const tarjeta = tarjetas[index];
+    
+    if (!tarjeta) return;
 
-        if (confirm('¿Seguro que quieres desbloquear tu tarjeta?')) {
-            this.appState.updateTarjeta({ ...tarjeta, bloqueada: false });
-            alert('✅ Tarjeta desbloqueada con éxito.');
-            // Volver a inicio usando el callback de navegación
-            if (this.navegarCallback) {
-                setTimeout(() => this.navegarCallback('inicio'), 1000);
-            }
+    if (!tarjeta.bloqueada) {
+        alert(`ℹ️ La ${tarjeta.nombre} ya está activa.`);
+        return;
+    }
+
+    if (confirm('¿Seguro que quieres desbloquear tu tarjeta?')) {
+        // Crea un nuevo array con la tarjeta desbloqueada
+        const nuevasTarjetas = tarjetas.map((t, i) =>
+            i === index ? { ...t, bloqueada: false } : t
+        );
+
+        // Actualiza el estado completo (igual que en bloquearTarjeta)
+        this.appState.updateTarjetas(nuevasTarjetas);
+
+        alert('✅ Tarjeta desbloqueada con éxito.');
+        if (this.navegarCallback) {
+            setTimeout(() => this.navegarCallback('inicio'), 1000);
         }
     }
+}
 }
