@@ -15,26 +15,101 @@ Público objetivo
  - Menores de edad entre 12 y 17 años.
 
 Cuota de mercado
- - En 2025: +3 Millones de jóvenes entre 14 y 17 años.
+ - En 2025: +2.5 Millones de jóvenes entre 14 y 17 años.
 
-###### Implementado:
- - Pantallas esenciales de una app de banca (inicio sesión, menú principal, cuentas, perfil)
- - Visualización de saldo y últimos movimientos
- - Menú inferior de navegación
- - Módulo Cuentas con acceso a información dobre las cuentas del menor
- - Módulo Sabadingo para educación financiera
- - Módulo Touch & Share para compartir pagos al momento
- - Módulo Estadísticas con datos como ingresos, gastos y gastos por categoría.
- - Misiones para gamificar los buenos hábitos financieros
- - Acceso del menor a sus tarjetas propias para consultar datos o administrar (teniendo el cuenta las limitaciones como menor)
+Pantallas esenciales de una app de banca
+Autenticación y Seguridad
 
-###### Sin implementar:
- - Verificación de identidad: OTP, código SMS, email
- - Recuperación de contraseña
- - Capacidad de registrar al padre/madre/tutor como administrador de la cuenta
- - Transferencias y Pagos
- - Notificaciones: Centro de alertas y mensajes
- - Agrega amigos
- - Recompensas por completar misiones (cashback, descuentos, sorteos, etc)
- - Recompensas por rachas de dias en Sabadingo
- - Ayuda/Soporte
+Login/Inicio de sesión: Con opciones de usuario/contraseña, biometría (huella, Face ID)
+Registro: Para nuevos usuarios
+Recuperación de contraseña
+Verificación de identidad: OTP, código SMS, email
+
+Pantallas Principales
+
+Home/Dashboard: Vista general con resumen de cuentas, movimientos recientes, accesos rápidos
+Menú principal: Navegación entre secciones
+
+Cuentas y Saldos
+
+Lista de cuentas: Todas las cuentas del usuario
+Detalle de cuenta: Saldo, movimientos, información de la cuenta
+Movimientos/Historial: Transacciones detalladas con filtros
+
+Transferencias y Pagos
+
+Nueva transferencia: Formulario para enviar dinero
+Gestión de beneficiarios: Añadir, editar, eliminar contactos
+Confirmación de transferencia: Resumen antes de ejecutar
+Comprobante: Recibo de la operación realizada
+
+Tarjetas
+
+Mis tarjetas: Lista de tarjetas de débito/crédito
+Detalle de tarjeta: Saldo, límite, movimientos, opciones (bloquear, activar)
+
+Otras Funcionalidades Básicas
+Para los padres/tutores:
+ - limites de gasto(semanal o mensual)
+ - resumen de gastos(semanal o mensual)
+ - según el resumen de gastos hacer recomendaciones ajustadas.
+
+Agrega amigos:
+ - sin acceso a ver el dinero que tienen los demás.
+ - ranking de los mas ahorradores.
+ - misiones conjuntas de gasto responsable.
+   
+Cashback: 
+ - cada vez que compran, un porcentaje va a una hucha de ahorro automático.
+ - habitos saludables 5% cashback, si no 0%.
+ - 
+ - “Has recuperado 0,40 €. Si hicieras esto cada semana, ahorrarías 20 € al año”.
+
+Notificaciones: Centro de alertas y mensajes
+Perfil/Configuración: Datos personales, preferencias, seguridad
+Ayuda/Soporte: FAQ, chat, contacto
+Cerrar sesión
+
+
+---
+
+## Estructura del Proyecto
+
+```
+IBHF25/
+├── src/                    # Código fuente
+│   ├── css/               # Hojas de estilo
+│   │   └── styles.css     # Estilos principales
+│   ├── js/                # JavaScript
+│   │   └── app.js         # Lógica de la aplicación
+│   └── assets/            # Recursos (imágenes, iconos, etc.)
+├── index.html             # Página principal
+├── Dockerfile             # Configuración de contenedor
+├── .gitignore             # Archivos ignorados por Git
+└── README.md              # Documentación
+```
+
+## Despliegue
+
+### Con Docker/Podman:
+
+```bash
+docker-compose up
+```
+
+### Desarrollo local:
+
+Usa un servidor local:
+
+```bash
+# Con Python
+python -m http.server 8080
+
+# Con Node.js (npx)
+npx serve
+
+# Con PHP
+php -S localhost:8080
+```
+
+Accede a la aplicación en: `http://localhost:8080`
