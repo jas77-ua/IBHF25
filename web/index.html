@@ -74,11 +74,11 @@
                 <div class="info-usuario">
                     <div>
                         <div class="texto-bienvenida">¡Hola, Alex! <i class="fi fi-rr-hand-wave"></i></div>
-                        <div class="cantidad-saldo" id="saldo">€453.30</div>
+                        <div class="cantidad-saldo" id="saldo">453.30€</div>
                     </div>
                     <div class="meta-ahorro">
                         <div class="texto-meta">Meta ahorro</div>
-                        <div class="cantidad-meta">€500</div>
+                        <div class="cantidad-meta">500€</div>
                     </div>
                 </div>
                 <div class="progreso-ahorro">
@@ -148,7 +148,7 @@
                         <span class="stat-label">Completadas</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-number" id="total-recompensas">€0</span>
+                        <span class="stat-number" id="total-recompensas">0€</span>
                         <span class="stat-label">Ganadas</span>
                     </div>
                     <div class="stat">
@@ -172,9 +172,6 @@
                 <!-- Sección de Tarjetas -->
                 <div class="seccion-tarjetas" id="seccion-tarjetas">
                     <div class="encabezado-seccion">
-                        <button class="boton-volver" id="boton-volver-tarjetas">
-                            <i class="fi fi-rr-arrow-left"></i>
-                        </button>
                         <h2 class="titulo-seccion-tarjetas">💳 Mis Tarjetas</h2>
                     </div>
 
@@ -316,9 +313,9 @@
                             <div class="missions-container">
                                 <div class="mission-card">
                                     <h2 class="mission-title">Primer Ahorro Épico</h2>
-                                    <p class="mission-description">Ahorra €50 este mes y gana recompensas especiales</p>
+                                    <p class="mission-description">Ahorra 50€ este mes y gana recompensas especiales</p>
                                     <div class="rewards">
-                                        <span class="reward">+€5 bonus</span>
+                                        <span class="reward">+5€ bonus</span>
                                         <span class="reward">Insignia</span>
                                     </div>
                                     <div class="progress-container">
@@ -332,7 +329,7 @@
                                     <h2 class="mission-title">Gamer Legendario</h2>
                                     <p class="mission-description">Completa 10 horas de estudio este mes</p>
                                     <div class="rewards">
-                                        <span class="reward">Tarjeta Steam €20</span>
+                                        <span class="reward">Tarjeta Steam 20€</span>
                                         <span class="reward">Insignia Gamer</span>
                                     </div>
                                     <div class="progress-container">
@@ -374,7 +371,7 @@
                                     <h2 class="mission-title">Chef en Formación</h2>
                                     <p class="mission-description">Prepara 5 cenas para la familia</p>
                                     <div class="rewards">
-                                        <span class="reward">Vale de €30 para restaurante</span>
+                                        <span class="reward">Vale de 30€ para restaurante</span>
                                         <span class="reward">Delantal personalizado</span>
                                     </div>
                                     <div class="progress-container">
@@ -388,7 +385,7 @@
                                     <h2 class="mission-title">Deportista Épico</h2>
                                     <p class="mission-description">Ejercítate 3 veces por semana durante un mes</p>
                                     <div class="rewards">
-                                        <span class="reward">Ropa deportiva €40</span>
+                                        <span class="reward">Ropa deportiva 40€</span>
                                         <span class="reward">Insignia Atleta</span>
                                     </div>
                                     <div class="progress-container">
@@ -431,7 +428,7 @@
                         <div class="opcion-transferencia" id="bizum">
                             <div class="icono-opcion">⚡</div>
                             <h3 class="titulo-opcion">Bizum</h3>
-                            <p class="desc-opcion">Envía dinero con el móvil (límite €50)</p>
+                            <p class="desc-opcion">Envía dinero con el móvil (límite 50€)</p>
                         </div>
 
                         <!-- Transferencia Nacional -->
@@ -497,7 +494,7 @@
                             </div>
                             <div class="linea-resumen destacado">
                                 <span>Importe:</span>
-                                <span id="resumen-importe">€0.00</span>
+                                <span id="resumen-importe">0.00€</span>
                             </div>
                         </div>
 
@@ -524,6 +521,10 @@
             <div class="elemento-nav" data-pagina="transferencias">
                 <div class="icono-nav"><i class="fi fi-rr-arrow-right"></i></div>
                 <div>Transferir</div>
+            </div>
+            <div class="elemento-nav" data-pagina="misiones">
+                <div class="icono-nav"><i class="fi fi-rr-gamepad"></i></div>
+                <div>Misiones</div>
             </div>
             <div class="elemento-nav" data-pagina="estadisticas">
                 <div class="icono-nav"><i class="fi fi-rr-chart-histogram"></i></div>
@@ -566,6 +567,183 @@
             </div>
         </div>
     </div>
+
+        <!-- Footer Legal -->
+    <footer class="footer-legal" id="footer-legal" style="display: none;">
+        <div class="footer-header">
+            <h3>Información Legal</h3>
+            <button class="cerrar-footer" id="cerrar-footer">✕</button>
+        </div>
+        
+        <div class="footer-content">
+            <div class="legal-tabs">
+                <button class="legal-tab activo" data-tab="privacidad">Política de Privacidad</button>
+                <button class="legal-tab" data-tab="terminos">Términos y Condiciones</button>
+                <button class="legal-tab" data-tab="acerca">Acerca de</button>
+            </div>
+            
+            <div class="legal-content">
+                <!-- Política de Privacidad -->
+                <div class="legal-tab-content activo" id="privacidad-content">
+                    <h4>Política de Privacidad - Sabadell First</h4>
+                    <div class="legal-text">
+                        <p><strong>Última actualización:</strong> Enero 2024</p>
+                        
+                        <h5>1. Información que Recopilamos</h5>
+                        <p>En Sabadell First, recopilamos únicamente la información necesaria para proporcionar nuestros servicios bancarios seguros para jóvenes:</p>
+                        <ul>
+                            <li>Información de identificación (DNI/NIE)</li>
+                            <li>Datos de contacto (email del tutor legal)</li>
+                            <li>Información de transacciones financieras</li>
+                            <li>Datos de uso de la aplicación</li>
+                        </ul>
+                        
+                        <h5>2. Cómo Usamos tu Información</h5>
+                        <p>Tu información se utiliza para:</p>
+                        <ul>
+                            <li>Proporcionar servicios bancarios seguros</li>
+                            <li>Verificar tu identidad y edad</li>
+                            <li>Proteger tu cuenta contra fraudes</li>
+                            <li>Mejorar tu experiencia en la app</li>
+                            <li>Cumplir con obligaciones legales</li>
+                        </ul>
+                        
+                        <h5>3. Compartir Información</h5>
+                        <p>No vendemos tu información. Solo compartimos datos con:</p>
+                        <ul>
+                            <li>Tus padres/tutores legales</li>
+                            <li>Autoridades cuando es requerido por ley</li>
+                            <li>Proveedores de servicios esenciales</li>
+                        </ul>
+                        
+                        <h5>4. Tus Derechos</h5>
+                        <p>Tienes derecho a:</p>
+                        <ul>
+                            <li>Acceder a tu información</li>
+                            <li>Corregir datos incorrectos</li>
+                            <li>Solicitar la eliminación de tu cuenta</li>
+                            <li>Oponerte al tratamiento de datos</li>
+                        </ul>
+                        
+                        <h5>5. Seguridad</h5>
+                        <p>Implementamos medidas de seguridad avanzadas para proteger tu información, incluyendo encriptación y controles de acceso.</p>
+                        
+                        <h5>6. Contacto</h5>
+                        <p>Para preguntas sobre privacidad: <strong>privacidad@sabadellfirst.com</strong></p>
+                    </div>
+                </div>
+                
+                <!-- Términos y Condiciones -->
+                <div class="legal-tab-content" id="terminos-content">
+                    <h4>Términos y Condiciones - Sabadell First</h4>
+                    <div class="legal-text">
+                        <p><strong>Vigente desde:</strong> Enero 2024</p>
+                        
+                        <h5>1. Aceptación de Términos</h5>
+                        <p>Al usar Sabadell First, aceptas estos términos y condiciones. Esta app está diseñada específicamente para jóvenes entre 14-17 años bajo supervisión parental.</p>
+                        
+                        <h5>2. Elegibilidad</h5>
+                        <p>Para usar Sabadell First debes:</p>
+                        <ul>
+                            <li>Tener entre 14 y 17 años</li>
+                            <li>Contar con autorización de tus padres/tutores</li>
+                            <li>Proporcionar documentación válida</li>
+                            <li>Residir en España</li>
+                        </ul>
+                        
+                        <h5>3. Cuentas y Límites</h5>
+                        <p>Las cuentas juveniles tienen límites específicos:</p>
+                        <ul>
+                            <li>Límite de gasto diario: 50€</li>
+                            <li>Límite de transferencia: 30€ por operación</li>
+                            <li>Máximo mensual en compras online: 100€</li>
+                            <li>Supervisión parental obligatoria</li>
+                        </ul>
+                        
+                        <h5>4. Responsabilidades del Usuario</h5>
+                        <p>Te comprometes a:</p>
+                        <ul>
+                            <li>Mantener tu contraseña segura</li>
+                            <li>Notificar uso no autorizado inmediatamente</li>
+                            <li>Usar la app solo para fines legales</li>
+                            <li>No compartir información de acceso</li>
+                        </ul>
+                        
+                        <h5>5. Transacciones</h5>
+                        <p>Todas las transacciones están sujetas a verificación y pueden ser revisadas por tus padres/tutores.</p>
+                        
+                        <h5>6. Modificaciones</h5>
+                        <p>Nos reservamos el derecho de modificar estos términos. Notificaremos cambios significativos.</p>
+                        
+                        <h5>7. Terminación</h5>
+                        <p>Podemos suspender o terminar tu acceso por violación de estos términos o actividades fraudulentas.</p>
+                    </div>
+                </div>
+                
+                <!-- Acerca de -->
+                <div class="legal-tab-content" id="acerca-content">
+                    <h4>Acerca de Sabadell First</h4>
+                    <div class="legal-text">
+                        <div class="about-hero">
+                            <h5>🚀 Tu Primera Experiencia Bancaria Segura</h5>
+                            <p>Sabadell First es la primera app bancaria diseñada específicamente para adolescentes entre 14-17 años, creada por Banco Sabadell.</p>
+                        </div>
+                        
+                        <h5>Nuestra Misión</h5>
+                        <p>Empoderar a la nueva generación con herramientas financieras seguras, educativas y divertidas para que aprendan a gestionar su dinero responsablemente.</p>
+                        
+                        <h5>Características Principales</h5>
+                        <ul>
+                            <li><strong>💳 Cuentas Supervisadas:</strong> Tus padres siempre están informados</li>
+                            <li><strong>🎮 Aprendizaje Gamificado:</strong> Aprende finanzas jugando</li>
+                            <li><strong>🔒 Máxima Seguridad:</strong> Tecnología bancaria profesional</li>
+                            <li><strong>📱 Diseño Juvenil:</strong> Interfaz creada para ti</li>
+                            <li><strong>💰 Límites Protectores:</strong> Gastos controlados y seguros</li>
+                        </ul>
+                        
+                        <h5>Para Padres y Tutores</h5>
+                        <p>Sabadell First ofrece:</p>
+                        <ul>
+                            <li>Control parental completo</li>
+                            <li>Alertas en tiempo real</li>
+                            <li>Límites personalizables</li>
+                            <li>Informes de actividad</li>
+                            <li>Soporte dedicado</li>
+                        </ul>
+                        
+                        <h5>Compromiso Educativo</h5>
+                        <p>Trabajamos con expertos en educación financiera para desarrollar contenido que enseñe:</p>
+                        <ul>
+                            <li>Gestión de presupuestos</li>
+                            <li>Ahorro inteligente</li>
+                            <li>Inversión básica</li>
+                            <li>Prevención de fraudes</li>
+                            <li>Consumo responsable</li>
+                        </ul>
+                        
+                        <h5>Seguridad y Privacidad</h5>
+                        <p>Utilizamos la misma tecnología de seguridad que la banca online para adultos, adaptada a las necesidades específicas de los jóvenes.</p>
+                        
+                        <div class="contact-info">
+                            <h5>Contacto</h5>
+                            <p><strong>Soporte:</strong> soporte@sabadellfirst.com</p>
+                            <p><strong>Educación:</strong> educacion@sabadellfirst.com</p>
+                            <p><strong>Padres:</strong> padres@sabadellfirst.com</p>
+                        </div>
+                        
+                        <div class="legal-disclaimer">
+                            <p><strong>Importante:</strong> Sabadell First es un producto de Banco Sabadell S.A. sujeto a la supervisión del Banco de España. Todos los depósitos están garantizados hasta 100.000€ por el Fondo de Garantía de Depósitos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón flotante para abrir legal -->
+    <button class="boton-legal-flotante" id="boton-legal-flotante">
+        <i class="fi fi-rr-scale"></i>
+    </button>
 
     <script src="../src/js/touch_share/touch_share.js"></script>
     <script src="../src/js/misiones/misiones.js"></script>
