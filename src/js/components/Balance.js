@@ -22,7 +22,7 @@ export class Balance {
         const saldo = this.appState.getSaldoTotal();
 
         // Actualizar saldo
-        this.elementoSaldo.textContent = `€${saldo.toFixed(2)}`;
+        this.elementoSaldo.textContent = `${saldo.toFixed(2)}€`;
 
         // Actualizar progreso
         const progreso = (saldo / metaAhorro) * 100;

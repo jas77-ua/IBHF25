@@ -84,7 +84,7 @@ export class Statistics {
                     </div>
                     <div class="stat-info">
                         <div class="stat-label">Ingresos</div>
-                        <div class="stat-valor">€${estadisticas.totalIngresos.toFixed(2)}</div>
+                        <div class="stat-valor">${estadisticas.totalIngresos.toFixed(2)}€</div>
                     </div>
                 </div>
 
@@ -94,7 +94,7 @@ export class Statistics {
                     </div>
                     <div class="stat-info">
                         <div class="stat-label">Gastos</div>
-                        <div class="stat-valor">€${estadisticas.totalGastos.toFixed(2)}</div>
+                        <div class="stat-valor">${estadisticas.totalGastos.toFixed(2)}€</div>
                     </div>
                 </div>
 
@@ -104,7 +104,7 @@ export class Statistics {
                     </div>
                     <div class="stat-info">
                         <div class="stat-label">Balance</div>
-                        <div class="stat-valor ${balanceClass}">€${balance.toFixed(2)}</div>
+                        <div class="stat-valor ${balanceClass}">${balance.toFixed(2)}€</div>
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@ export class Statistics {
                                 <div class="categoria-count">${data.cantidad} transacciones</div>
                             </div>
                         </div>
-                        <div class="categoria-monto">€${data.total.toFixed(2)}</div>
+                        <div class="categoria-monto">${data.total.toFixed(2)}€</div>
                     </div>
                     <div class="categoria-barra">
                         <div class="categoria-progreso" style="width: ${porcentaje}%; background: ${config.color}"></div>
@@ -194,7 +194,7 @@ export class Statistics {
                         <div class="transaccion-nombre">${t.nombre}</div>
                         <div class="transaccion-fecha">${t.fecha}</div>
                     </div>
-                    <div class="transaccion-cantidad negativa">-€${t.cantidad.toFixed(2)}</div>
+                    <div class="transaccion-cantidad negativa">-${t.cantidad.toFixed(2)}€</div>
                 </div>
             `;
         }).join('');
