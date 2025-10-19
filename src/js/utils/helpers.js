@@ -6,7 +6,7 @@
  * Formatea una cantidad como moneda en euros
  */
 export function formatCurrency(cantidad) {
-    return `€${cantidad.toFixed(2)}`;
+    return `${cantidad.toFixed(2)}€`;
 }
 
 /**

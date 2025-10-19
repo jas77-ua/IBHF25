@@ -9,11 +9,28 @@ export const initialState = {
     saldo: 0, // Fallback si no hay cuentas
     metaAhorro: APP_CONFIG.META_AHORRO_DEFAULT,
     
-    tarjeta: {
-        nombre: "Tarjeta de Débito (Visa)",
-        numero: "4532123456784321",
-        bloqueada: false
-    },
+    tarjetas: [
+        {
+            id: 1,
+            nombre: "Tarjeta Sabadell First",
+            numero: "4532123456784321",
+            bloqueada: false,
+            titular: "Default",
+            tipo: "Débito",
+            vencimiento: "12/27",
+            disponible: 500.00
+        },
+        {
+            id: 2,
+            nombre: "Tarjeta Sabadell Young",
+            numero: "4532987656895",
+            bloqueada: false,
+            titular: "Default",
+            tipo: "Prepago",
+            vencimiento: "12/27",
+            disponible: 150.00
+        }
+    ],
 
     cuentas: [
         {
@@ -53,8 +70,8 @@ export const initialState = {
             id: 1,
             titulo: "Primer Ahorro Épico",
             icono: "fi-rr-piggy-bank",
-            descripcion: "Ahorra €50 este mes y gana recompensas especiales",
-            recompensa: "+€5 bonus + Insignia",
+            descripcion: "Ahorra 50€ este mes y gana recompensas especiales",
+            recompensa: "+5€ bonus + Insignia",
             completada: false,
             progreso: 65
         },
@@ -71,7 +88,7 @@ export const initialState = {
             id: 3,
             titulo: "Inversor Novato",
             icono: "fi-rr-chart-line-up",
-            descripcion: "Simula una inversión de €1000 en bolsa virtual",
+            descripcion: "Simula una inversión de 1000€ en bolsa virtual",
             recompensa: "Desbloqueo Simulador Avanzado",
             completada: false,
             progreso: 10

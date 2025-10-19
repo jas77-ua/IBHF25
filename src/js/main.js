@@ -16,7 +16,7 @@ const misionesData = [
     {
         id: 1,
         titulo: "Primer Ahorro Épico",
-        descripcion: "Ahorra €50 este mes y gana recompensas especiales",
+        descripcion: "Ahorra 50€ este mes y gana recompensas especiales",
         recompensa: 5,
         bonus: true,
         insignia: true,
@@ -38,7 +38,7 @@ const misionesData = [
     {
         id: 3,
         titulo: "Inversor Novato",
-        descripcion: "Simula una inversión de €1000 en bolsa virtual",
+        descripcion: "Simula una inversión de 1000€ en bolsa virtual",
         recompensa: 4,
         bonus: true,
         insignia: false,
@@ -94,6 +94,7 @@ class App {
         this.accountsComponent = null;
         this.transfersComponent = null;
         this.statisticsComponent = null;
+        this.legalFooter = null;
 
         // Elementos del perfil
         this.perfilOverlay = document.getElementById('pagina-perfil');
@@ -144,6 +145,8 @@ class App {
 
         this.cargarDatosMisiones();
 
+        this.setupLegalFooter();
+
         console.log('🚀 Aplicación Sabadell NEXT iniciada correctamente');
     }
 
@@ -170,6 +173,10 @@ class App {
             this.balanceComponent.animateSaldoChange();
             alert(`🎉 ¡Misión completada! Recompensa: ${mision.recompensa}`);
         }
+    }
+
+    setupLegalFooter() {
+        this.legalFooter = new LegalFooter();
     }
 
     /**
@@ -337,6 +344,9 @@ class App {
                 document.getElementById('seccion-misiones-detalladas').style.display = 'block';
                 this.renderMisionesDetalladas();
                 break;
+            case 'legal':
+                this.legalFooter.mostrarFooter();
+                break;
             default:
                 console.log('Página no reconocida:', pagina);
         }
@@ -473,6 +483,15 @@ class App {
         localStorage.setItem(this.PERFIL_KEY, JSON.stringify(datos));
         this.imgAvatar.src = datos.avatar;
         this.actualizarBienvenida(datos.nombre);
+
+        // Actualizar el nombre en todas las tarjetas
+        const { tarjetas } = this.appState.getState();
+        const tarjetasActualizadas = tarjetas.map(tarjeta => ({
+            ...tarjeta,
+            titular: datos.nombre.toUpperCase()
+        }));
+        this.appState.updateTarjetas(tarjetasActualizadas);
+        
         this.cerrarPerfilOverlay();
     }
 
@@ -503,6 +522,14 @@ class App {
         const datos = JSON.parse(localStorage.getItem(this.PERFIL_KEY) || '{}');
         if (datos.nombre) {
             this.actualizarBienvenida(datos.nombre);
+            
+            // Actualizar el nombre en todas las tarjetas
+            const { tarjetas } = this.appState.getState();
+            const tarjetasActualizadas = tarjetas.map(tarjeta => ({
+                ...tarjeta,
+                titular: datos.nombre.toUpperCase()
+            }));
+            this.appState.updateTarjetas(tarjetasActualizadas);
         }
     }
 
@@ -522,12 +549,12 @@ class App {
                         <div class="mision-descripcion">${mision.descripcion}</div>
                     </div>
                     <div class="mision-recompensa ${mision.completada ? 'completada' : ''}">
-                        ${mision.completada ? '✅ Completada' : `+€${mision.recompensa}`}
+                        ${mision.completada ? '✅ Completada' : `+${mision.recompensa}€`}
                     </div>
                 </div>
                 
                 <div class="mision-detalles">
-                    ${mision.bonus ? `<div class="bonus"><i class="fas fa-star"></i>+€${mision.recompensa} bonus</div>` : ''}
+                    ${mision.bonus ? `<div class="bonus"><i class="fas fa-star"></i>+${mision.recompensa}€ bonus</div>` : ''}
                     ${mision.insignia ? `<div class="insignia"><i class="fas fa-medal"></i>Insignia</div>` : ''}
                 </div>
                 
@@ -560,7 +587,7 @@ class App {
         const mision = this.appState.completarMision(misionId);
 
         if (mision) {
-            this.mostrarNotificacion(`¡Misión completada! +€${mision.recompensa} ganados`);
+            this.mostrarNotificacion(`¡Misión completada! +${mision.recompensa}€ ganados`);
             this.guardarDatosMisiones();
             this.renderMisionesDetalladas();
         }
@@ -577,7 +604,7 @@ class App {
         const progresoTotal = Math.round((misionesCompletadas / this.appState.getMisiones().length) * 100);
 
         document.getElementById('misiones-completadas').textContent = misionesCompletadas;
-        document.getElementById('total-recompensas').textContent = `€${totalRecompensas}`;
+        document.getElementById('total-recompensas').textContent = `${totalRecompensas}€`;
         document.getElementById('progreso-total').textContent = `${progresoTotal}%`;
     }
 
@@ -642,22 +669,98 @@ class App {
     }
 }
 
+/**
+ * Sistema de Documentos Legales
+ */
+class LegalFooter {
+    constructor() {
+        this.footer = document.getElementById('footer-legal');
+        this.botonFlotante = document.getElementById('boton-legal-flotante');
+        this.botonCerrar = document.getElementById('cerrar-footer');
+        this.tabs = document.querySelectorAll('.legal-tab');
+        this.tabContents = document.querySelectorAll('.legal-tab-content');
+        
+        this.init();
+    }
+    
+    init() {
+        // Eventos del botón flotante
+        this.botonFlotante.addEventListener('click', () => this.mostrarFooter());
+        
+        // Evento cerrar footer
+        this.botonCerrar.addEventListener('click', () => this.ocultarFooter());
+        
+        // Eventos de tabs
+        this.tabs.forEach(tab => {
+            tab.addEventListener('click', (e) => this.cambiarTab(e));
+        });
+        
+        // Cerrar con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.footer.style.display !== 'none') {
+                this.ocultarFooter();
+            }
+        });
+        
+        // Cerrar haciendo click fuera
+        this.footer.addEventListener('click', (e) => {
+            if (e.target === this.footer) {
+                this.ocultarFooter();
+            }
+        });
+    }
+    
+    mostrarFooter(tab = 'privacidad') {
+        this.footer.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        this.cambiarTabPorId(tab);
+        
+        // Ocultar navegación inferior temporalmente
+        const navInferior = document.querySelector('.navegacion-inferior');
+        if (navInferior) {
+            navInferior.style.opacity = '0.3';
+        }
+    }
+    
+    ocultarFooter() {
+        this.footer.style.display = 'none';
+        document.body.style.overflow = '';
+        
+        // Restaurar navegación inferior
+        const navInferior = document.querySelector('.navegacion-inferior');
+        if (navInferior) {
+            navInferior.style.opacity = '1';
+        }
+    }
+    
+    cambiarTab(e) {
+        const tab = e.currentTarget;
+        const tabId = tab.dataset.tab;
+        
+        this.cambiarTabPorId(tabId);
+    }
+    
+    cambiarTabPorId(tabId) {
+        // Remover activo de todos los tabs
+        this.tabs.forEach(t => t.classList.remove('activo'));
+        this.tabContents.forEach(c => c.classList.remove('activo'));
+        
+        // Activar tab seleccionado
+        const tabActivo = document.querySelector(`[data-tab="${tabId}"]`);
+        const contenidoActivo = document.getElementById(`${tabId}-content`);
+        
+        if (tabActivo && contenidoActivo) {
+            tabActivo.classList.add('activo');
+            contenidoActivo.classList.add('activo');
+            
+            // Scroll al inicio del contenido
+            contenidoActivo.scrollTop = 0;
+        }
+    }
+}
+
 // Iniciar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     const app = new App();
-    const botonVolverTouch = document.getElementById('boton-volver-touch');
-    if (botonVolverTouch) {
-        botonVolverTouch.addEventListener('click', () => {
-            // mostrar inicio y ocultar touch-share (ajusta según tu sistema de navegación)
-            document.querySelectorAll('.vista-pagina').forEach(v => v.style.display = 'none');
-            const inicio = document.querySelector('.vista-pagina[data-vista="inicio"]');
-            if (inicio) inicio.style.display = 'block';
-            // actualizar nav activo
-            document.querySelectorAll('.elemento-nav').forEach(n => n.classList.remove('activo'));
-            const navInicio = document.querySelector('.elemento-nav[data-pagina="inicio"]');
-            if (navInicio) navInicio.classList.add('activo');
-        });
-    }
-
     app.init();
 });
