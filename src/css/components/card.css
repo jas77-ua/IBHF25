@@ -345,3 +345,9 @@
         height: 28px;
     }
 }
+
+.vista-pagina[data-vista="tarjetas"] {
+    background: linear-gradient(135deg, #aba8db, #0282f2);
+    min-height: 100vh;
+    padding: 0;
+}
