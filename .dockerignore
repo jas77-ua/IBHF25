@@ -1,0 +1,11 @@
+# Node, logs, OS files
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+.git
+.gitignore
+
+# Editor/OS
+.vscode/
+.idea/

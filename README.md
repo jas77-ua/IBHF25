@@ -94,16 +94,12 @@ IBHF25/
 ### Con Docker/Podman:
 
 ```bash
-# Construir la imagen
-docker build -t sabadell-next .
-
-# Ejecutar el contenedor
-docker run -d -p 8080:80 --name sabadell-next sabadell-next
+docker-compose up
 ```
 
 ### Desarrollo local:
 
-Simplemente abre `index.html` en tu navegador, o usa un servidor local:
+Usa un servidor local:
 
 ```bash
 # Con Python

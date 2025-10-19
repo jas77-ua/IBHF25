@@ -1,8 +1,12 @@
 FROM nginx:alpine
 
-# Copiar archivos de la aplicación
-COPY index.html /usr/share/nginx/html/
+# Copiar archivos de la aplicación estática
+# Página de inicio y recursos raíz
+COPY index.html styles.css app.js /usr/share/nginx/html/
+# Código fuente y assets
 COPY src/ /usr/share/nginx/html/src/
+# Páginas adicionales bajo /web (demo principal)
+COPY web/ /usr/share/nginx/html/web/
 
 EXPOSE 80
 
